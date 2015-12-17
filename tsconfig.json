@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "declaration":true,
+    "module": "system",
+    "target": "es5",
+    "outDir":"../../out/http",
+    "inlineSourceMap":true,
+    "inlineSources":true,
+    "experimentalDecorators":true,
+    "noLib":true
+  },
+  "files":[
+    "../../tsd/lib.es6.d.ts",
+    "../../tsd/node.d.ts",
+    "./index.ts",
+    "./client.ts",
+    "./server.ts",
+    "./mime.ts",
+    "./node.ts",
+    "./rest.ts",
+    "./utils.ts",
+    "./utils.ts",
+    "./handler.ts",
+    "./handlers/handler.ts",
+    "./handlers/rest.ts",
+    "./handlers/favicon.ts",
+    "./handlers/files.ts"
+  ]
+}
