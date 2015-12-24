@@ -1,6 +1,7 @@
 import Node from './node';
 import Utils from './utils';
 
+
 export class Client {
 
     private protocol:string;

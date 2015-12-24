@@ -1,5 +1,3 @@
-import {Hello} from 'hello/index.ts';
-
 export default class Node {
     static require(path):Function {
         return require(path);

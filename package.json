@@ -1,5 +1,9 @@
 {
-  "name"    : "http",
-  "vendor"  : "ecmal",
-  "version" : "0.0.1"
+  "name"            : "http",
+  "vendor"          : "ecmal",
+  "version"         : "0.0.1",
+  "directories" : {
+    "source"    : "src",
+    "output"    : "out"
+  }
 }
