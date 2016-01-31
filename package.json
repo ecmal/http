@@ -2,8 +2,14 @@
   "name"            : "http",
   "vendor"          : "ecmal",
   "version"         : "0.0.1",
-  "directories" : {
-    "source"    : "src",
-    "output"    : "out"
+  "registry"        : "github",
+  "directories"     : {
+    "source"        : "src",
+    "vendor"        : "out"
+  },
+  "libraries"       : {
+    "core"          : "0.0.1",
+    "node"          : "0.0.1",
+    "runtime"       : "0.0.1"
   }
 }
