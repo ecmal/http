@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "index.ts"
+  ],
+  "names": [],
+  "mappings": ";;;;;;;;;;;YAGc,wCAAU;YACV,wCAAU;YAExB,oBAAe;gBACX,OAAO,EAAG,OAAO;gBACjB,MAAM,EAAI,eAAM;gBAChB,MAAM,EAAI,eAAM;aACnB,EAAC",
+  "sourcesContent": [
+    "import {Client} from './client';\nimport {Server} from './server';\nexport {\n    Server as HttpServer,\n    Client as HttpClient\n}\nexport default {\n    version : '0.0.1',\n    Client  : Client,\n    Server  : Server\n};"
+  ]
+}

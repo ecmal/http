@@ -1,0 +1,19 @@
+{
+  "version": 3,
+  "file": "utils.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "utils.ts"
+  ],
+  "names": [
+    "Utils",
+    "Utils.constructor",
+    "Utils.merge",
+    "Utils.patch",
+    "Utils.cleanup"
+  ],
+  "mappings": ";;;;;YAAA;gBAAAA;gBA8BAC,CAACA;gBA7BGD,qBAAKA,GAALA;oBAAME,cAAOA;yBAAPA,WAAOA,CAAPA,sBAAOA,CAAPA,IAAOA;wBAAPA,6BAAOA;;oBACTA,MAAMA,CAACA,IAAIA,CAACA,KAAKA,OAAVA,IAAIA,GAAOA,EAAEA,SAAIA,IAAIA,EAACA,CAACA;gBAClCA,CAACA;gBACDF,qBAAKA,GAALA;oBAAMG,cAAOA;yBAAPA,WAAOA,CAAPA,sBAAOA,CAAPA,IAAOA;wBAAPA,6BAAOA;;oBACTA,IAAIA,CAACA,EAACA,CAACA,GAAGA,IAAIA,CAACA,KAAKA,EAAEA,CAACA;oBACvBA,OAAMA,IAAIA,CAACA,MAAMA,EAACA,CAACA;wBACfA,CAACA,GAAGA,IAAIA,CAACA,KAAKA,EAAEA,CAACA;wBACjBA,EAAEA,CAAAA,CAACA,OAAOA,CAACA,IAAEA,QAAQA,IAAIA,CAACA,CAACA,CAAAA,CAACA;4BACxBA,MAAMA,CAACA,IAAIA,CAACA,CAACA,CAACA,CAACA,OAAOA,CAACA,UAAAA,CAACA;gCACpBA,CAACA,CAACA,CAACA,CAACA,GAAGA,CAACA,CAACA,CAACA,CAACA,CAACA;4BAChBA,CAACA,CAACA,CAAAA;wBACNA,CAACA;oBACLA,CAACA;oBACDA,MAAMA,CAACA,CAACA,CAACA;gBACbA,CAACA;gBACDH,uBAAOA,GAAPA,UAAQA,MAAMA;oBACVI,GAAGA,CAAAA,CAACA,GAAGA,CAACA,CAACA,IAAIA,MAAMA,CAACA,CAAAA,CAACA;wBACjBA,IAAIA,CAACA,GAAGA,MAAMA,CAACA,CAACA,CAACA,CAACA;wBAClBA,EAAEA,CAAAA,CACEA,OAAOA,CAACA,IAAEA,WAAWA;4BACrBA,CAACA,IAAEA,IAAIA,IAAIA,CAACA,IAAEA,EAAEA;4BAChBA,CAACA,KAAKA,CAACA,OAAOA,CAACA,CAACA,CAACA,IAAIA,CAACA,CAACA,MAAMA,IAAEA,CAACA,CAACA;4BACjCA,CAACA,OAAOA,CAACA,IAAEA,QAAQA,IAAIA,MAAMA,CAACA,IAAIA,CAACA,CAACA,CAACA,CAACA,MAAMA,IAAEA,CAACA,CACnDA,CAACA,CAAAA,CAACA;4BACEA,OAAOA,MAAMA,CAACA,CAACA,CAACA,CAACA;wBACrBA,CAACA;oBACLA,CAACA;oBACDA,MAAMA,CAACA,MAAMA,CAACA;gBAClBA,CAACA;gBACLJ,YAACA;YAADA,CAACA,AA9BD,IA8BC;YA9BD,yBA8BC,CAAA;YAED,oBAAe,IAAI,KAAK,EAAE,EAAC",
+  "sourcesContent": [
+    "export class Utils {\n    merge(...args){\n        return this.patch({},...args);\n    }\n    patch(...args){\n        var n,o = args.shift();\n        while(args.length){\n            n = args.shift();\n            if(typeof n=='object' && n){\n                Object.keys(n).forEach(k=>{\n                    o[k] = n[k];\n                })\n            }\n        }\n        return o;\n    }\n    cleanup(object){\n        for(var i in object){\n            var v = object[i];\n            if(\n                typeof v=='undefined' ||\n                v==null || v=='' ||\n                (Array.isArray(v) && v.length==0) ||\n                (typeof v=='object' && Object.keys(v).length==0)\n            ){\n                delete object[i];\n            }\n        }\n        return object;\n    }\n}\n\nexport default new Utils();"
+  ]
+}

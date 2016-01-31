@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "file": "server.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "server.ts"
+  ],
+  "names": [
+    "HelloResource",
+    "HelloResource.constructor",
+    "HelloResource.get"
+  ],
+  "mappings": ";;;;;;;;uBAsBI,MAAM;;;;;;;;;;;;YAfV;gBAAAA;gBAaAC,CAACA;gBAPGD,2BAAGA,GAAHA;oBACIE,MAAMA,CAACA;wBACHA,QAAQA,EAAGA,OAAOA;wBAClBA,KAAKA,EAAMA,IAAIA,CAACA,KAAKA;wBACrBA,OAAOA,EAAIA,IAAIA,CAACA,OAAOA;qBAC1BA,CAAAA;gBACLA,CAACA;gBAZLF;oBAACA,WAAIA,CAACA,QAAQA,CAACA;kCAadA;gBAADA,oBAACA;YAADA,CAACA,AAbD,IAaC;YAEG,MAAM,GAAG,IAAI,eAAM,CAAC;gBACpB,IAAI,EAAG,SAAS;gBAChB,IAAI,EAAG,IAAI;gBACX,IAAI,EAAG;oBACH,IAAI,EAAG,MAAM;iBAChB;gBACD,KAAK,EAAC;oBACF,IAAI,EAAG,OAAO;iBACjB;aACJ,CAAC,CAAC,KAAK,EAAE,CAAC",
+  "sourcesContent": [
+    "import {Server} from '../server';\nimport {Rest} from '../rest';\n\nimport '../handlers/files';\nimport '../handlers/rest';\n\n\n@Rest('/hello')\nclass HelloResource {\n\n    private query:any;\n    private headers:any;\n\n    get(){\n        return {\n            resource : 'Hello',\n            query    : this.query,\n            headers  : this.headers\n        }\n    }\n}\n\nvar server = new Server({\n    host : '0.0.0.0',\n    port : 3000,\n    rest : {\n        path : '/api'\n    },\n    files:{\n        path : './web'\n    }\n}).start();\n\n\n"
+  ]
+}
