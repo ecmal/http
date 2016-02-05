@@ -1,6 +1,7 @@
 import Node from './node';
 
 export class Server {
+
     static initResponse(res) {
     }
     static initRequest(req) {
@@ -8,19 +9,20 @@ export class Server {
     static handlers = Object.create(null);
     static handler(name){
         return handler=>{
-            Object.defineProperty(Server.handlers,name,{
-                enumerable:true,
-                value : handler
+            Object.defineProperty(Server.handlers,name,<PropertyDescriptor>{
+                enumerable  : true,
+                value       : handler
             })
         }
     }
-    handlers:any;
-    config:any;
-    server:any;
+
+    public handlers:any;
+    public config:any;
+    public server:any;
+
     constructor(config){
         this.config = config;
         this.handlers = Object.create(null);
-        this.doUpgrade = this.doUpgrade.bind(this);
         this.doRequest = this.doRequest.bind(this);
     }
     start(){
@@ -30,12 +32,10 @@ export class Server {
             }
         });
         this.server = new Node.Http.Server();
-        this.server.on('upgrade',this.doUpgrade);
         this.server.on('request',this.doRequest);
         this.server.listen(this.config.port,this.config.host);
         return this;
     }
-    doUpgrade(){}
     doRequest(req,res){
         if(this.config.debug){
             console.info(req.method,req.url);

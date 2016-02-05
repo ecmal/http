@@ -4,5 +4,43 @@
     <meta charset="UTF-8">
     <title>Http Library Test</title>
 </head>
-<body>Http Library Test</body>
+<script>
+    var ws = new WebSocket('ws://localhost:3000/ws',['sip','wcb']);
+    ws.onopen = function(ev){
+        console.info(ev)
+        var i,data = {hello:'world'};
+        ws.send(JSON.stringify(data));
+        data.items=[];
+        for(i=0;i<10;i++){
+            data.items.push({id:i,name:'Item '+i});
+        }
+        ws.send(JSON.stringify(data));
+        for(i=0;i<100;i++){
+            data.items.push({id:i,name:'Item '+i});
+        }
+        ws.send(JSON.stringify(data));
+        for(i=0;i<1000;i++){
+            data.items.push({id:i,name:'Item '+i});
+        }
+        ws.send(JSON.stringify(data));
+        for(i=0;i<100000;i++){
+            data.items.push({id:i,name:'Item '+i,other:'Key',another:"Value"});
+        }
+        //ws.send(JSON.stringify(data));
+        ws.send(new Blob([JSON.stringify(data)], {type : 'application/json'}));
+    };
+    ws.onmessage = function(ev){
+        if(ev.data instanceof Blob){
+            console.info(ev.timeStamp,ev.target.protocol,"blob",ev.data.size);
+        }else{
+            console.info(ev.timeStamp,ev.target.protocol,"text",JSON.parse(ev.data));
+        }
+    };
+    ws.onclose = function(ev){
+        console.info(ev)
+    };
+    ws.onerror = function(ev){
+        console.error(ev)
+    };
+</script>
 </html>

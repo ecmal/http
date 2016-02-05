@@ -5,6 +5,7 @@
   "registry"        : "github",
   "directories"     : {
     "source"        : "src",
+    "tests"         : "test",
     "vendor"        : "out"
   },
   "libraries"       : {
