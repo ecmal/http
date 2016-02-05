@@ -7,7 +7,6 @@ import 'http/handlers/rest';
 import {WsServer} from 'http/ws/server';
 import {WsConnection} from 'http/ws/connection';
 
-
 @Rest('/hello')
 class HelloResource {
 
@@ -38,15 +37,7 @@ var server = new Server({
 var ws:WsServer = WsServer.inject(server.server,'sip');
 ws.on('connection',(connection:WsConnection)=>{
     connection.on('text',(text)=>{
-        var message = JSON.parse(text);
-        if(message.items){
-            message.items = message.items.length;
-        }
-        console.info(connection.id,message);
-        connection.sendText(text);
-        connection.sendText(text);
-        connection.sendText(text);
-        connection.sendText(text);
+        console.info(text);
     });
     connection.on('binary',(binary:Buffer)=>{
         console.info(connection.id,binary);
