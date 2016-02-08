@@ -15,6 +15,7 @@ export enum WsOpCode {
 export enum WsState {
     CONNECTING,OPEN
 }
+
 export class WsFrame {
     static MAX_SIZE = 128 * 1024;
     static decode(data:Buffer,isServer:boolean):WsFrame{
@@ -98,7 +99,6 @@ export class WsFrame {
         meta = this.createMetaData(fin, op, masked, payload);
         return Buffer.concat([meta, payload], meta.length + payload.length)
     }
-
     static createMetaData(fin:boolean, opcode:WsOpCode, masked:boolean, payload:Buffer) {
         var len, meta, start, mask, i;
         len = payload.length;
@@ -304,11 +304,11 @@ export class WsConnection extends EventEmitter{
         });
     }
 
-    connect(){
+    public connect(){
         this.server = false;
         return true;
     }
-    accept(request:IncomingMessage,protocol:string):boolean{
+    public accept(request:IncomingMessage,protocol:string):boolean{
         this.server = true;
         this.headers = request.headers;
         if(this.version != '13') {
@@ -321,7 +321,8 @@ export class WsConnection extends EventEmitter{
             return true;
         }
     }
-    onFrame(frame:WsFrame){
+
+    protected onFrame(frame:WsFrame){
         this.emit('frame',frame);
         if(frame.fin){
             switch(frame.op){
@@ -343,22 +344,22 @@ export class WsConnection extends EventEmitter{
         }
 
     }
-    onText(buffer:Buffer){
+    protected onText(buffer:Buffer){
         this.emit('text',buffer.toString());
     }
-    onBinary(buffer:Buffer){
+    protected onBinary(buffer:Buffer){
         this.emit('binary',buffer);
     }
-    onPong(buffer:Buffer){
+    protected onPong(buffer:Buffer){
         this.emit('pong',buffer);
     }
-    onPing(buffer:Buffer){
+    protected onPing(buffer:Buffer){
         this.emit('ping',buffer);
     }
-    onClose(buffer:Buffer){
+    protected onClose(buffer:Buffer){
         this.emit('close',buffer);
     }
-    onStreamBinary(buffer:Buffer){
+    protected onStreamBinary(buffer:Buffer){
         this.reading = WsOpCode.BINARY;
         if(this.listeners('stream').length){
             this.emit('stream',buffer,this.reading,'start');
@@ -366,7 +367,7 @@ export class WsConnection extends EventEmitter{
             this.readingBuffer = buffer
         }
     }
-    onStreamText(buffer:Buffer){
+    protected onStreamText(buffer:Buffer){
         this.reading = WsOpCode.TEXT;
         if(this.listeners('stream').length){
             this.emit('stream',buffer,this.reading,'start');
@@ -374,7 +375,7 @@ export class WsConnection extends EventEmitter{
             this.readingBuffer = buffer
         }
     }
-    onStreamChunk(buffer:Buffer){
+    protected onStreamChunk(buffer:Buffer){
         if(this.listeners('stream').length){
             this.emit('stream',buffer,this.reading,'chunk');
         }else{
@@ -384,7 +385,7 @@ export class WsConnection extends EventEmitter{
             );
         }
     }
-    onStreamDone(buffer:Buffer){
+    protected onStreamDone(buffer:Buffer){
         if(this.listeners('stream').length){
             this.emit('stream',buffer,this.reading,'chunk');
         }else{
@@ -400,16 +401,7 @@ export class WsConnection extends EventEmitter{
             this.readingBuffer=null;
         }
     }
-
-    sendText(text:string){
-        this.sendFrame(WsOpCode.TEXT,new Buffer(text))
-    }
-
-    sendBinary(buffer:Buffer){
-        this.sendFrame(WsOpCode.BINARY,buffer)
-    }
-
-    sendFrame(op:WsOpCode,data:Buffer){
+    protected sendFrame(op:WsOpCode,data:Buffer){
         this.queue.push({op,data});
         if(this.queue.length==1){
             while (this.queue.length) {
@@ -421,6 +413,13 @@ export class WsConnection extends EventEmitter{
                 this.queue.shift();
             }
         }
+    }
+
+    public sendText(text:string){
+        this.sendFrame(WsOpCode.TEXT,new Buffer(text))
+    }
+    public sendBinary(buffer:Buffer){
+        this.sendFrame(WsOpCode.BINARY,buffer)
     }
 
 }
