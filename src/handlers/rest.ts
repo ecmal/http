@@ -174,7 +174,16 @@ export class RestHandler extends Handler {
                 });
                 promise = promise.then(result=>{
                     res.writeHead(result.status,result.headers);
-                    res.end(result.value);
+                    if(result.value){
+                        if(typeof result.value!="string"){
+                            res.end(JSON.stringify(result.value));
+                        }else{
+                            res.end(result.value);
+                        }
+                    }else{
+                        res.end();
+                    }
+
                 });
 
                 return promise;

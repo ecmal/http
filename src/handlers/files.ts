@@ -37,7 +37,6 @@ class FileHandler extends Handler {
         this.config.path.forEach(p=>{
             this.routes.push(new FileRoute(p));
         });
-        console.info(this.routes)
     }
     resource(path){
         try {
