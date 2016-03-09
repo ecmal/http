@@ -15,21 +15,23 @@ export class WsServer extends EventEmitter{
     }
 
     public protocol : string;
-    public connections : number;
+    public connections : {[id:string]:WsConnection};
 
     constructor(server:Server,protocol:string){
         super();
         this.protocol = protocol;
-        this.connections = 0;
+        this.connections = {};
         server.on('upgrade',(req:IncomingMessage)=>{
             this.doUpgrade(req);
         })
     }
-
-    doUpgrade(req:IncomingMessage){
+    protected newConnection():WsConnection{
+       return new WsConnection(true);
+    }
+    protected doUpgrade(req:IncomingMessage){
         var upgrade:string = String(req.headers['upgrade']).trim().toLowerCase();
         if(upgrade && upgrade == 'websocket') {
-            var connection = new WsConnection(true);
+            var connection = this.newConnection();
             try{
                 if(connection.accept(req,this.protocol)){
                     this.response(req.socket,101,'Switching Protocols',{
@@ -38,17 +40,12 @@ export class WsServer extends EventEmitter{
                         'Sec-WebSocket-Accept'      : connection.hash,
                         'Sec-WebSocket-Protocol'    : this.protocol
                     });
-                    req.socket.on('close',()=>{
-                        this.connections--;
-                        this.emit('connections', this.connections);
+                    connection.on('close',()=>{
+                        delete this.connections[connection.id];
+                        this.emit('disconnect', connection);
                     });
-                    req.socket.on('error',()=>{
-                        this.connections--;
-                        this.emit('connections', this.connections);
-                    });
-                    this.connections++;
-                    this.emit('connection', connection);
-                    this.emit('connections', this.connections);
+                    this.connections[connection.id]=connection;
+                    this.emit('connect', connection);
                 }
             }catch(e){
                 console.info(e.stack);
