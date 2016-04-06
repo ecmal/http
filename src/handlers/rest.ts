@@ -23,8 +23,9 @@ export class RestRoute {
         this.regexp = [];
         path.split('/').forEach(part=>{
             if(part[0]==':'){
-                this.params.push(part.substring(1));
-                this.regexp.push('([^\\/]+)');
+                var [m,p,r] = part.match(/:([a-zA-Z0-9_\\-]+)(.*)/);
+                this.params.push(p);
+                this.regexp.push('([a-zA-Z0-9_\\-]+)'+r);
             }else
             if(part[0]=='*'){
                 this.params.push(part.substring(1));
