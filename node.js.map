@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "file": "node.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "node.ts"
+  ],
+  "names": [
+    "Node",
+    "Node.constructor",
+    "Node.require",
+    "Node.Buffer",
+    "Node.Http",
+    "Node.Https",
+    "Node.Fs",
+    "Node.Path",
+    "Node.Url",
+    "Node.Qs",
+    "Node.Zlib"
+  ],
+  "mappings": ";;;;;YAAA;gBAAAA;gBA4BAC,CAACA;gBA3BUD,YAAOA,GAAdA,UAAeA,IAAIA;oBACfE,MAAMA,CAACA,OAAOA,CAACA,IAAIA,CAACA,CAACA;gBACzBA,CAACA;gBACDF,sBAAWA,cAAMA;yBAAjBA;wBACIG,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,QAAQA,CAACA,CAACA;oBAClCA,CAACA;;;mBAAAH;gBACDA,sBAAWA,YAAIA;yBAAfA;wBACII,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,MAAMA,CAACA,CAACA;oBAChCA,CAACA;;;mBAAAJ;gBACDA,sBAAWA,aAAKA;yBAAhBA;wBACIK,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,OAAOA,CAACA,CAACA;oBACjCA,CAACA;;;mBAAAL;gBACDA,sBAAWA,UAAEA;yBAAbA;wBACIM,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,IAAIA,CAACA,CAACA;oBAC9BA,CAACA;;;mBAAAN;gBACDA,sBAAWA,YAAIA;yBAAfA;wBACIO,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,MAAMA,CAACA,CAACA;oBAChCA,CAACA;;;mBAAAP;gBACDA,sBAAWA,WAAGA;yBAAdA;wBACIQ,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,KAAKA,CAACA,CAACA;oBAC/BA,CAACA;;;mBAAAR;gBACDA,sBAAWA,UAAEA;yBAAbA;wBACIS,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,aAAaA,CAACA,CAACA;oBACvCA,CAACA;;;mBAAAT;gBACDA,sBAAWA,YAAIA;yBAAfA;wBACIU,MAAMA,CAACA,IAAIA,CAACA,OAAOA,CAACA,MAAMA,CAACA,CAACA;oBAChCA,CAACA;;;mBAAAV;gBACLA,WAACA;YAADA,CAACA,AA5BD,IA4BC;YA5BD,0BA4BC,CAAA",
+  "sourcesContent": [
+    "export default class Node {\n    static require(path):Function {\n        return require(path);\n    }\n    static get Buffer():any{\n        return this.require('buffer');\n    }\n    static get Http():any{\n        return this.require('http');\n    }\n    static get Https():any{\n        return this.require('https');\n    }\n    static get Fs():any{\n        return this.require('fs');\n    }\n    static get Path():any{\n        return this.require('path');\n    }\n    static get Url():any{\n        return this.require('url');\n    }\n    static get Qs():any{\n        return this.require('querystring');\n    }\n    static get Zlib():any{\n        return this.require('zlib');\n    }\n}"
+  ]
+}

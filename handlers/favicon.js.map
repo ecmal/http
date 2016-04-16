@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "file": "favicon.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "favicon.ts"
+  ],
+  "names": [
+    "FaviconHandler",
+    "FaviconHandler.constructor",
+    "FaviconHandler.handle"
+  ],
+  "mappings": ";;;;;;;;;;;;;;YAEA;gBAA4CA,kCAAWA;gBAAvDA;oBAA4CC,8BAAWA;gBAkBvDA,CAACA;gBAjBGD,+BAAMA,GAANA,UAAOA,GAAGA,EAACA,GAAGA;oBACVE,EAAEA,CAAAA,CAACA,GAAGA,CAACA,GAAGA,IAAEA,cAAcA,CAACA,CAAAA,CAACA;wBACxBA,GAAGA,CAACA,SAASA,CAACA,GAAGA,EAACA;4BACdA,cAAcA,EAAEA,cAAcA;yBACjCA,CAACA,CAACA;wBACHA,GAAGA,CAACA,GAAGA,CAACA,IAAIA,MAAMA,CAACA;4BACfA,uDAAuDA;4BACvDA,uDAAuDA;4BACvDA,uDAAuDA;4BACvDA,uDAAuDA;4BACvDA,uDAAuDA;4BACvDA,uDAAuDA;4BACvDA,uDAAuDA;4BACvDA,uDAAuDA;yBAC1DA,CAACA,IAAIA,EAAEA,EAACA,QAAQA,CAACA,EAACA,QAAQA,CAACA,CAACA;oBACjCA,CAACA;gBACLA,CAACA;gBACLF,qBAACA;YAADA,CAACA,AAlBD,EAA4C,iBAAW,EAkBtD;YAlBD,oCAkBC,CAAA",
+  "sourcesContent": [
+    "import BaseHandler from '../handler';\n\nexport default class FaviconHandler extends BaseHandler {\n    handle(req,res){\n        if(req.url=='/favicon.ico'){\n            res.writeHead(200,{\n                'Content-Type': 'image/x-icon'\n            });\n            res.end(new Buffer([\n                'AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAA',\n                'AAAgAAAAAAAAAAAAAAAEAAAAAAAAAAkU1cAKDc4ABjL2wAM3/IAAA',\n                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',\n                'AAAAAAAAAERERERERERESIiIzMzMzIRIiIjMBMBExEiIiMxMxMzES',\n                'IiIzEzEzMRIiIjERMBExEiIiMxMzMzESIiIzEzMzMRIiIjMTMzMxE',\n                'iIiMzMzMzESIiIiIiIiIRIiIiIiIiIhEiIiIiIiIiESIiIiIiIiIR',\n                'IiIiIiIiIhEREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',\n                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'\n            ].join(),'base64'),'binary');\n        }\n    }\n}"
+  ]
+}

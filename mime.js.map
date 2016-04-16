@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "file": "mime.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "mime.ts"
+  ],
+  "names": [
+    "Mime",
+    "Mime.constructor",
+    "Mime.getType"
+  ],
+  "mappings": ";;;;;;;;;YAEA;gBAAAA;gBAiBAC,CAACA;gBARUD,YAAOA,GAAdA,UAAeA,IAAIA;oBACfE,IAAIA,GAAGA,GAAGA,cAAIA,CAACA,IAAIA,CAACA,OAAOA,CAACA,IAAIA,CAACA,IAAIA,OAAOA,CAACA;oBAC7CA,EAAEA,CAAAA,CAACA,IAAIA,CAACA,KAAKA,CAACA,GAAGA,CAACA,CAACA,CAAAA,CAACA;wBAChBA,MAAMA,CAACA,IAAIA,CAACA,KAAKA,CAACA,GAAGA,CAACA,CAACA;oBAC3BA,CAACA;oBAAAA,IAAIA,CAAAA,CAACA;wBACFA,MAAMA,CAACA,GAAGA,CAACA;oBACfA,CAACA;gBACLA,CAACA;gBAfMF,UAAKA,GAAGA;oBACXA,KAAKA,EAAKA,iBAAiBA;oBAC3BA,OAAOA,EAAGA,kBAAkBA;oBAC5BA,MAAMA,EAAIA,UAAUA;oBACpBA,OAAOA,EAAGA,WAAWA;oBACrBA,KAAKA,EAAKA,0BAA0BA;oBACpCA,MAAMA,EAAIA,eAAeA;iBAC5BA,CAACA;gBASNA,WAACA;YAADA,CAACA,AAjBD,IAiBC;YAjBD,uBAiBC,CAAA",
+  "sourcesContent": [
+    "import Node from './node';\n\nexport class Mime {\n    static TYPES = {\n        '.js'   : 'text/javascript',\n        '.json' : 'application/json',\n        '.css'  : 'text/css',\n        '.html' : 'text/html',\n        '.ts'   : 'application/x-typescript',\n        '.svg'  : 'image/svg+xml'\n    };\n    static getType(file){\n        var ext = Node.Path.extname(file) || '.html';\n        if(Mime.TYPES[ext]){\n            return Mime.TYPES[ext];\n        }else{\n            return ext;\n        }\n    }\n}"
+  ]
+}
