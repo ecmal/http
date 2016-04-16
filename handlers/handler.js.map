@@ -1,0 +1,17 @@
+{
+  "version": 3,
+  "file": "handler.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "handler.ts"
+  ],
+  "names": [
+    "Handler",
+    "Handler.constructor",
+    "Handler.configure"
+  ],
+  "mappings": ";;;;;YAAA;gBAAAA;gBAQAC,CAACA;gBALUD,iBAASA,GAAhBA,UAAiBA,MAAMA,EAACA,MAAMA;oBAC1BE,IAAIA,CAACA,MAAMA,GAAGA,MAAMA,CAACA;oBACrBA,IAAIA,CAACA,MAAMA,GAAGA,MAAMA,CAACA;oBACrBA,MAAMA,CAACA,IAAIA,CAACA;gBAChBA,CAACA;gBACLF,cAACA;YAADA,CAACA,AARD,IAQC;YARD,6BAQC,CAAA",
+  "sourcesContent": [
+    "export class Handler {\n    static server:any;\n    static config:any;\n    static configure(server,config){\n        this.server = server;\n        this.config = config;\n        return this;\n    }\n}"
+  ]
+}

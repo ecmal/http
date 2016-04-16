@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "file": "handler.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "handler.ts"
+  ],
+  "names": [
+    "HttpHandler",
+    "HttpHandler.constructor",
+    "HttpHandler.settings",
+    "HttpHandler.configure",
+    "HttpHandler.initialize",
+    "HttpHandler.handle"
+  ],
+  "mappings": ";;;;;YAAA;gBAOIA,qBAAYA,QAAQA;oBAChBC,IAAIA,CAACA,SAASA,CAACA,QAAQA,CAACA,CAAAA;gBAC5BA,CAACA;gBALDD,sBAAIA,iCAAQA;yBAAZA;wBACIE,MAAMA,CAACA,IAAIA,CAACA,CAACA,CAACA,QAAQA,CAACA;oBAC3BA,CAACA;;;mBAAAF;gBAIDA,+BAASA,GAATA,UAAUA,QAAQA;oBACdG,IAAIA,CAACA,CAACA,GAAGA;wBACLA,QAAQA,EAAGA,QAAQA;qBACtBA,CAACA;oBACFA,MAAMA,CAACA,IAAIA,CAACA;gBAChBA,CAACA;gBACDH,gCAAUA,GAAVA,UAAWA,MAAMA;oBACbI,OAAOA,CAACA,IAAIA,CAACA,mBAAiBA,IAAIA,CAACA,WAAWA,CAACA,IAAMA,CAACA,CAACA;gBAC3DA,CAACA;gBACDJ,4BAAMA,GAANA,UAAOA,GAAGA,EAACA,GAAGA;oBACVK,MAAMA,IAAIA,KAAKA,CAACA,6CAA2CA,IAAIA,CAACA,WAAWA,CAACA,IAAMA,CAACA,CAAAA;gBACvFA,CAACA;gBACLL,kBAACA;YAADA,CAACA,AAtBD,IAsBC;YAtBD,iCAsBC,CAAA",
+  "sourcesContent": [
+    "export default class HttpHandler {\n\n    private $:any;\n\n    get settings(){\n        return this.$.settings;\n    }\n    constructor(settings){\n        this.configure(settings)\n    }\n    configure(settings){\n        this.$ = {\n            settings : settings\n        };\n        return this;\n    }\n    initialize(server){\n        console.info(`Initializeing ${this.constructor.name}`);\n    }\n    handle(req,res){\n        throw new Error(`Unimplemented Method 'handler' in class ${this.constructor.name}`)\n    }\n}\n\n\n"
+  ]
+}

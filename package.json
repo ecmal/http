@@ -1,0 +1,395 @@
+{
+  "name": "http",
+  "vendor": "ecmal",
+  "version": "0.0.1",
+  "registry": "github",
+  "bundle": false,
+  "libraries": {
+    "core": "0.0.1",
+    "node": "0.0.1",
+    "runtime": "0.0.1"
+  },
+  "author": {
+    "name": "Sergey Mamyan",
+    "email": "sergey.mamyan@gmail.com"
+  },
+  "commit": "469a95d2854a395f0de6368126b3e9936d7131f7",
+  "repository": "https://github.com/ecmal/http.git",
+  "modules": {
+    "client": {
+      "name": "client",
+      "version": "f4d04433433e9349b2694b650fa04feb",
+      "size": 6302,
+      "hash": "e08fa52108f340af29ce465e74e55181",
+      "files": {
+        ".ts": {
+          "size": 4156,
+          "hash": "f4d04433433e9349b2694b650fa04feb",
+          "sha": "0f2da9eaaa98ec5a00462f3e9bc284834df2f3f0"
+        },
+        ".js.map": {
+          "size": 10123,
+          "hash": "9e4ae068953fd5a1465e64f4d33244db"
+        },
+        ".js": {
+          "size": 6302,
+          "hash": "e08fa52108f340af29ce465e74e55181"
+        },
+        ".d.ts": {
+          "size": 537,
+          "hash": "2fbb1ceafb590f69a2ed3b4dd9e5674c"
+        }
+      }
+    },
+    "handler": {
+      "name": "handler",
+      "version": "f76f8467d814ffb184ae4455ca27a5fa",
+      "size": 1298,
+      "hash": "85fee1ccc625537bcc4037329593c17d",
+      "files": {
+        ".ts": {
+          "size": 511,
+          "hash": "f76f8467d814ffb184ae4455ca27a5fa",
+          "sha": "cc809eb5338e5ffe2196a7db3f2439ff6d7ada05"
+        },
+        ".js.map": {
+          "size": 1577,
+          "hash": "dec6f3563bb22d6f636eb4e9be7c06c7"
+        },
+        ".js": {
+          "size": 1298,
+          "hash": "85fee1ccc625537bcc4037329593c17d"
+        },
+        ".d.ts": {
+          "size": 212,
+          "hash": "0c5e1c55c86cc5ae67677805c718cae4"
+        }
+      }
+    },
+    "handlers/favicon": {
+      "name": "handlers/favicon",
+      "version": "3eb400473c685933fc3bfb30a699d0d9",
+      "size": 2001,
+      "hash": "4c2a301c550a277fcad3d0e029667510",
+      "files": {
+        ".ts": {
+          "size": 925,
+          "hash": "3eb400473c685933fc3bfb30a699d0d9",
+          "sha": "bf6691287b1db60f38a454f03782732f6f86b673"
+        },
+        ".js.map": {
+          "size": 1858,
+          "hash": "5dc107bcc8d0b442a70fd6ebfa4f2e1a"
+        },
+        ".js": {
+          "size": 2001,
+          "hash": "4c2a301c550a277fcad3d0e029667510"
+        },
+        ".d.ts": {
+          "size": 136,
+          "hash": "e8d7051c7a116973cbe96f91514fc8dd"
+        }
+      }
+    },
+    "handlers/files": {
+      "name": "handlers/files",
+      "version": "076c89cfefbd131549fc4d0e53fa5943",
+      "size": 5208,
+      "hash": "c6f94586c6cfe3e7a35aa1217a60c993",
+      "files": {
+        ".ts": {
+          "size": 2181,
+          "hash": "076c89cfefbd131549fc4d0e53fa5943",
+          "sha": "689109a2adcd737742462eb5f69fdd1ee5eb015d"
+        },
+        ".js.map": {
+          "size": 6070,
+          "hash": "3d24724aeadddd9d9b628f20d1d299db"
+        },
+        ".js": {
+          "size": 5208,
+          "hash": "c6f94586c6cfe3e7a35aa1217a60c993"
+        },
+        ".d.ts": {
+          "size": 0,
+          "hash": "d41d8cd98f00b204e9800998ecf8427e"
+        }
+      }
+    },
+    "handlers/handler": {
+      "name": "handlers/handler",
+      "version": "925061ff3386bd970ec2a1e8741f2606",
+      "size": 562,
+      "hash": "3e98edb2e5e9924550cb7a182b917d06",
+      "files": {
+        ".ts": {
+          "size": 194,
+          "hash": "925061ff3386bd970ec2a1e8741f2606",
+          "sha": "810a4756a709b48154db237946db8de9b75c9c67"
+        },
+        ".js.map": {
+          "size": 739,
+          "hash": "a924fcab5e5110964a868e2bbe7956a6"
+        },
+        ".js": {
+          "size": 562,
+          "hash": "3e98edb2e5e9924550cb7a182b917d06"
+        },
+        ".d.ts": {
+          "size": 145,
+          "hash": "c752a8cb57cef18ebf127c71d7b48077"
+        }
+      }
+    },
+    "handlers/rest": {
+      "name": "handlers/rest",
+      "version": "97f9751b7800dc1cbaea1e0892b55abb",
+      "size": 11704,
+      "hash": "5c8d6b6e6f860220e9df705175824fdd",
+      "files": {
+        ".ts": {
+          "size": 7128,
+          "hash": "97f9751b7800dc1cbaea1e0892b55abb",
+          "sha": "cf2d44394c94b2565da7e8e848aed892a9f8d285"
+        },
+        ".js.map": {
+          "size": 16234,
+          "hash": "00bfaf871098f24e9c1e6876bcfc6a71"
+        },
+        ".js": {
+          "size": 11704,
+          "hash": "5c8d6b6e6f860220e9df705175824fdd"
+        },
+        ".d.ts": {
+          "size": 706,
+          "hash": "4c02962a89a03695089ea869a8909473"
+        }
+      }
+    },
+    "index": {
+      "name": "index",
+      "version": "09206d2b7d05d8b590e8521df9e376e5",
+      "size": 660,
+      "hash": "16acc76c08ce844f2d841c845f465345",
+      "files": {
+        ".ts": {
+          "size": 213,
+          "hash": "09206d2b7d05d8b590e8521df9e376e5",
+          "sha": "bcc797c6459ef64cc382fdb6c3c7587980d59456"
+        },
+        ".js.map": {
+          "size": 547,
+          "hash": "a2fbabfd2e9d72a89812c159f1db3a9a"
+        },
+        ".js": {
+          "size": 660,
+          "hash": "16acc76c08ce844f2d841c845f465345"
+        },
+        ".d.ts": {
+          "size": 252,
+          "hash": "d5689e56665192dc9b43ed69a136f825"
+        }
+      }
+    },
+    "mime": {
+      "name": "mime",
+      "version": "53516ee2a9b3082c9657fedb40f797cd",
+      "size": 1116,
+      "hash": "dd642c5d862efb08bbbfd4972fd5e57e",
+      "files": {
+        ".ts": {
+          "size": 493,
+          "hash": "53516ee2a9b3082c9657fedb40f797cd",
+          "sha": "3fd247524cb07798d9a8fd617177585017954c75"
+        },
+        ".js.map": {
+          "size": 1415,
+          "hash": "da3d26f602da248faeb490093baf05b8"
+        },
+        ".js": {
+          "size": 1116,
+          "hash": "dd642c5d862efb08bbbfd4972fd5e57e"
+        },
+        ".d.ts": {
+          "size": 237,
+          "hash": "e70e5d04874af3b68483641b59eda246"
+        }
+      }
+    },
+    "node": {
+      "name": "node",
+      "version": "88a9b1f31221de120efbea0bda6570f9",
+      "size": 2587,
+      "hash": "53d3a9e2a3d3c48cf14e37257208fa7d",
+      "files": {
+        ".ts": {
+          "size": 666,
+          "hash": "88a9b1f31221de120efbea0bda6570f9",
+          "sha": "60a025a26a30ca605e45f1b2d4660d54b944b4fd"
+        },
+        ".js.map": {
+          "size": 2158,
+          "hash": "11d96d424944d81f29b6ae6081f7e007"
+        },
+        ".js": {
+          "size": 2587,
+          "hash": "53d3a9e2a3d3c48cf14e37257208fa7d"
+        },
+        ".d.ts": {
+          "size": 245,
+          "hash": "bbc24a31bb2d26f86a67e227470d10e2"
+        }
+      }
+    },
+    "rest": {
+      "name": "rest",
+      "version": "5f314ddfd2204a9670f275b3bd9b0972",
+      "size": 1179,
+      "hash": "dbcb44cfde66a3766931fd0df4a15465",
+      "files": {
+        ".ts": {
+          "size": 492,
+          "hash": "5f314ddfd2204a9670f275b3bd9b0972",
+          "sha": "f32b65b3fae7cc18c9f5463fb9e72d6e24c074c1"
+        },
+        ".js.map": {
+          "size": 1457,
+          "hash": "bffb69a4194c97169970406d6777a3bb"
+        },
+        ".js": {
+          "size": 1179,
+          "hash": "dbcb44cfde66a3766931fd0df4a15465"
+        },
+        ".d.ts": {
+          "size": 279,
+          "hash": "fd11cda122f4411bb136b34a880e9caa"
+        }
+      }
+    },
+    "server": {
+      "name": "server",
+      "version": "bd2f33f29c7fc3eb29623c312d663e4e",
+      "size": 3823,
+      "hash": "1919f172f849237da447ec7d5215300b",
+      "files": {
+        ".ts": {
+          "size": 2372,
+          "hash": "bd2f33f29c7fc3eb29623c312d663e4e",
+          "sha": "e344d34a84af1a31994e3acb24c13a02387b85c1"
+        },
+        ".js.map": {
+          "size": 6255,
+          "hash": "3e629c7bdca56f877667ef254b3e7669"
+        },
+        ".js": {
+          "size": 3823,
+          "hash": "1919f172f849237da447ec7d5215300b"
+        },
+        ".d.ts": {
+          "size": 344,
+          "hash": "cd9e503e092f0d7af85d0ec2bdf9cee8"
+        }
+      }
+    },
+    "utils": {
+      "name": "utils",
+      "version": "3ac8d473ed0897feb769545fcb7a86c7",
+      "size": 1930,
+      "hash": "47bd05c5a887bd4e42a16daaf70dfcc0",
+      "files": {
+        ".ts": {
+          "size": 806,
+          "hash": "3ac8d473ed0897feb769545fcb7a86c7",
+          "sha": "0493d15e39437e2eceeecf53497b17a92fe13fa8"
+        },
+        ".js.map": {
+          "size": 2604,
+          "hash": "6ee001ca508915140af5c86b6f5bd814"
+        },
+        ".js": {
+          "size": 1930,
+          "hash": "47bd05c5a887bd4e42a16daaf70dfcc0"
+        },
+        ".d.ts": {
+          "size": 180,
+          "hash": "c9bc59ead55a7ac76a7a36fa5e869a43"
+        }
+      }
+    },
+    "ws/client": {
+      "name": "ws/client",
+      "version": "aa676dd1fcbcbdd6cf447ece1a50e8a3",
+      "size": 74,
+      "hash": "0daec58913bb9e4349f4059a9d4763e7",
+      "files": {
+        ".ts": {
+          "size": 40,
+          "hash": "aa676dd1fcbcbdd6cf447ece1a50e8a3",
+          "sha": "e81128d04c7338cda295c69cf3a093257162f196"
+        },
+        ".js.map": {
+          "size": 259,
+          "hash": "dff34f97011c736568ff96e24cf591e4"
+        },
+        ".js": {
+          "size": 74,
+          "hash": "0daec58913bb9e4349f4059a9d4763e7"
+        },
+        ".d.ts": {
+          "size": 0,
+          "hash": "d41d8cd98f00b204e9800998ecf8427e"
+        }
+      }
+    },
+    "ws/connection": {
+      "name": "ws/connection",
+      "version": "6fcc33850091051e7c22681084cd5cec",
+      "size": 22068,
+      "hash": "5469feea03f0f08d5381be92e3d386ff",
+      "files": {
+        ".ts": {
+          "size": 14560,
+          "hash": "6fcc33850091051e7c22681084cd5cec",
+          "sha": "c2c19400ccd7343e06b027c887d7b1129d343d98"
+        },
+        ".js.map": {
+          "size": 34931,
+          "hash": "20fa8e97a1ca3d0627c1f84161418b12"
+        },
+        ".js": {
+          "size": 22068,
+          "hash": "5469feea03f0f08d5381be92e3d386ff"
+        },
+        ".d.ts": {
+          "size": 2289,
+          "hash": "752e9d7f89058f0b1db6fa8e7045598f"
+        }
+      }
+    },
+    "ws/server": {
+      "name": "ws/server",
+      "version": "9ba33178f8e9b7ad220633ec0732385f",
+      "size": 4306,
+      "hash": "0998084e7c21081d671ffbccdaa8e4dd",
+      "files": {
+        ".ts": {
+          "size": 2724,
+          "hash": "9ba33178f8e9b7ad220633ec0732385f",
+          "sha": "923ec0987a095c89a918de005e2e911487bbc2d1"
+        },
+        ".js.map": {
+          "size": 6234,
+          "hash": "34af6db08661ff444b039d3fb99075b7"
+        },
+        ".js": {
+          "size": 4306,
+          "hash": "0998084e7c21081d671ffbccdaa8e4dd"
+        },
+        ".d.ts": {
+          "size": 648,
+          "hash": "896c0ca9c6dd5565cbd85e4844a5c5e0"
+        }
+      }
+    }
+  }
+}
