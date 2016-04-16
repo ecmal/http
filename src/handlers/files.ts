@@ -57,8 +57,9 @@ class FileHandler extends Handler {
 
     }
     handle(req,res){
+        var path = req.url.split('?')[0];
         for(var file,i=0;i<this.routes.length;i++){
-            file = this.routes[i].match(req.url);
+            file = this.routes[i].match(path);
             if(file && (file = this.resource(file)).exist){
                 break;
             }
