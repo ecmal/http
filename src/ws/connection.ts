@@ -257,7 +257,6 @@ export class WsConnection extends EventEmitter{
                     //console.info('drain');
                 });
                 v.on('end', (data?)=>{
-                    //console.info("END SOCKET END");
                     if(data && data.length){
                         buffer = Buffer.concat([buffer,data]);
                         var frame = WsFrame.decode(buffer,isServer);
