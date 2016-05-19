@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "mime.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "mime.ts"
+  ],
+  "names": [],
+  "mappings": ";;IAEA;QASW,YAAO,GAAd,UAAe,IAAI;YACf,IAAI,GAAG,GAAG,cAAI,CAAC,IAAI,CAAC,OAAO,CAAC,IAAI,CAAC,IAAI,OAAO,CAAC;YAC7C,EAAE,CAAA,CAAC,IAAI,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC,CAAA,CAAC;gBAChB,MAAM,CAAC,IAAI,CAAC,KAAK,CAAC,GAAG,CAAC,CAAC;YAC3B,CAAC;YAAA,IAAI,CAAA,CAAC;gBACF,MAAM,CAAC,GAAG,CAAC;YACf,CAAC;QACL,CAAC;;;YAfM,UAAK,GAAG;gBACX,KAAK,EAAK,iBAAiB;gBAC3B,OAAO,EAAG,kBAAkB;gBAC5B,MAAM,EAAI,UAAU;gBACpB,OAAO,EAAG,WAAW;gBACrB,KAAK,EAAK,0BAA0B;gBACpC,MAAM,EAAI,eAAe;aAC5B,CAAC;;QASN,WAAC;QAjBD;QAiBA,CAAC;IAAD,CAAC,AAjBD,IAiBC;;IAjBD,2BAiBC,CAAA;;;;;;;YAjBD,mBAAA,IAiBC",
+  "sourcesContent": [
+    "import Node from './node';\n\nexport class Mime {\n    static TYPES = {\n        '.js'   : 'text/javascript',\n        '.json' : 'application/json',\n        '.css'  : 'text/css',\n        '.html' : 'text/html',\n        '.ts'   : 'application/x-typescript',\n        '.svg'  : 'image/svg+xml'\n    };\n    static getType(file){\n        var ext = Node.Path.extname(file) || '.html';\n        if(Mime.TYPES[ext]){\n            return Mime.TYPES[ext];\n        }else{\n            return ext;\n        }\n    }\n}"
+  ]
+}
