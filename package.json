@@ -1,7 +1,7 @@
 {
   "name"            : "http",
   "vendor"          : "ecmal",
-  "version"         : "0.0.1",
+  "version"         : "0.0.8",
   "registry"        : "github",
   "directories"     : {
     "source"        : "src",
@@ -9,8 +9,8 @@
     "vendor"        : "out"
   },
   "libraries"       : {
-    "core"          : "0.0.1",
-    "node"          : "0.0.1",
-    "runtime"       : "0.0.1"
+    "core"          : "0.0.8",
+    "node"          : "0.0.8",
+    "runtime"       : "0.0.8"
   }
 }

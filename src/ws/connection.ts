@@ -173,10 +173,10 @@ export class WsError extends Error {
 }
 export class WsConnection extends EventEmitter{
 
-    private server:boolean;
-    private state:WsState;
-    private headers:any;
-    private socket:Socket;
+    protected server:boolean;
+    protected state:WsState;
+    protected headers:any;
+    protected socket:Socket;
 
     private reading:WsOpCode;
     private readingBuffer:Buffer;
@@ -221,7 +221,9 @@ export class WsConnection extends EventEmitter{
             .split(',')
             .map(p=>p&&p.trim());
     }
-
+    
+    private ping:string;
+    private pinger:any;
     constructor(isServer:boolean){
         super();
         var socket,headers,state=WsState.CONNECTING,buffer=new Buffer(0);
@@ -236,7 +238,7 @@ export class WsConnection extends EventEmitter{
             configurable : true,
             set          : (v)=>{
                 v.on('close',(ok:boolean)=>{
-                    console.info('onClose');
+                    this.onClose(new Buffer(ok?"0001":"0000"));
                 });
                 v.on('connect',(ok:boolean)=>{
                     console.info('connect',ok);
@@ -266,18 +268,16 @@ export class WsConnection extends EventEmitter{
                 });
                 v.on('error', (e?:Error)=>{
                     console.info('onError',e.stack);
-                });
-                v.on('lookup',(ok:boolean)=>{
-                    console.info('lookup');
-                });
-                v.on('timeout',(ok:boolean)=>{
-                    console.info('timeout');
+                    v.destroy();
                 });
                 Object.defineProperty(this,'socket',<PropertyDescriptor>{
                     enumerable      : false,
                     configurable    : false,
                     value           : v
                 });
+                this.pinger = setInterval(()=>{
+                    this.sendPing();
+                },5000);
             }
         });
         Object.defineProperty(this,'headers',<PropertyDescriptor>{
@@ -302,6 +302,7 @@ export class WsConnection extends EventEmitter{
                 });
             }
         });
+
     }
 
     public connect(){
@@ -330,7 +331,7 @@ export class WsConnection extends EventEmitter{
                 case WsOpCode.TEXT : return this.onText(frame.data);
                 case WsOpCode.PONG : return this.onPong(frame.data);
                 case WsOpCode.PING : return this.onPing(frame.data);
-                case WsOpCode.CLOSE : return this.onPing(frame.data);
+                case WsOpCode.CLOSE : return this.onClose(frame.data);
                 case WsOpCode.CHUNK : return this.onStreamDone(frame.data);
                 default : throw new Error('Invalid Frame')
             }
@@ -351,13 +352,25 @@ export class WsConnection extends EventEmitter{
         this.emit('binary',buffer);
     }
     protected onPong(buffer:Buffer){
-        this.emit('pong',buffer);
+        var time  = buffer.toString();
+        //console.info("ON PONG",this.id,time,time==this.ping);
+        this.ping = null;
+        this.emit('pong',time);
     }
     protected onPing(buffer:Buffer){
+        //console.info("ON PING");
         this.emit('ping',buffer);
+        this.sendFrame(WsOpCode.PONG,buffer);
     }
     protected onClose(buffer:Buffer){
-        this.emit('close',buffer);
+        var code    = 0;
+        var message = "";
+        if(buffer){
+            code    = buffer.readUInt16BE(0);
+            message = buffer.toString('utf8',2);
+        }
+        clearInterval(this.pinger);
+        this.emit('close',code,message);
     }
     protected onStreamBinary(buffer:Buffer){
         this.reading = WsOpCode.BINARY;
@@ -414,7 +427,12 @@ export class WsConnection extends EventEmitter{
             }
         }
     }
-
+    protected sendPing(){
+        if(!this.ping){
+            this.ping=new Date().toISOString();
+            this.sendFrame(WsOpCode.PING,new Buffer(this.ping));
+        }
+    }
     public sendText(text:string){
         this.sendFrame(WsOpCode.TEXT,new Buffer(text))
     }

@@ -6,7 +6,11 @@ export class Server {
     }
     static initRequest(req) {
     }
-    static handlers = Object.create(null);
+    static get handlers(){
+        return Object.defineProperty(this,'handlers',{
+            value:Object.create(null)
+        }).handlers
+    };
     static handler(name){
         return handler=>{
             Object.defineProperty(Server.handlers,name,<PropertyDescriptor>{

@@ -1,6 +1,6 @@
 export default class Node {
     static require(path):Function {
-        return require(path);
+        return system.node.require(path);
     }
     static get Buffer():any{
         return this.require('buffer');

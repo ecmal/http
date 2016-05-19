@@ -23,8 +23,9 @@ export class RestRoute {
         this.regexp = [];
         path.split('/').forEach(part=>{
             if(part[0]==':'){
-                this.params.push(part.substring(1));
-                this.regexp.push('([^\\/]+)');
+                var [m,p,r] = part.match(/:([a-zA-Z0-9_\\-]+)(.*)/);
+                this.params.push(p);
+                this.regexp.push('([a-zA-Z0-9_\\-]+)'+r);
             }else
             if(part[0]=='*'){
                 this.params.push(part.substring(1));
@@ -54,7 +55,12 @@ export class RestRoute {
 
 @Server.handler('rest')
 export class RestHandler extends Handler {
-    static routes = {};
+    static get routes(){
+        return Object.defineProperty(this,'routes',{
+            enumerable:true,
+            value:Object.create(null)
+        }).routes;
+    }
     static register(path,resource){
         Object.getOwnPropertyNames(resource.prototype).forEach(method=>{
             if(RestRoute.methods.indexOf(method.toUpperCase())>=0){
@@ -174,7 +180,16 @@ export class RestHandler extends Handler {
                 });
                 promise = promise.then(result=>{
                     res.writeHead(result.status,result.headers);
-                    res.end(result.value);
+                    if(result.value){
+                        if(typeof result.value!="string"){
+                            res.end(JSON.stringify(result.value));
+                        }else{
+                            res.end(result.value);
+                        }
+                    }else{
+                        res.end();
+                    }
+
                 });
 
                 return promise;

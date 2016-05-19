@@ -4,7 +4,7 @@ import {Server} from '../server';
 import {Mime} from '../mime';
 import {Handler} from './handler';
 
-class FileRoute {
+export class FileRoute {
     private pattern:any;
     private location:any;
     constructor(settings){
@@ -23,8 +23,9 @@ class FileRoute {
         return `Route(${this.pattern} -> ${this.location})`
     }
 }
+
 @Server.handler('files')
-class FileHandler extends Handler {
+export class FileHandler extends Handler {
     config:any;
     routes:any;
     constructor(){
@@ -37,7 +38,6 @@ class FileHandler extends Handler {
         this.config.path.forEach(p=>{
             this.routes.push(new FileRoute(p));
         });
-        console.info(this.routes)
     }
     resource(path){
         try {
@@ -58,8 +58,9 @@ class FileHandler extends Handler {
 
     }
     handle(req,res){
+        var path = req.url.split('?')[0];
         for(var file,i=0;i<this.routes.length;i++){
-            file = this.routes[i].match(req.url);
+            file = this.routes[i].match(path);
             if(file && (file = this.resource(file)).exist){
                 break;
             }

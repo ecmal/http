@@ -1,11 +1,12 @@
+import {FileHandler} from 'http/handlers/files';
+import {RestHandler} from 'http/handlers/rest';
+
 import {Server} from 'http/server';
 import {Rest} from 'http/rest';
-import * as PATH from 'node/path';
-
-import 'http/handlers/files';
-import 'http/handlers/rest';
 import {WsServer} from 'http/ws/server';
 import {WsConnection} from 'http/ws/connection';
+
+import * as PATH from 'node/path';
 
 @Rest('/hello')
 class HelloResource {
@@ -21,7 +22,8 @@ class HelloResource {
         }
     }
 }
-var root = PATH.resolve(__filename,'../../../web');
+
+var root = PATH.resolve(system.node.filename,'../../../web');
 
 var server = new Server({
     host  : '0.0.0.0',

@@ -2,6 +2,7 @@ import Node from './node';
 import Utils from './utils';
 
 
+
 export class Client {
 
     private protocol:string;
@@ -12,7 +13,7 @@ export class Client {
     private streamed:boolean;
     private service:any;
 
-    constructor(url,headers){
+    constructor(url,headers?){
         if(url){
             this.configure(url,headers)
         }

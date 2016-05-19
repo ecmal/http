@@ -6,7 +6,8 @@ export class Mime {
         '.json' : 'application/json',
         '.css'  : 'text/css',
         '.html' : 'text/html',
-        '.ts'   : 'application/x-typescript'
+        '.ts'   : 'application/x-typescript',
+        '.svg'  : 'image/svg+xml'
     };
     static getType(file){
         var ext = Node.Path.extname(file) || '.html';
