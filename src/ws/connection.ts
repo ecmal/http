@@ -240,9 +240,6 @@ export class WsConnection extends EventEmitter{
                 v.on('close',(ok:boolean)=>{
                     this.onClose(new Buffer(ok?"0001":"0000"));
                 });
-                v.on('connect',(ok:boolean)=>{
-                    console.info('connect',ok);
-                });
                 v.on('data', (data)=>{
                     if(data.length){
                         buffer = Buffer.concat([buffer,data]);
@@ -252,9 +249,6 @@ export class WsConnection extends EventEmitter{
                             this.onFrame(frame);
                         }
                     }
-                });
-                v.on('drain',(ok:boolean)=>{
-                    //console.info('drain');
                 });
                 v.on('end', (data?)=>{
                     if(data && data.length){
@@ -272,7 +266,7 @@ export class WsConnection extends EventEmitter{
                 });
                 Object.defineProperty(this,'socket',<PropertyDescriptor>{
                     enumerable      : false,
-                    configurable    : false,
+                    configurable    : true,
                     value           : v
                 });
                 this.pinger = setInterval(()=>{
@@ -370,6 +364,14 @@ export class WsConnection extends EventEmitter{
             message = buffer.toString('utf8',2);
         }
         clearInterval(this.pinger);
+        if(this.socket){
+            this.socket.removeAllListeners('close');
+            this.socket.removeAllListeners('data');
+            this.socket.removeAllListeners('end');
+            this.socket.removeAllListeners('error');
+            this.socket.destroy();
+            delete this.socket;
+        }
         this.emit('close',code,message);
     }
     protected onStreamBinary(buffer:Buffer){
