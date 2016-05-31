@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "handler.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "handler.ts"
+  ],
+  "names": [],
+  "mappings": ";IAAA;QAII,sBAAI,iCAAQ;iBAAZ;gBACI,MAAM,CAAC,IAAI,CAAC,CAAC,CAAC,QAAQ,CAAC;YAC3B,CAAC;;;WAAA;QAID,+BAAS,GAAT,UAAU,QAAQ;YACd,IAAI,CAAC,CAAC,GAAG;gBACL,QAAQ,EAAG,QAAQ;aACtB,CAAC;YACF,MAAM,CAAC,IAAI,CAAC;QAChB,CAAC;QACD,gCAAU,GAAV,UAAW,MAAM;YACb,OAAO,CAAC,IAAI,CAAC,mBAAiB,IAAI,CAAC,WAAW,CAAC,IAAM,CAAC,CAAC;QAC3D,CAAC;QACD,4BAAM,GAAN,UAAO,GAAG,EAAC,GAAG;YACV,MAAM,IAAI,KAAK,CAAC,6CAA2C,IAAI,CAAC,WAAW,CAAC,IAAM,CAAC,CAAA;QACvF,CAAC;QACL,kBAAC;QAfG,qBAAY,QAAQ;YAChB,IAAI,CAAC,SAAS,CAAC,QAAQ,CAAC,CAAA;QAC5B,CAAC;IAaL,CAAC,AAtBD,IAsBC;;IAtBD,qCAsBC,CAAA;;;;YAtBD,0BAAA,WAsBC",
+  "sourcesContent": [
+    "export default class HttpHandler {\n\n    private $:any;\n\n    get settings(){\n        return this.$.settings;\n    }\n    constructor(settings){\n        this.configure(settings)\n    }\n    configure(settings){\n        this.$ = {\n            settings : settings\n        };\n        return this;\n    }\n    initialize(server){\n        console.info(`Initializeing ${this.constructor.name}`);\n    }\n    handle(req,res){\n        throw new Error(`Unimplemented Method 'handler' in class ${this.constructor.name}`)\n    }\n}\n\n\n"
+  ]
+}
