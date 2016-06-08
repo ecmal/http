@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "rest.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "rest.ts"
+  ],
+  "names": [],
+  "mappings": ";;IAEA,cAAqB,IAAI;QACrB,MAAM,CAAC,UAAA,QAAQ;YACX,kBAAW,CAAC,QAAQ,CAAC,IAAI,EAAC,QAAQ,CAAC,CAAC;QACxC,CAAC,CAAA;IACL,CAAC;;IAJD,2BAIC,CAAA;IAED;QAMW,aAAM,GAAb,UAAc,KAAK,EAAC,MAAU,EAAC,OAAU;YAArB,sBAAU,GAAV,YAAU;YAAC,uBAAU,GAAV,YAAU;YACrC,MAAM,CAAC,IAAI,MAAM,CAAC,KAAK,EAAC,MAAM,EAAC,OAAO,CAAC,CAAC;QAC5C,CAAC;QAOL,aAAC;QALG,gBAAY,KAAK,EAAC,MAAU,EAAC,OAAU;YAArB,sBAAU,GAAV,YAAU;YAAC,uBAAU,GAAV,YAAU;YACnC,IAAI,CAAC,KAAK,GAAC,KAAK,CAAC;YACjB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;YACrB,IAAI,CAAC,OAAO,GAAG,OAAO,CAAC;QAC3B,CAAC;IACL,CAAC,AAfD,IAeC;;IAfD,+BAeC,CAAA;;;;;;;YAfD,qBAAA,MAeC",
+  "sourcesContent": [
+    "import {RestHandler} from './handlers/rest';\n\nexport function Rest(path){\n    return resource => {\n        RestHandler.register(path,resource);\n    }\n}\n\nexport class Result {\n\n    public value:any;\n    public status:any;\n    public headers:any;\n\n    static create(value,status=200,headers={}){\n        return new Result(value,status,headers);\n    }\n\n    constructor(value,status=200,headers={}){\n        this.value=value;\n        this.status = status;\n        this.headers = headers;\n    }\n}\n"
+  ]
+}

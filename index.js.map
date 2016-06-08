@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "index.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "index.ts"
+  ],
+  "names": [],
+  "mappings": ";;;;;;;;;;;YAGc,4CAAU;YACV,4CAAU;YAExB,wBAAe;gBACX,OAAO,EAAG,OAAO;gBACjB,MAAM,EAAI,eAAM;gBAChB,MAAM,EAAI,eAAM;aACnB,EAAC",
+  "sourcesContent": [
+    "import {Client} from './client';\nimport {Server} from './server';\nexport {\n    Server as HttpServer,\n    Client as HttpClient\n}\nexport default {\n    version : '0.0.1',\n    Client  : Client,\n    Server  : Server\n};"
+  ]
+}

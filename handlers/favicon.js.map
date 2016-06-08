@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "favicon.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/wcb-project/http/src",
+  "sources": [
+    "favicon.ts"
+  ],
+  "names": [],
+  "mappings": ";;IAEA;QACI,+BAAM,GAAN,UAAO,GAAG,EAAC,GAAG;YACV,EAAE,CAAA,CAAC,GAAG,CAAC,GAAG,IAAE,cAAc,CAAC,CAAA,CAAC;gBACxB,GAAG,CAAC,SAAS,CAAC,GAAG,EAAC;oBACd,cAAc,EAAE,cAAc;iBACjC,CAAC,CAAC;gBACH,GAAG,CAAC,GAAG,CAAC,IAAI,MAAM,CAAC;oBACf,uDAAuD;oBACvD,uDAAuD;oBACvD,uDAAuD;oBACvD,uDAAuD;oBACvD,uDAAuD;oBACvD,uDAAuD;oBACvD,uDAAuD;oBACvD,uDAAuD;iBAC1D,CAAC,IAAI,EAAE,EAAC,QAAQ,CAAC,EAAC,QAAQ,CAAC,CAAC;YACjC,CAAC;QACL,CAAC;;;;QACL,qBAAC;QAlBD;YAA4C,+BAAW;QAkBvD,CAAC;IAAD,CAAC,AAlBD,IAkBC;;IAlBD,wCAkBC,CAAA;;;;;;;YAlBD,6BAAA,eAA4C,iBAkB3C",
+  "sourcesContent": [
+    "import BaseHandler from '../handler';\n\nexport default class FaviconHandler extends BaseHandler {\n    handle(req,res){\n        if(req.url=='/favicon.ico'){\n            res.writeHead(200,{\n                'Content-Type': 'image/x-icon'\n            });\n            res.end(new Buffer([\n                'AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAA',\n                'AAAgAAAAAAAAAAAAAAAEAAAAAAAAAAkU1cAKDc4ABjL2wAM3/IAAA',\n                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',\n                'AAAAAAAAAERERERERERESIiIzMzMzIRIiIjMBMBExEiIiMxMxMzES',\n                'IiIzEzEzMRIiIjERMBExEiIiMxMzMzESIiIzEzMzMRIiIjMTMzMxE',\n                'iIiMzMzMzESIiIiIiIiIRIiIiIiIiIhEiIiIiIiIiESIiIiIiIiIR',\n                'IiIiIiIiIhEREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA',\n                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'\n            ].join(),'base64'),'binary');\n        }\n    }\n}"
+  ]
+}
