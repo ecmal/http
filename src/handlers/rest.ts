@@ -34,7 +34,7 @@ export class RestRoute {
                 this.regexp.push(part);
             }
         });
-        this.regexp = new RegExp('^'+this.method+'\\s+'+this.regexp.join('\\/').toLowerCase()+'$');
+        this.regexp = new RegExp('^'+this.method+'\\s+'+this.regexp.join('\\/')+'$');
     }
     match(path){
         return path.match(this.regexp);
@@ -101,7 +101,7 @@ export class RestHandler extends Handler {
             }));
         } else
         if(url.pathname.indexOf(root)==0){
-            var route,matched,path = method+' '+url.pathname.replace(root,'').toLowerCase();
+            var route,matched,path = method+' '+url.pathname.replace(root,'');
 
             for(var r in RestHandler.routes){
                 route = RestHandler.routes[r];
