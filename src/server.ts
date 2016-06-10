@@ -68,21 +68,21 @@ export class Server {
                 }
             });
         });
-        chain.then (
+        chain.then(
             s=>{
-            if(res.stream){
-                res.stream.pipe(res);
-            }else{
-                res.end()
-            }
-        },
+                if(res.stream){
+                    res.stream.pipe(res);
+                }else{
+                    res.end();
+                }
+            },
             e=>{
             console.error(e.stack);
-            res.writeHead(500,{
-                'Content-Type': 'text/plain'
-            });
-            res.end(e.stack);
-        }
+                res.writeHead(500,{
+                    'Content-Type' : 'text/plain'
+                });
+                res.end(e.stack);
+            }
         );
         return chain;
     }

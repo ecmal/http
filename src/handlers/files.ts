@@ -67,13 +67,23 @@ export class FileHandler extends Handler {
         }
 
         if(file && file.exist){
-            res.writeHead(200,{
-                'Content-Type': Mime.getType(file.path)
-            });
+            var status = 200;
+            var headers = {
+               'Content-Type'  : Mime.getType(file.path),
+               'Cache-Control' : 'public, max-age=86400',
+               'Expires'       : new Date(new Date().getTime()+86400000).toUTCString()
+            };
             res.stream = Node.Fs.createReadStream(file.path);
+            var ae = req.headers['accept-encoding'];
+            if(ae && ae.indexOf('gzip')>=0){
+                headers['Content-Encoding']='gzip';
+                res.stream = res.stream.pipe(Node.Zlib.createGzip());
+            }
+            res.writeHead(status,headers);
+
         }else{
             res.writeHead(404,{
-                'Content-Type': Mime.getType(file?file.path:'req.url')
+                'Content-Type' : Mime.getType(file?file.path:req.url)
             });
             res.end('File Not Found');
         }
