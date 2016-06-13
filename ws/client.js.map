@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "client.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "client.ts"
+  ],
+  "names": [],
+  "mappings": "AAAA;;GAEG",
+  "sourcesContent": [
+    "/**\n * Created by Sergey on 2/4/16.\n */\n"
+  ]
+}

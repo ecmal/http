@@ -1,0 +1,13 @@
+{
+  "version": 3,
+  "file": "handler.js",
+  "sourceRoot": "/Users/Sergey/Work/BB/ecmal/http/src",
+  "sources": [
+    "handler.ts"
+  ],
+  "names": [],
+  "mappings": ";IAAA;QAGW,iBAAS,GAAhB,UAAiB,MAAM,EAAC,MAAM;YAC1B,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;YACrB,IAAI,CAAC,MAAM,GAAG,MAAM,CAAC;YACrB,MAAM,CAAC,IAAI,CAAC;QAChB,CAAC;QACL,cAAC;QARD;QAQA,CAAC;IAAD,CAAC,AARD,IAQC;;IARD,iCAQC,CAAA;;;;YARD,sBAAA,OAQC",
+  "sourcesContent": [
+    "export class Handler {\n    static server:any;\n    static config:any;\n    static configure(server,config){\n        this.server = server;\n        this.config = config;\n        return this;\n    }\n}"
+  ]
+}
