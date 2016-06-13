@@ -238,7 +238,7 @@ export class WsConnection extends EventEmitter{
             configurable : true,
             set          : (v)=>{
                 v.on('close',(ok:boolean)=>{
-                    this.onClose(new Buffer(ok?"0001":"0000"));
+                    this.onClose(new Buffer(ok?"0001":"0000",'hex'));
                 });
                 v.on('data', (data)=>{
                     if(data.length){
@@ -423,7 +423,11 @@ export class WsConnection extends EventEmitter{
                 var op:WsOpCode = this.queue[0].op;
                 var data:Buffer = this.queue[0].data;
                 WsFrame.createFrames(op, data, (frame:Buffer)=> {
-                    this.socket.write(frame);
+                    try {
+                        this.socket.write(frame);
+                    }catch(ex){
+                        console.error(ex);
+                    }
                 });
                 this.queue.shift();
             }

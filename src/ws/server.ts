@@ -40,9 +40,9 @@ export class WsServer extends EventEmitter{
                         'Sec-WebSocket-Accept'      : connection.hash,
                         'Sec-WebSocket-Protocol'    : this.protocol
                     });
-                    connection.on('close',()=>{
+                    connection.on('close',(code,message)=>{
                         delete this.connections[connection.id];
-                        this.emit('disconnect', connection);
+                        this.emit('disconnect', connection,code,message);
                     });
                     this.connections[connection.id]=connection;
                     this.emit('connect', connection);
