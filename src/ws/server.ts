@@ -17,9 +17,14 @@ export class WsServer extends EventEmitter{
     public protocol : string;
     public connections : {[id:string]:WsConnection};
 
-    constructor(server:Server,protocol:string){
+    constructor(server?:Server,protocol?:string){
         super();
-        this.protocol = protocol;
+        if(server){
+            this.attach(server,protocol);
+        }
+    }
+    protected attach(server:Server,protocol?:string){
+        this.protocol = protocol||this.constructor.name;
         this.connections = {};
         server.on('upgrade',(req:IncomingMessage)=>{
             this.doUpgrade(req);
