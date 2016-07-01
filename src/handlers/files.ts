@@ -14,12 +14,12 @@ export class FileRoute {
         this.pattern = settings.shift();
         this.location = settings.shift();
     }
-    match(url){
+    private match(url){
         if(url.match(this.pattern)){
             return url.replace(this.pattern,this.location);
         }
     }
-    toString(){
+    private toString(){
         return `Route(${this.pattern} -> ${this.location})`
     }
 }
@@ -39,7 +39,7 @@ export class FileHandler extends Handler {
             this.routes.push(new FileRoute(p));
         });
     }
-    resource(path){
+    private resource(path){
         try {
             var stat = Node.Fs.statSync(path);
             if (stat.isDirectory()) {
@@ -54,10 +54,10 @@ export class FileHandler extends Handler {
             return {exist:false,path:path};
         }
     }
-    accept(req,res){
+    private accept(req,res){
 
     }
-    handle(req,res){
+    private handle(req,res){
         var path = req.url.split('?')[0];
         for(var file,i=0;i<this.routes.length;i++){
             file = this.routes[i].match(path);
@@ -65,14 +65,20 @@ export class FileHandler extends Handler {
                 break;
             }
         }
-
         if(file && file.exist){
-            var status = 200;
-            var headers = {
-               'Content-Type'  : Mime.getType(file.path),
-               'Cache-Control' : 'public, max-age=86400',
-               'Expires'       : new Date(new Date().getTime()+86400000).toUTCString()
+            let status = 200;
+            let cache = this.config.cache;
+
+            let headers = {
+                'Content-Type'  : Mime.getType(file.path)
             };
+            if(cache){
+                headers['Cache-Control']    = 'public, max-age=86400';
+                headers['Expires']          = new Date(new Date().getTime()+86400000).toUTCString();
+            }else {
+                headers['Cache-Control']    = 'no-cache';
+            }
+
             res.stream = Node.Fs.createReadStream(file.path);
             var ae = req.headers['accept-encoding'];
             if(ae && ae.indexOf('gzip')>=0){
