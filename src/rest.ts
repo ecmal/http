@@ -1,10 +1,49 @@
 import {RestHandler} from './handlers/rest';
+import {Decorator} from "runtime/decorators";
+import {Member} from "runtime/reflect/member";
+import {Constructor} from "runtime/reflect/constructor";
+import {WebSocketHandler} from "./handlers/ws";
 
-export function Rest(path){
-    return resource => {
-        RestHandler.register(path,resource);
+export class Path extends Decorator {
+    public path:string;
+    constructor(path,options?:any){
+        super();
+        this.path = path;
+    }
+    decorate(member:Member){
+        throw new Error(`Invalid 'Rest' target ${member.toString()}`);
     }
 }
+export class Rest extends Path {
+    constructor(path:string,options?:any){
+        super(path);
+    }
+    decorate(member:Member){
+        if(member instanceof Constructor){
+            RestHandler.register(this.path,member.owner);
+        }else{
+            throw new Error(`Invalid 'Rest' target ${member.toString()}`);
+        }
+    }
+}
+export class WebSocket extends Path {
+    public options:any;
+    constructor(path:string,options?:any){
+        super(path);
+        this.options = options;
+    }
+    decorate(member:Member){
+        if(member instanceof Constructor){
+            member.owner.metadata.ws = this.options;
+            WebSocketHandler.register(this.path,member.owner);
+        }else{
+            throw new Error(`Invalid 'Rest' target ${member.toString()}`);
+        }
+    }
+}
+
+
+
 
 export class Result {
 

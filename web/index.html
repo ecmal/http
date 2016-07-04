@@ -5,29 +5,25 @@
     <title>Http Library Test</title>
 </head>
 <script>
-    var ws = new WebSocket('ws://localhost:3000/ws',['sip','wcb']);
+    //var ws = new WebSocket('ws://localhost:5890/ws');
+    var ws = new WebSocket('ws://localhost:3000/agent/grish');
     ws.onopen = function(ev){
-        console.info(ev)
-        var i,data = {hello:'world'};
-        ws.send(JSON.stringify(data));
-        data.items=[];
-        for(i=0;i<10;i++){
-            data.items.push({id:i,name:'Item '+i});
+        var data = [];
+        for(var i=0;i<10000;i++){
+            data.push(1);
         }
-        ws.send(JSON.stringify(data));
-        for(i=0;i<100;i++){
-            data.items.push({id:i,name:'Item '+i});
-        }
-        ws.send(JSON.stringify(data));
-        for(i=0;i<1000;i++){
-            data.items.push({id:i,name:'Item '+i});
-        }
-        ws.send(JSON.stringify(data));
-        for(i=0;i<100000;i++){
-            data.items.push({id:i,name:'Item '+i,other:'Key',another:"Value"});
-        }
-        //ws.send(JSON.stringify(data));
-        ws.send(new Blob([JSON.stringify(data)], {type : 'application/json'}));
+        var json = JSON.stringify(data);
+        ws.send(json);
+        ws.send(json);
+
+        setInterval(function () {
+            ws.send(json);
+        },1000);
+
+        //ws.send(JSON.stringify([]));
+        //ws.send(JSON.stringify([]));
+        //ws.send(JSON.stringify([]));
+        //ws.send(JSON.stringify([]));
     };
     ws.onmessage = function(ev){
         if(ev.data instanceof Blob){

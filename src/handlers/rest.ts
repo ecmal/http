@@ -3,21 +3,25 @@ import {Server} from '../server';
 import {Mime} from '../mime';
 import {Handler} from './handler';
 import {Result} from '../rest';
+import {Class} from "runtime/reflect/class";
+import {Method} from "runtime/reflect/method";
+import {Member} from "runtime/reflect/member";
+import {Constructor} from "runtime/reflect/constructor";
 
 export class RestRoute {
-    static methods = ['GET','POST','PUT','PATCH','DELETE','HEAD'];
+    static ACTIONS = ['GET','POST','PUT','PATCH','DELETE','HEAD'];
+    static isActionMethod(m:Member){
+        return (m instanceof Method && RestRoute.ACTIONS.indexOf(m.name.toUpperCase())>=0);
+    }
 
-    public resource:any;
-    public action:any;
-    private method:any;
-    private path:any;
-    private params:any;
-    private regexp:any;
-
-    constructor(resource,action,path){
-        this.resource = resource;
-        this.action = action;
-        this.method = action.toUpperCase();
+    public method:Method;
+    public path:any;
+    public params:any;
+    public regexp:any;
+    public action:string;
+    constructor(path:string,method:Method){
+        this.method = method;
+        this.action = method instanceof Constructor ? 'GET' : this.method.name.toUpperCase();
         this.path   = path;
         this.params = [];
         this.regexp = [];
@@ -34,16 +38,32 @@ export class RestRoute {
                 this.regexp.push(part);
             }
         });
-        this.regexp = new RegExp('^'+this.method+'\\s+'+this.regexp.join('\\/')+'$');
+        this.regexp = new RegExp('^'+this.action+'\\s+'+this.regexp.join('\\/')+'$');
     }
     match(path){
         return path.match(this.regexp);
     }
+    execute(options:any,...args):any{
+        //route.resource.prototype[route.action].apply(resource,matched);
+        let instance = new (<any>this.method.owner.value)(...args);
+        Object.defineProperties(instance,{
+            path     : {value:options.path},
+            query    : {value:options.query},
+            params   : {value:options.params},
+            headers  : {value:options.headers},
+            body     : {value:options.body},
+        });
+        if(this.method instanceof Constructor){
+            return instance;
+        }else{
+            return this.method.invoke(instance,...options.matched);
+        }
+
+    }
     toJSON(){
         return {
-            method    : this.method,
+            method    : this.method.toString(),
             path      : this.path,
-            resource  : this.resource.name+'.'+this.action,
             params    : this.params,
             regexp    : this.regexp.toString()
         }
@@ -55,23 +75,21 @@ export class RestRoute {
 
 @Server.handler('rest')
 export class RestHandler extends Handler {
-    static get routes(){
+    static get routes():{[k:string]:RestRoute}{
         return Object.defineProperty(this,'routes',{
             enumerable:true,
             value:Object.create(null)
         }).routes;
     }
-    static register(path,resource){
-        Object.getOwnPropertyNames(resource.prototype).forEach(method=>{
-            if(RestRoute.methods.indexOf(method.toUpperCase())>=0){
-                var route = new RestRoute(resource,method,path);
-                var routeId = route.toString();
-                if(!this.routes[routeId]){
-                    this.routes[routeId] = route;
-                }else{
-                    route = this.routes[routeId];
-                    throw new Error(`Cant route '${method.toUpperCase()} ${method.toUpperCase()}' to ${path}.${resource.name} it's already bounded to ${method}.${route.resource.name}`);
-                }
+    static register(path,resource:Class){
+        resource.getMembers(m=>RestRoute.isActionMethod(m)).forEach((method:Method)=>{
+            let route = new RestRoute(path,method);
+            let routeId = route.toString();
+            if(!this.routes[routeId]){
+                this.routes[routeId] = route;
+            }else{
+                route = this.routes[routeId];
+                throw new Error(`Cant route '${method.toString()}' to '${path}' it's already bounded to ${route.method.toString()}`);
             }
         });
     }
@@ -118,7 +136,7 @@ export class RestHandler extends Handler {
                 route.params.forEach((p,i)=>{
                     match.params[p] = matched[i];
                 });
-                var resource = new route.resource();
+
                 //resource.path = match.params;
                 //resource.method = match.params;
                 //resource.params = match.params;
@@ -129,13 +147,11 @@ export class RestHandler extends Handler {
                         :null
                 );
                 promise = promise.then(body=>{
-                    resource.headers = match.headers;
-                    resource.query = match.query;
-                    resource.params = match.params;
-                    if(body){
+                    if(match.body = body){
                         matched.push(body);
                     }
-                    return route.resource.prototype[route.action].apply(resource,matched);
+                    match.matched = matched;
+                    return route.execute(match)
                 });
 
                 promise = promise.then(result=>{

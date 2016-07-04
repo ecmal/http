@@ -1,8 +1,9 @@
 {
   "name"            : "http",
   "vendor"          : "ecmal",
-  "version"         : "0.0.8",
+  "version"         : "0.0.12",
   "registry"        : "github",
+  "main"            : "http/server-test",
   "directories"     : {
     "source"        : "src",
     "tests"         : "test",
@@ -11,6 +12,6 @@
   "libraries"       : {
     "core"          : "0.0.8",
     "node"          : "0.0.8",
-    "runtime"       : "0.0.8"
+    "runtime"       : "0.0.12"
   }
 }

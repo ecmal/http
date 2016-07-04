@@ -1,6 +1,9 @@
 import Node from './node';
+import {Emitter} from "runtime/events";
+import {Bound} from "runtime/decorators";
 
-export class Server {
+
+export class Server extends Emitter {
 
     static initResponse(res) {
     }
@@ -25,22 +28,27 @@ export class Server {
     public server:any;
 
     constructor(config){
+        super();
         this.config = config;
         this.handlers = Object.create(null);
-        this.doRequest = this.doRequest.bind(this);
     }
-    start(){
+
+    public start(){
+        this.server = new Node.Http.Server();
+        this.server.on('request',this.emit.bind(this,'request'));
+        this.server.on('upgrade',this.emit.bind(this,'upgrade'));
+        this.server.listen(this.config.port,this.config.host);
+        this.on('request',this.doRequest);
+        this.on('upgrade',this.doUpgrade);
         Object.keys(this.config).forEach(name=>{
             if(Server.handlers[name]){
                 this.handlers[name] = new (Server.handlers[name].configure(this,this.config[name]))();
             }
         });
-        this.server = new Node.Http.Server();
-        this.server.on('request',this.doRequest);
-        this.server.listen(this.config.port,this.config.host);
         return this;
     }
-    doRequest(req,res){
+    @Bound
+    protected doRequest(req,res){
         if(this.config.debug){
             console.info(req.method,req.url);
         }
@@ -86,4 +94,6 @@ export class Server {
         );
         return chain;
     }
+    @Bound
+    protected doUpgrade(req,socket,body){}
 }

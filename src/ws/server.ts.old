@@ -5,6 +5,7 @@ import {WsConnection} from "./connection";
 
 import * as HTTP from "node/http";
 
+
 export class WsServer extends EventEmitter{
 
     static create(server:Server,protocol:string):WsServer{
@@ -39,11 +40,14 @@ export class WsServer extends EventEmitter{
             var connection = this.newConnection();
             try{
                 if(connection.accept(req,this.protocol)){
+                    var extensions = req.headers['sec-websocket-extensions'];
+                    var deflated = extensions && extensions.indexOf('permessage-deflate')>=0;
                     this.response(req.socket,101,'Switching Protocols',{
                         'Connection'                : 'Upgrade',
                         'Upgrade'                   : 'websocket',
                         'Sec-WebSocket-Accept'      : connection.hash,
-                        'Sec-WebSocket-Protocol'    : this.protocol
+                        'Sec-WebSocket-Protocol'    : this.protocol,
+                        'Sec-WebSocket-Extensions'  : deflated?'permessage-deflate':''
                     });
                     connection.on('close',(code,message)=>{
                         delete this.connections[connection.id];
