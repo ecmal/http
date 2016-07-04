@@ -1,0 +1,30 @@
+import { Stream } from "node/stream";
+import { EventTarget } from "./events";
+export declare class EventSource extends Stream implements EventTarget {
+    static isEventSource(request: any): boolean;
+    writable: boolean;
+    url: string;
+    lastEventId: string;
+    readyState: number;
+    DEFAULT_PING: number;
+    DEFAULT_RETRY: number;
+    onopen: (event) => void;
+    onmessage: (event) => void;
+    onerror: (event) => void;
+    onclose: (event) => void;
+    protected _stream: any;
+    protected _ping: number;
+    protected _pingTimer: any;
+    protected _retry: number;
+    constructor(request: any, response: any, options: any);
+    addEventListener(eventType: any, listener: any, useCapture: any): void;
+    removeEventListener(eventType: any, listener: any, useCapture: any): void;
+    dispatchEvent(event: any): void;
+    write(message: any): any;
+    end(message: any): void;
+    send(message: any, options?: any): any;
+    ping(): any;
+    close(): boolean;
+    protected _write(chunk: any): any;
+    protected _open(): void;
+}
