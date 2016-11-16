@@ -1,6 +1,8 @@
 import {RestHandler} from './handlers/rest';
+import {ViewHandler} from './handlers/view';
 import {Decorator} from "runtime/decorators";
 import {Member} from "runtime/reflect/member";
+import {Method} from "runtime/reflect/method";
 import {Constructor} from "runtime/reflect/constructor";
 import {WebSocketHandler} from "./handlers/ws";
 
@@ -21,6 +23,32 @@ export class Rest extends Path {
     decorate(member:Member){
         if(member instanceof Constructor){
             RestHandler.register(this.path,member.owner);
+        }else{
+            throw new Error(`Invalid 'Rest' target ${member.toString()}`);
+        }
+    }
+}
+
+export class View extends Path {
+    constructor(path:string,options?:any){
+        super(path);
+    }
+    decorate(member:Member){
+        if(member instanceof Constructor){
+            ViewHandler.register(this.path,member.owner);
+        }else{
+            throw new Error(`Invalid 'Rest' target ${member.toString()}`);
+        }
+    }
+}
+
+export class Template extends Path {
+    constructor(path:string,options?:any){
+        super(path);
+    }
+    decorate(member:Member){
+        if(member instanceof Method){
+            member.metadata.template_path = this.path;
         }else{
             throw new Error(`Invalid 'Rest' target ${member.toString()}`);
         }

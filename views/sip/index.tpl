@@ -1,15 +1,16 @@
 <html>
   <head>
     <title>SIP.js Demo Phone</title>
-    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="sip/index.css" />
   </head>
 
   <body>
     <!-- Configuration Prompt -->
     <form id="config-form" action="">
-      <label>Your Name     <input type="text" name="displayName" placeholder="John Doe" value="John Doe"/></label>
-      <label>SIP URI       <input type="text" name="uri" placeholder="john@example.com" value="john@example.com"/></label>
-      <label>Auth Username <input type="text" name="authorizationUser" placeholder="example_john" value="john"/></label>
+
+      <label>Your Name     <input type="text" name="displayName" placeholder="John Doe" value="<%- name %>"/></label>
+      <label>SIP URI       <input type="text" name="uri" placeholder="john@example.com" value="<%- email %>"/></label>
+      <label>Auth Username <input type="text" name="authorizationUser" placeholder="example_john" value="<%- username %>"/></label>
       <label>Password      <input type="password" name="password" value="john"/></label>
       <label>WS Server     <input type="text" name="wsServers" placeholder="wss://edge.sip.onsip.com" value="ws://localhost:3000"/></label>
       <input type="submit" name="configSubmit" value="Create UA" />
@@ -49,7 +50,7 @@
       </li>
     </ul>
 
-    <script src="sip-0.7.3.js"></script>
-    <script src="index.js"></script>
+    <script src="sip/sip-0.7.3.js"></script>
+    <script src="sip/index.js"></script>
   </body>
 </html>

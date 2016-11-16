@@ -46,16 +46,35 @@ export class FileHandler extends Handler {
                 return this.resource(Node.Path.resolve(path, 'index.html'));
             } else
             if (stat.isFile()) {
-                return {exist:true,path:path};
+                return {exist:true,path:path,stat:stat};
             } else {
-                return {exist:false,path:path};
+                return {exist:false,path:path,stat:stat};
             }
         }catch(e){
-            return {exist:false,path:path};
+            return {exist:false,path:path,stat:stat};
         }
     }
     private accept(req,res){
 
+    }
+
+    private prepareResponseHead(req,res,file){
+        let reqCacheControl = req.headers['cache-control'],
+            reqIfModifiedSince = req.headers['if-modified-since'],
+            head = {'headers' : {'Content-Type'  : Mime.getType(file.path)},'status':200},
+            lasModifiedTime = file.stat.mtime,
+            isCacheEnabled = (reqCacheControl !='no-cache') && this.config.cache;
+        if(isCacheEnabled){
+            head.headers['Cache-Control']    = 'public, max-age=86400';
+            head.headers['Expires']          = new Date(new Date().getTime()+86400000).toUTCString();
+            head.headers['Last-Modified']   = lasModifiedTime.toUTCString();
+            if(reqIfModifiedSince && lasModifiedTime.getTime() <= new Date(reqIfModifiedSince).getTime()) {
+                head.status = 304;
+            }
+        }else{
+            head.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+        }
+        return head;
     }
     private handle(req,res){
         var path = req.url.split('?')[0];
@@ -66,27 +85,13 @@ export class FileHandler extends Handler {
             }
         }
         if(file && file.exist){
-            let status = 200;
-            let cache = this.config.cache;
-
-            let headers = {
-                'Content-Type'  : Mime.getType(file.path)
-            };
-            if(cache){
-                headers['Cache-Control']    = 'public, max-age=86400';
-                headers['Expires']          = new Date(new Date().getTime()+86400000).toUTCString();
-            }else {
-                headers['Cache-Control']    = 'no-cache';
+            let head = this.prepareResponseHead(req,res,file);
+            res.writeHead(head.status,head.headers);
+            if(head.status == 304 ){
+                res.end();
+            }else{
+                Node.Fs.createReadStream(file.path).pipe(res);
             }
-
-            res.stream = Node.Fs.createReadStream(file.path);
-            var ae = req.headers['accept-encoding'];
-            if(ae && ae.indexOf('gzip')>=0){
-                headers['Content-Encoding']='gzip';
-                res.stream = res.stream.pipe(Node.Zlib.createGzip());
-            }
-            res.writeHead(status,headers);
-
         }else{
             res.writeHead(404,{
                 'Content-Type' : Mime.getType(file?file.path:req.url)

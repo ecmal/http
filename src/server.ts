@@ -67,7 +67,7 @@ export class Server extends Emitter {
         Object.keys(this.handlers).forEach(name=>{
             var handler = this.handlers[name];
             chain = chain.then(()=>{
-                if(!res.finished){
+                if(!res.taken){
                     if(typeof handler.handle=='function'){
                         return handler.handle(req,res);
                     }
@@ -78,11 +78,7 @@ export class Server extends Emitter {
         });
         chain.then(
             s=>{
-                if(res.stream){
-                    res.stream.pipe(res);
-                }else{
-                    res.end();
-                }
+                //at least the file handler should close response stream with 404 code ;
             },
             e=>{
             console.error(e.stack);

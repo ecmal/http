@@ -119,6 +119,7 @@ export class RestHandler extends Handler {
             }));
         } else
         if(url.pathname.indexOf(root)==0){
+            res.taken = true;
             var route,matched,path = method+' '+url.pathname.replace(root,'');
 
             for(var r in RestHandler.routes){

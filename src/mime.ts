@@ -6,6 +6,7 @@ export class Mime {
         '.json' : 'application/json',
         '.css'  : 'text/css',
         '.html' : 'text/html',
+        '.tpl'  : 'text/html',
         '.ts'   : 'application/x-typescript',
         '.svg'  : 'image/svg+xml'
     };

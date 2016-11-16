@@ -26,4 +26,7 @@ export default class Node {
     static get Zlib():any{
         return this.require('zlib');
     }
+    static get Stream():any{
+        return this.require('stream');
+    }
 }
