@@ -68,29 +68,48 @@ export class EcmalTemplate{
     }
 
     static render(text:string,options:any){
-        var index = 0,source='';
-        text.replace(this.matcher, (match, escape, interpolate, evaluate, offset) => {
-            source += text.slice(index, offset).replace(this.normalizerConfig.marcher, (match)=>{return '\\' + this.normalizerConfig.normalizer[match]});
-            index = offset + match.length;
-            if (escape) {
-                source+=this.template[2].replace('"ESCAPE"',escape);
-            } else if (interpolate) {
-                source+=this.template[3].replace('"INTERPOLATE"',interpolate);
-
-            } else if (evaluate) {
-                source+=this.template[1].replace('"EVALUATE"',evaluate)
-            }
-            return match;
-        });
-        source += "';\n";
-        source = this.template[0].replace('"REPLACEMENT"',source);
         try {
+            var index = 0,source='';
+            text.replace(this.matcher, (match, escape, interpolate, evaluate, offset) => {
+                source += text.slice(index, offset).replace(this.normalizerConfig.marcher, (match)=>{return '\\' + this.normalizerConfig.normalizer[match]});
+                index = offset + match.length;
+                if (escape) {
+                    source+=this.template[2].replace('"ESCAPE"',escape);
+                } else if (interpolate) {
+                    source+=this.template[3].replace('"INTERPOLATE"',interpolate);
+
+                } else if (evaluate) {
+                    source+=this.template[1].replace('"EVALUATE"',evaluate)
+                }
+                return match;
+            });
+            source += "';\n";
+            source = this.template[0].replace('"REPLACEMENT"',source);
             var render = new Function('obj', 'EcmalTemplate', source);
+            return render.apply(options,[options,EcmalTemplate]);
         } catch (e) {
-            e.source = source;
+            if(e instanceof ReferenceError){
+                let fName  = e.message.split(' ')[0],
+                    reg = new RegExp(`[\\s][\\s\\S][\\s\\S]{0,50}(${fName})[\\s\\S]{0,50}[\\s]`,'g'),
+                    matched = text.match(reg)[0].trim();
+                e.details = EcmalTemplate.escape(matched);
+            }
             throw e;
         }
-        return render.apply(options,[options,EcmalTemplate]);
+    }
+
+    static renderErrorDetails(e){
+    var template =`<html>
+    <head></head>
+</html>
+<body>
+    <h2 style="color:red">Template parse error:</h2>
+    <div>error       : ${e.message}</div>
+    ${(e.details)? `<div>details : ... ${e.details} ... </div>`: ''}
+    <div>filename    : ${e.filename}</div>
+
+</body>`;
+    return template;
     }
 }
 
@@ -185,7 +204,12 @@ export class ViewHandler extends Handler {
                 return new Promise((resolve,reject)=>{
                     Node.Fs.readFile(Node.Path.resolve(root,(route.templatePath)).toString(),(err,data)=>{
                         if(err){reject( new Error("Tpl file not found"));return;}
-                        result.value = EcmalTemplate.render(data.toString(),result.value);
+                        try{
+                            result.value = EcmalTemplate.render(data.toString(),result.value);
+                        }catch (e){
+                            e.filename = route.templatePath;
+                            reject(Result.create(EcmalTemplate.renderErrorDetails(e),500));
+                        }
                         resolve(result);
                     });
                 })
