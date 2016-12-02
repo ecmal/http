@@ -1,4 +1,4 @@
 require('./out/runtime/package');
-system.import('http/server-test')
-    .catch(function(){console.error(e.stack)})
-;
+system.import('http/ejs/test').catch(function(e){
+    console.error(e.stack)
+});
