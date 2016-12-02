@@ -28,36 +28,21 @@ export class Path extends Decorator {
 export class Route {
     @Cached
     static routes:Map<string,Route>;
-    static route(path,options,...args):any{
-        var r,matched,route,params={},routes=this.routes.values(),r=routes.next();
-        while(!r.done){
-            route = r.value;
-            if(matched = route.match(path)){
-                break;
+    static route(path){
+        var matched,matches=[];
+        this.routes.forEach(r=>{
+            if(matched = r.match(path)){
+                matches.push(matched);
             }
-            r=routes.next();
-        }
-        if(!matched){
-            console.log(`There is not marched route for "${options.pathname}"`);
-            return Promise.reject(null);
-        }
-        matched.shift();
-        route.params.forEach((p,i)=>{
-            params[p] = matched[i];
         });
-        options.params = params;
-        return Promise.resolve().then(()=>{
-            route.execute(options,matched.concat(args));
-            return params;
-        });
+        return matches;
     }
 
     public path:string;
     public options:any;
-    public params:any = [];
+    public keys:any = [];
     public regexp:any;
     public target:Class;
-
     constructor(path:string,target:Class,options?:{
         sensitive?:boolean;
         strict?:boolean;
@@ -197,29 +182,44 @@ export class Route {
         }
         this.path = path;
         this.target = target;
-        this.params=[];
-        this.regexp = createMatcher(this.params);
+        this.keys=[];
+        this.regexp = createMatcher(this.keys);
     }
-
-
-
     match(path){
-        return path.match(this.regexp);
-    }
-    execute(instance:any,...args):any{
-        Object.defineProperty(instance,'constructor',{
-            configurable : true,
-            value : this.target.value
-        });
-        Object.setPrototypeOf(instance,this.target.value);
-        this.target.value.apply(instance,args);
-        return instance;
+        let args,params;
+        if(args = path.match(this.regexp)){
+            args.shift();
+            let params={};
+            this.keys.forEach((p,i)=>{
+                params[p] = args[i];
+            });
+            return {
+                parameters:params,
+                execute:(instance={},method:string='constructor',...ag:any[]):Promise<any>=>{
+                    Object.defineProperty(instance,'constructor',{
+                        configurable : true,
+                        value : this.target.value
+                    });
+                    Object.defineProperty(instance,'parameters',{
+                        configurable : true,
+                        value : params
+                    });
+                    Object.setPrototypeOf(instance,this.target.value);
+                    if(method && instance[method]){
+                        return Promise.resolve().then(r=>
+                            instance[method].apply(instance,args.concat(ag)
+                        ));
+                    }else{
+                        return Promise.resolve(instance);
+                    }
+                }
+            };
+        }
     }
     toJSON(){
         return {
             method    : this.target.toString(),
             path      : this.path,
-            params    : this.params,
             regexp    : this.regexp.toString()
         }
     }

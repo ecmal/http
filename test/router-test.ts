@@ -8,18 +8,9 @@ class Resource {
     }
 }
 
-@Path('/pathA')
+@Path('/pathA/:x/:y')
 class ResourceA extends Resource{
     private params:any;
-    get(numeric){
-        console.log('in ResourceA arguments are ' , arguments);
-        console.log('params in ResourceA are',this.params);
-        return new Promise((resolve,reject)=>{
-            console.log('in ResourceA GET method ');
-
-            resolve('ResourceA result');
-        });
-    }
 }
 @Path('/pathB/:numeric(\\d+)')
 class ResourceB extends Resource{
@@ -33,7 +24,7 @@ class ResourceB extends Resource{
     }
 }
 
-@Path('/pathC/(.*)')
+@Path('/pathA/:x(.*)')
 class ResourceC extends Resource{
     private params:any;
     get (name){
@@ -82,7 +73,7 @@ class ResourceE extends Resource{
 
 export class Test{
     constructor (){
-        let options = {
+        let options    = {
             "protocol" : "http:",
             "hostname" : "localhost",
             "host"     : "localhost:3000",
@@ -92,14 +83,13 @@ export class Test{
             "hash"     : "hasd5a4sd6as4d",
             "method"   : "GET",
         };
-        Route.route("/pathA",options).then(
-            (result)=>console.log(`RESULT FOR /pathA  IS ${JSON.stringify(result)}`),
-            (error)=>console.log('ERROR  FOR /pathA IS ',error)
-        );
-        Route.route('/pathB/4521/',options).then((result)=>console.log(`RESULT FOR /pathB  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathB IS ',error));
-        Route.route('/pathC/541/some_path/',options).then((result)=>console.log(`RESULT FOR /pathC  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathC IS ',error));
-        Route.route('/PathD/1asd/24',options).then((result)=>console.log(`RESULT FOR /pathD  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathD IS ',error));
-        Route.route('/PathE/1/foo/foooo/45#last',options).then((result)=>console.log(`RESULT FOR /pathE  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathE IS ',error));
+        Route.route("/pathA/one/two").map(r=>{
+            r.execute({hello(...args){console.info(args)}},'hello','aaa')
+        });
+        //Route.route('/pathB/4521/',options).then((result)=>console.log(`RESULT FOR /pathB  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathB IS ',error));
+        //Route.route('/pathA/541/some_path/',options).then((result)=>console.log(`RESULT FOR /pathC  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathC IS ',error));
+        //Route.route('/PathD/1asd/24',options).then((result)=>console.log(`RESULT FOR /pathD  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathD IS ',error));
+        //Route.route('/PathE/1/foo/foooo/45#last',options).then((result)=>console.log(`RESULT FOR /pathE  IS ${JSON.stringify(result)}`),(error)=>console.log('ERROR  FOR /pathE IS ',error));
     }
 }
 export default new Test();
