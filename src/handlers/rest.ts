@@ -9,7 +9,7 @@ import {Member} from "runtime/reflect/member";
 import {Constructor} from "runtime/reflect/constructor";
 
 export class RestRoute {
-    static ACTIONS = ['GET','POST','PUT','PATCH','DELETE','HEAD'];
+    static ACTIONS = ['GET','POST','PUT','PATCH','DELETE','HEAD','OPTIONS'];
     static isActionMethod(m:Member){
         return (m instanceof Method && RestRoute.ACTIONS.indexOf(m.name.toUpperCase())>=0);
     }
@@ -52,6 +52,8 @@ export class RestRoute {
             params   : {value:options.params},
             headers  : {value:options.headers},
             body     : {value:options.body},
+            request  : {value:options.request},
+            response : {value:options.response}
         });
         if(this.method instanceof Constructor){
             return instance;
@@ -141,16 +143,23 @@ export class RestHandler extends Handler {
                 //resource.method = match.params;
                 //resource.params = match.params;
 
-                var promise = Promise.resolve(
-                    (req.body&&req.body.length)
-                        ?JSON.parse(req.body.toString())
-                        :null
-                );
+                var promise:Promise<any> = Promise.resolve();
+                promise = promise.then(()=>{
+                    var result = req.body;
+                    if(req.body && req.body.length){
+                        try{
+                            result = JSON.parse(req.body.toString('utf8'));
+                        }catch(ex){}
+                    }
+                    return result;
+                });
                 promise = promise.then(body=>{
                     if(match.body = body){
                         matched.push(body);
                     }
                     match.matched = matched;
+                    match.request = req;
+                    match.response = res;
                     return route.execute(match)
                 });
 
@@ -197,7 +206,7 @@ export class RestHandler extends Handler {
                 promise = promise.then(result=>{
                     res.writeHead(result.status,result.headers);
                     if(result.value){
-                        if(typeof result.value!="string"){
+                        if(typeof result.value!="string" && !(result.value instanceof Buffer)){
                             res.end(JSON.stringify(result.value));
                         }else{
                             res.end(result.value);

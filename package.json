@@ -1,7 +1,7 @@
 {
   "name"            : "http",
   "vendor"          : "ecmal",
-  "version"         : "0.0.12",
+  "version"         : "0.0.13",
   "registry"        : "github",
   "main"            : "http/server-test",
   "directories"     : {
