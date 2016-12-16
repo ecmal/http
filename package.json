@@ -1,0 +1,1090 @@
+{
+  "name": "http",
+  "vendor": "ecmal",
+  "version": "0.0.13",
+  "registry": "github",
+  "bundle": false,
+  "libraries": {
+    "core": "0.0.8",
+    "node": "0.0.8",
+    "runtime": "0.0.12"
+  },
+  "author": {
+    "name": "Sergey Mamyan",
+    "email": "sergey.mamyan@gmail.com"
+  },
+  "commit": "4c396a774b7682334788c05fd9a0b97edf0174ce",
+  "repository": "https://github.com/ecmal/http.git",
+  "modules": {
+    "client": {
+      "name": "client",
+      "version": "886b782aebefd6497f824ae0b43391fc",
+      "size": 5466,
+      "hash": "81aa9ceb73a7ea5ee8b6bd2dab0cdcab",
+      "files": {
+        ".ts": {
+          "size": 4157,
+          "hash": "886b782aebefd6497f824ae0b43391fc",
+          "sha": "d0a2024720d4f0df04904818b81e5977ff5a9d67"
+        },
+        ".js.map": {
+          "size": 8902,
+          "hash": "6aff6356afc5d11750955cc7c3003ae9"
+        },
+        ".js": {
+          "size": 5466,
+          "hash": "81aa9ceb73a7ea5ee8b6bd2dab0cdcab"
+        },
+        ".d.ts": {
+          "size": 537,
+          "hash": "2fbb1ceafb590f69a2ed3b4dd9e5674c"
+        }
+      }
+    },
+    "handler": {
+      "name": "handler",
+      "version": "f76f8467d814ffb184ae4455ca27a5fa",
+      "size": 1201,
+      "hash": "2e4a31a354430c08beb1f41398fa5025",
+      "files": {
+        ".ts": {
+          "size": 511,
+          "hash": "f76f8467d814ffb184ae4455ca27a5fa",
+          "sha": "cc809eb5338e5ffe2196a7db3f2439ff6d7ada05"
+        },
+        ".js.map": {
+          "size": 1227,
+          "hash": "7ea4cef706bb2739562a03595f539904"
+        },
+        ".js": {
+          "size": 1201,
+          "hash": "2e4a31a354430c08beb1f41398fa5025"
+        },
+        ".d.ts": {
+          "size": 212,
+          "hash": "0c5e1c55c86cc5ae67677805c718cae4"
+        }
+      }
+    },
+    "handlers/favicon": {
+      "name": "handlers/favicon",
+      "version": "3eb400473c685933fc3bfb30a699d0d9",
+      "size": 1709,
+      "hash": "90ade141f940b7343537aa10e37ca60c",
+      "files": {
+        ".ts": {
+          "size": 925,
+          "hash": "3eb400473c685933fc3bfb30a699d0d9",
+          "sha": "bf6691287b1db60f38a454f03782732f6f86b673"
+        },
+        ".js.map": {
+          "size": 1590,
+          "hash": "17631c772450e8cc15ff7264ab3120c8"
+        },
+        ".js": {
+          "size": 1709,
+          "hash": "90ade141f940b7343537aa10e37ca60c"
+        },
+        ".d.ts": {
+          "size": 136,
+          "hash": "e8d7051c7a116973cbe96f91514fc8dd"
+        }
+      }
+    },
+    "handlers/files": {
+      "name": "handlers/files",
+      "version": "323adfe1ceba5cfeef5b1b2a3d02f671",
+      "size": 5237,
+      "hash": "6bbd9d89111234654a68070f646b0e8a",
+      "files": {
+        ".ts": {
+          "size": 2871,
+          "hash": "323adfe1ceba5cfeef5b1b2a3d02f671",
+          "sha": "12ae76c59218aa24247a1dbbadd9203976332576"
+        },
+        ".js.map": {
+          "size": 6675,
+          "hash": "7c3ab074c1e27dcc0b2aec4c0b211567"
+        },
+        ".js": {
+          "size": 5237,
+          "hash": "6bbd9d89111234654a68070f646b0e8a"
+        },
+        ".d.ts": {
+          "size": 389,
+          "hash": "7e8420455714cf29ae9b9f1696a332cc"
+        }
+      }
+    },
+    "handlers/handler": {
+      "name": "handlers/handler",
+      "version": "925061ff3386bd970ec2a1e8741f2606",
+      "size": 586,
+      "hash": "5df8c6dfcb09474ee4f9b498f08841e2",
+      "files": {
+        ".ts": {
+          "size": 194,
+          "hash": "925061ff3386bd970ec2a1e8741f2606",
+          "sha": "810a4756a709b48154db237946db8de9b75c9c67"
+        },
+        ".js.map": {
+          "size": 556,
+          "hash": "e06ca6a0b1e3b6627ad8bb70c6c84ae9"
+        },
+        ".js": {
+          "size": 586,
+          "hash": "5df8c6dfcb09474ee4f9b498f08841e2"
+        },
+        ".d.ts": {
+          "size": 145,
+          "hash": "c752a8cb57cef18ebf127c71d7b48077"
+        }
+      }
+    },
+    "handlers/rest": {
+      "name": "handlers/rest",
+      "version": "88fed79f0ed85719cceaf977cc13014a",
+      "size": 12367,
+      "hash": "bd1cbc8b552d31e7a58cf1470ba7b4ef",
+      "files": {
+        ".ts": {
+          "size": 8295,
+          "hash": "88fed79f0ed85719cceaf977cc13014a",
+          "sha": "53730b90ca6c0d0036a15de41c70573cc20c7862"
+        },
+        ".js.map": {
+          "size": 16878,
+          "hash": "542e6a340d8fd525e878ff42b654c668"
+        },
+        ".js": {
+          "size": 12367,
+          "hash": "bd1cbc8b552d31e7a58cf1470ba7b4ef"
+        },
+        ".d.ts": {
+          "size": 928,
+          "hash": "b8eb9557e474752f24600ac1ed180f5c"
+        }
+      }
+    },
+    "handlers/ws": {
+      "name": "handlers/ws",
+      "version": "77ebb35c48b157bc3f42050be7f61318",
+      "size": 4606,
+      "hash": "04e4c783cca7fba3a3cfce29c84c2c6a",
+      "files": {
+        ".ts": {
+          "size": 2137,
+          "hash": "77ebb35c48b157bc3f42050be7f61318",
+          "sha": "21e6259afcfc8a15bf43000821d1e45afb5c3805"
+        },
+        ".js.map": {
+          "size": 4617,
+          "hash": "9dcb14ee7f76fe16da4c096852e788dd"
+        },
+        ".js": {
+          "size": 4606,
+          "hash": "04e4c783cca7fba3a3cfce29c84c2c6a"
+        },
+        ".d.ts": {
+          "size": 369,
+          "hash": "c7809c844cd3f7cc03612e0060377ee5"
+        }
+      }
+    },
+    "index": {
+      "name": "index",
+      "version": "09206d2b7d05d8b590e8521df9e376e5",
+      "size": 694,
+      "hash": "f4cacc822fecde059e5887bc432a8c50",
+      "files": {
+        ".ts": {
+          "size": 213,
+          "hash": "09206d2b7d05d8b590e8521df9e376e5",
+          "sha": "bcc797c6459ef64cc382fdb6c3c7587980d59456"
+        },
+        ".js.map": {
+          "size": 460,
+          "hash": "e2823f9acb73b69c075bb92ecd0159ae"
+        },
+        ".js": {
+          "size": 694,
+          "hash": "f4cacc822fecde059e5887bc432a8c50"
+        },
+        ".d.ts": {
+          "size": 252,
+          "hash": "d5689e56665192dc9b43ed69a136f825"
+        }
+      }
+    },
+    "mime": {
+      "name": "mime",
+      "version": "53516ee2a9b3082c9657fedb40f797cd",
+      "size": 1148,
+      "hash": "2f3f5d9822acf0fcab4b4e8b2f3014ea",
+      "files": {
+        ".ts": {
+          "size": 493,
+          "hash": "53516ee2a9b3082c9657fedb40f797cd",
+          "sha": "3fd247524cb07798d9a8fd617177585017954c75"
+        },
+        ".js.map": {
+          "size": 1186,
+          "hash": "3969dd18e8cfcbe6037491e254f4521b"
+        },
+        ".js": {
+          "size": 1148,
+          "hash": "2f3f5d9822acf0fcab4b4e8b2f3014ea"
+        },
+        ".d.ts": {
+          "size": 237,
+          "hash": "e70e5d04874af3b68483641b59eda246"
+        }
+      }
+    },
+    "node": {
+      "name": "node",
+      "version": "df8f55401d0c171b5ff2aff060e3a0d1",
+      "size": 2173,
+      "hash": "6e4a77b2ad9cc5c2011c9d8f443692e3",
+      "files": {
+        ".ts": {
+          "size": 678,
+          "hash": "df8f55401d0c171b5ff2aff060e3a0d1",
+          "sha": "ee16b4f2111fed22153d41e1b097091064b45f7d"
+        },
+        ".js.map": {
+          "size": 1741,
+          "hash": "bffe541a2af58d6d982830a7e3b1da50"
+        },
+        ".js": {
+          "size": 2173,
+          "hash": "6e4a77b2ad9cc5c2011c9d8f443692e3"
+        },
+        ".d.ts": {
+          "size": 245,
+          "hash": "bbc24a31bb2d26f86a67e227470d10e2"
+        }
+      }
+    },
+    "rest": {
+      "name": "rest",
+      "version": "d78aa87ef333b81143194165ee26fa5a",
+      "size": 3540,
+      "hash": "eca2389f7b96801ab421d82a0922832f",
+      "files": {
+        ".ts": {
+          "size": 1643,
+          "hash": "d78aa87ef333b81143194165ee26fa5a",
+          "sha": "e9e55100bb8eb0bcee122d0d6087c50a8f4c36f1"
+        },
+        ".js.map": {
+          "size": 3466,
+          "hash": "f7769f8be76db3507d99cc587d7d2718"
+        },
+        ".js": {
+          "size": 3540,
+          "hash": "eca2389f7b96801ab421d82a0922832f"
+        },
+        ".d.ts": {
+          "size": 728,
+          "hash": "35d1c7dfefe3df4ae8612e29506073a5"
+        }
+      }
+    },
+    "server": {
+      "name": "server",
+      "version": "ee1f077922509c059549f7edffba69fe",
+      "size": 4854,
+      "hash": "21ff068be0f0305ba23efa359da6f828",
+      "files": {
+        ".ts": {
+          "size": 2836,
+          "hash": "ee1f077922509c059549f7edffba69fe",
+          "sha": "193f03663aaf510554a3d15bd4b7e82ecd755be3"
+        },
+        ".js.map": {
+          "size": 6428,
+          "hash": "462140ff8695fdc0ae2c20adc0eda215"
+        },
+        ".js": {
+          "size": 4854,
+          "hash": "21ff068be0f0305ba23efa359da6f828"
+        },
+        ".d.ts": {
+          "size": 477,
+          "hash": "1d4d3390568aa41a8b1dc44c82b34cc2"
+        }
+      }
+    },
+    "utils": {
+      "name": "utils",
+      "version": "3ac8d473ed0897feb769545fcb7a86c7",
+      "size": 1703,
+      "hash": "1a23b2ae37aac877305ade5fd6693a1f",
+      "files": {
+        ".ts": {
+          "size": 806,
+          "hash": "3ac8d473ed0897feb769545fcb7a86c7",
+          "sha": "0493d15e39437e2eceeecf53497b17a92fe13fa8"
+        },
+        ".js.map": {
+          "size": 2190,
+          "hash": "8cc1328234883fb298554cd7b82f78e6"
+        },
+        ".js": {
+          "size": 1703,
+          "hash": "1a23b2ae37aac877305ade5fd6693a1f"
+        },
+        ".d.ts": {
+          "size": 180,
+          "hash": "c9bc59ead55a7ac76a7a36fa5e869a43"
+        }
+      }
+    },
+    "ws/api": {
+      "name": "ws/api",
+      "version": "a9b95854387866e138cbda640712e6ab",
+      "size": 8288,
+      "hash": "5e681c439f6ff28edd3a145d7de9961c",
+      "files": {
+        ".ts": {
+          "size": 6595,
+          "hash": "a9b95854387866e138cbda640712e6ab",
+          "sha": "536c0da625c4858f19aa600380f9f1f7a1e6ca7c"
+        },
+        ".js.map": {
+          "size": 14412,
+          "hash": "99751337b0803a344f5e9bd2098a0ab7"
+        },
+        ".js": {
+          "size": 8288,
+          "hash": "5e681c439f6ff28edd3a145d7de9961c"
+        },
+        ".d.ts": {
+          "size": 1512,
+          "hash": "841702d01ca1f92e6bfe0041530f839a"
+        }
+      }
+    },
+    "ws/client": {
+      "name": "ws/client",
+      "version": "e75737be36e169f11f1c3155b484012b",
+      "size": 4088,
+      "hash": "f8a594ee94ba712571050ce428d87c18",
+      "files": {
+        ".ts": {
+          "size": 3007,
+          "hash": "e75737be36e169f11f1c3155b484012b",
+          "sha": "c921205b57b3d0435acabba5be7a41887cbca2b2"
+        },
+        ".js.map": {
+          "size": 6547,
+          "hash": "2f526b3f0ac7e590211ae72104f14ed7"
+        },
+        ".js": {
+          "size": 4088,
+          "hash": "f8a594ee94ba712571050ce428d87c18"
+        },
+        ".d.ts": {
+          "size": 272,
+          "hash": "e8fab6ee6c7790bb3924247daad111d0"
+        }
+      }
+    },
+    "ws/driver": {
+      "name": "ws/driver",
+      "version": "38ae7278acd410be526f0a85be62fc98",
+      "size": 1485,
+      "hash": "cfd1f3c6ff8660a5e3a2e9841483d994",
+      "files": {
+        ".ts": {
+          "size": 681,
+          "hash": "38ae7278acd410be526f0a85be62fc98",
+          "sha": "382bc1142f8e0c9c8af70ad36b36847f0d12c03f"
+        },
+        ".js.map": {
+          "size": 1500,
+          "hash": "5a4415ae6f69bde67a0612e1e6f1fe2a"
+        },
+        ".js": {
+          "size": 1485,
+          "hash": "cfd1f3c6ff8660a5e3a2e9841483d994"
+        },
+        ".d.ts": {
+          "size": 462,
+          "hash": "4cc79381adfcb47257b40202406aa26d"
+        }
+      }
+    },
+    "ws/driver/base": {
+      "name": "ws/driver/base",
+      "version": "82a579108daccac1d0f4915dd49ab0a0",
+      "size": 6679,
+      "hash": "605e088cfe1de5bcf62b6f2a1ced33d4",
+      "files": {
+        ".ts": {
+          "size": 4519,
+          "hash": "82a579108daccac1d0f4915dd49ab0a0",
+          "sha": "7222744dfb38aa672f89ad557589c70a393cdec6"
+        },
+        ".js.map": {
+          "size": 9541,
+          "hash": "20b4571d64e240da378a5e475fde1fe6"
+        },
+        ".js": {
+          "size": 6679,
+          "hash": "605e088cfe1de5bcf62b6f2a1ced33d4"
+        },
+        ".d.ts": {
+          "size": 1815,
+          "hash": "83dff30c2474f9f27a0d100c6ebfccc9"
+        }
+      }
+    },
+    "ws/driver/client": {
+      "name": "ws/driver/client",
+      "version": "483a888279251374f8d96ee14f914cd2",
+      "size": 5985,
+      "hash": "a10ee374fabf82b43fd0127c9f0f8a54",
+      "files": {
+        ".ts": {
+          "size": 4771,
+          "hash": "483a888279251374f8d96ee14f914cd2",
+          "sha": "977c6a97dc442f57d5dbf8dc3e7e19e68bbaf228"
+        },
+        ".js.map": {
+          "size": 9974,
+          "hash": "b6ab66d5852668653a598db6d53b824d"
+        },
+        ".js": {
+          "size": 5985,
+          "hash": "a10ee374fabf82b43fd0127c9f0f8a54"
+        },
+        ".d.ts": {
+          "size": 667,
+          "hash": "5689dff2a2a044980717f77aa3f88442"
+        }
+      }
+    },
+    "ws/driver/extensions": {
+      "name": "ws/driver/extensions",
+      "version": "b938e3278d7f7719ccc874627b917624",
+      "size": 6837,
+      "hash": "de76c90c58130d149ca1127b49da7589",
+      "files": {
+        ".ts": {
+          "size": 5423,
+          "hash": "b938e3278d7f7719ccc874627b917624",
+          "sha": "47a916396a35b03260ca30b3fef48fac46dd7fc7"
+        },
+        ".js.map": {
+          "size": 11702,
+          "hash": "28ec656ff9cdc77a94949901db2d3069"
+        },
+        ".js": {
+          "size": 6837,
+          "hash": "de76c90c58130d149ca1127b49da7589"
+        },
+        ".d.ts": {
+          "size": 830,
+          "hash": "6870235937a495091a8823d6f6d5eb25"
+        }
+      }
+    },
+    "ws/driver/exts_parser": {
+      "name": "ws/driver/exts_parser",
+      "version": "2f1be34e9287f6a98f17fee2ac5fed7d",
+      "size": 4385,
+      "hash": "0b3f19b37d469a10b3b17445e9180509",
+      "files": {
+        ".ts": {
+          "size": 3239,
+          "hash": "2f1be34e9287f6a98f17fee2ac5fed7d",
+          "sha": "9c35d45a065efd1f9bda2b504f05ad42fb04c076"
+        },
+        ".js.map": {
+          "size": 7658,
+          "hash": "185885954370dd1ce839abca5fea2bec"
+        },
+        ".js": {
+          "size": 4385,
+          "hash": "0b3f19b37d469a10b3b17445e9180509"
+        },
+        ".d.ts": {
+          "size": 369,
+          "hash": "55a25540cfb8c41ac50e16dd31946833"
+        }
+      }
+    },
+    "ws/driver/headers": {
+      "name": "ws/driver/headers",
+      "version": "18e580e8536ef0007e38063de81ea541",
+      "size": 1379,
+      "hash": "38e626225202974c79b33837ee5e2920",
+      "files": {
+        ".ts": {
+          "size": 765,
+          "hash": "18e580e8536ef0007e38063de81ea541",
+          "sha": "a5886a3973ea8badd3ba17e278701ca24ce28930"
+        },
+        ".js.map": {
+          "size": 1982,
+          "hash": "cd5a7f9354ab6a960582e2ffff3ebeca"
+        },
+        ".js": {
+          "size": 1379,
+          "hash": "38e626225202974c79b33837ee5e2920"
+        },
+        ".d.ts": {
+          "size": 231,
+          "hash": "351badc58447c98ebaf753afdf711cb0"
+        }
+      }
+    },
+    "ws/driver/http_parser": {
+      "name": "ws/driver/http_parser",
+      "version": "c95b2091c1a21bdecb0c3b538eabc4a8",
+      "size": 3914,
+      "hash": "7db2652eaf3712889b891023a4efa609",
+      "files": {
+        ".ts": {
+          "size": 3073,
+          "hash": "c95b2091c1a21bdecb0c3b538eabc4a8",
+          "sha": "18cdf1de36f68a4efb3e141586bc1aa2e6d429c3"
+        },
+        ".js.map": {
+          "size": 6534,
+          "hash": "31f4f48823a0c9da4deb1fdcc37a5d45"
+        },
+        ".js": {
+          "size": 3914,
+          "hash": "7db2652eaf3712889b891023a4efa609"
+        },
+        ".d.ts": {
+          "size": 712,
+          "hash": "84c65fd19af7599ba77e5ceb4f3a23f6"
+        }
+      }
+    },
+    "ws/driver/hybi": {
+      "name": "ws/driver/hybi",
+      "version": "06079a6d72523ccdc3173f4e616317dd",
+      "size": 19420,
+      "hash": "a51afa7af752a47af9f9b0943a6f56de",
+      "files": {
+        ".ts": {
+          "size": 16501,
+          "hash": "06079a6d72523ccdc3173f4e616317dd",
+          "sha": "00a8073f38b3333ee39f578fbcd502af9d956ae8"
+        },
+        ".js.map": {
+          "size": 35450,
+          "hash": "a20d10c93ab788a485a4909d65c21706"
+        },
+        ".js": {
+          "size": 19420,
+          "hash": "a51afa7af752a47af9f9b0943a6f56de"
+        },
+        ".d.ts": {
+          "size": 2413,
+          "hash": "d84c4d80ace13a1241e26d70cc6b01c0"
+        }
+      }
+    },
+    "ws/driver/hybi/frame": {
+      "name": "ws/driver/hybi/frame",
+      "version": "431ab63c849b76a0253604c938bf4bc7",
+      "size": 734,
+      "hash": "31027b975de507d72442088ef2e60a5e",
+      "files": {
+        ".ts": {
+          "size": 252,
+          "hash": "431ab63c849b76a0253604c938bf4bc7",
+          "sha": "d71c07a735d4b144f92205fc6c938053604bea13"
+        },
+        ".js.map": {
+          "size": 728,
+          "hash": "9e18a294ff4505c5edcb2445607027c6"
+        },
+        ".js": {
+          "size": 734,
+          "hash": "31027b975de507d72442088ef2e60a5e"
+        },
+        ".d.ts": {
+          "size": 230,
+          "hash": "591907da79576738034234480c9f8bae"
+        }
+      }
+    },
+    "ws/driver/hybi/message": {
+      "name": "ws/driver/hybi/message",
+      "version": "bf5e9b3fb3390451ee83c81132692f3c",
+      "size": 1415,
+      "hash": "1d2a31e9d858d8b3d032155efef97b1c",
+      "files": {
+        ".ts": {
+          "size": 943,
+          "hash": "bf5e9b3fb3390451ee83c81132692f3c",
+          "sha": "285d6481335c76a580ce639783e64de0d3e2358a"
+        },
+        ".js.map": {
+          "size": 2373,
+          "hash": "5610689acc7a70bb29b976ebf41da1a3"
+        },
+        ".js": {
+          "size": 1415,
+          "hash": "1d2a31e9d858d8b3d032155efef97b1c"
+        },
+        ".d.ts": {
+          "size": 241,
+          "hash": "eaa0703ff5f13c9c98bea3c1a56e80b5"
+        }
+      }
+    },
+    "ws/driver/pipeline": {
+      "name": "ws/driver/pipeline",
+      "version": "f18fac0c4186d7086cd4968f9c433e9c",
+      "size": 2760,
+      "hash": "a9f78316cc5107f62787be880c5e457e",
+      "files": {
+        ".ts": {
+          "size": 1667,
+          "hash": "f18fac0c4186d7086cd4968f9c433e9c",
+          "sha": "76630fd2a5538c6e8bd021d4e75a792fa571ca7f"
+        },
+        ".js.map": {
+          "size": 3964,
+          "hash": "b7918319a850f77ad157e4b25267e6e3"
+        },
+        ".js": {
+          "size": 2760,
+          "hash": "a9f78316cc5107f62787be880c5e457e"
+        },
+        ".d.ts": {
+          "size": 427,
+          "hash": "d65b1223bf8025b4a068d88f41619ef1"
+        }
+      }
+    },
+    "ws/driver/pipeline/README": {
+      "name": "ws/driver/pipeline/README",
+      "files": {
+        ".md": {
+          "size": 24698,
+          "hash": "5d119ff3e601c0416ecec2dbdc0ff7bc",
+          "sha": "c373a3689c17cad9663ad4215ccb08c79e68b8df"
+        }
+      }
+    },
+    "ws/driver/pipeline/cell": {
+      "name": "ws/driver/pipeline/cell",
+      "version": "81123d2e6b16f30251cc14cdf7951874",
+      "size": 2319,
+      "hash": "b59e401f5737846da56710e27d6570dd",
+      "files": {
+        ".ts": {
+          "size": 1443,
+          "hash": "81123d2e6b16f30251cc14cdf7951874",
+          "sha": "b6c429bd9712f3d3bce2d38e179ad29b06920417"
+        },
+        ".js.map": {
+          "size": 3349,
+          "hash": "730beb2006f05691b22cc71b98c570d2"
+        },
+        ".js": {
+          "size": 2319,
+          "hash": "b59e401f5737846da56710e27d6570dd"
+        },
+        ".d.ts": {
+          "size": 504,
+          "hash": "2b6db98abfcf00072d253df389618155"
+        }
+      }
+    },
+    "ws/driver/pipeline/functor": {
+      "name": "ws/driver/pipeline/functor",
+      "version": "d76d8407466a9381efb7c0fcf0eff392",
+      "size": 2398,
+      "hash": "6616c1f43e6b0ac980f54c2e9f664977",
+      "files": {
+        ".ts": {
+          "size": 1467,
+          "hash": "d76d8407466a9381efb7c0fcf0eff392",
+          "sha": "a7ba2cc3905978d042adf8be2b2d8380c3b215ba"
+        },
+        ".js.map": {
+          "size": 3501,
+          "hash": "75b48047aafa197b68c7330f9d046e2e"
+        },
+        ".js": {
+          "size": 2398,
+          "hash": "6616c1f43e6b0ac980f54c2e9f664977"
+        },
+        ".d.ts": {
+          "size": 374,
+          "hash": "da6f734398fa544da3a4937120c6780b"
+        }
+      }
+    },
+    "ws/driver/pipeline/pledge": {
+      "name": "ws/driver/pipeline/pledge",
+      "version": "a859bb49b0b52b81f995fbd51f51c649",
+      "size": 1637,
+      "hash": "e51fcc664bad9f62a6d3d0f3a90b244e",
+      "files": {
+        ".ts": {
+          "size": 795,
+          "hash": "a859bb49b0b52b81f995fbd51f51c649",
+          "sha": "cc49a5763e610e0c4db8a65aa23142be8600af53"
+        },
+        ".js.map": {
+          "size": 1927,
+          "hash": "b5e09e7f8807e3574be62465468584ce"
+        },
+        ".js": {
+          "size": 1637,
+          "hash": "e51fcc664bad9f62a6d3d0f3a90b244e"
+        },
+        ".d.ts": {
+          "size": 220,
+          "hash": "afff4c7021d015575c83f38ac53018a9"
+        }
+      }
+    },
+    "ws/driver/pipeline/ring_buffer": {
+      "name": "ws/driver/pipeline/ring_buffer",
+      "version": "9c3e7200e9144713ce2651811a631e60",
+      "size": 2476,
+      "hash": "1cb4723c9d96a70c9f36281d9ec23d4d",
+      "files": {
+        ".ts": {
+          "size": 1779,
+          "hash": "9c3e7200e9144713ce2651811a631e60",
+          "sha": "5778b78dca5f2e6d80e30cf53c7cef84a75d4e18"
+        },
+        ".js.map": {
+          "size": 4239,
+          "hash": "eb6557fc4735146d7ba4ec244d483b6d"
+        },
+        ".js": {
+          "size": 2476,
+          "hash": "1cb4723c9d96a70c9f36281d9ec23d4d"
+        },
+        ".d.ts": {
+          "size": 285,
+          "hash": "80aabd9faae4ec25b93fb7d4b8fd91e5"
+        }
+      }
+    },
+    "ws/driver/proxy": {
+      "name": "ws/driver/proxy",
+      "version": "919fd11bd0deac4255d878f40b6aa026",
+      "size": 4050,
+      "hash": "940045fde92de9ac2c94bb3ea9be6a1b",
+      "files": {
+        ".ts": {
+          "size": 2916,
+          "hash": "919fd11bd0deac4255d878f40b6aa026",
+          "sha": "954c7b933a2592347cde626f4e38661ad36a7936"
+        },
+        ".js.map": {
+          "size": 6434,
+          "hash": "4c02e3d123d0762a6ec44a27024ec3fb"
+        },
+        ".js": {
+          "size": 4050,
+          "hash": "940045fde92de9ac2c94bb3ea9be6a1b"
+        },
+        ".d.ts": {
+          "size": 571,
+          "hash": "85d81fc67b44a2c83af75ead3e70002f"
+        }
+      }
+    },
+    "ws/driver/server": {
+      "name": "ws/driver/server",
+      "version": "9d1605116cad085d5276e0d468a9186f",
+      "size": 5051,
+      "hash": "24d87f77f53a7f0504c96fc6f8258ea2",
+      "files": {
+        ".ts": {
+          "size": 3836,
+          "hash": "9d1605116cad085d5276e0d468a9186f",
+          "sha": "e5543ee9acd2cc6473ed5902f1d2978fb0cf2384"
+        },
+        ".js.map": {
+          "size": 8435,
+          "hash": "6b1b7ae2a3f6ec8a377a9e117ff32282"
+        },
+        ".js": {
+          "size": 5051,
+          "hash": "24d87f77f53a7f0504c96fc6f8258ea2"
+        },
+        ".d.ts": {
+          "size": 570,
+          "hash": "f9bcb32cb1bbc6cf242442dab773ba97"
+        }
+      }
+    },
+    "ws/driver/stream_reader": {
+      "name": "ws/driver/stream_reader",
+      "version": "877bac3d4498343dcb9acd897c36e498",
+      "size": 2951,
+      "hash": "d4cb0157967eed0c8d7426bca9b2d491",
+      "files": {
+        ".ts": {
+          "size": 1936,
+          "hash": "877bac3d4498343dcb9acd897c36e498",
+          "sha": "593b6133e75e37572ee7ff7c89b9b6e71336948c"
+        },
+        ".js.map": {
+          "size": 5052,
+          "hash": "dd4d71995000e2f84834585523ebdd24"
+        },
+        ".js": {
+          "size": 2951,
+          "hash": "d4cb0157967eed0c8d7426bca9b2d491"
+        },
+        ".d.ts": {
+          "size": 265,
+          "hash": "20f28176cc6783e21da8139d9e0b4c6e"
+        }
+      }
+    },
+    "ws/driver/streams": {
+      "name": "ws/driver/streams",
+      "version": "cabb40c2055f1bc377c38878bfac2ec4",
+      "size": 3594,
+      "hash": "f069fb13bb3a7fb5e3ee2b425d1805be",
+      "files": {
+        ".ts": {
+          "size": 4152,
+          "hash": "cabb40c2055f1bc377c38878bfac2ec4",
+          "sha": "7b0bf07174716f2619d6685ab70900dba2548570"
+        },
+        ".js.map": {
+          "size": 6934,
+          "hash": "72a7c1b8dd45c899aa963106eb0b67a8"
+        },
+        ".js": {
+          "size": 3594,
+          "hash": "f069fb13bb3a7fb5e3ee2b425d1805be"
+        },
+        ".d.ts": {
+          "size": 2431,
+          "hash": "4329ff8a0311e315e3043ca4b56833f2"
+        }
+      }
+    },
+    "ws/events": {
+      "name": "ws/events",
+      "version": "134a7706e4545e06f272433f8f101e9d",
+      "size": 1193,
+      "hash": "7ecd9172ecdd19133f35f7929a552eb3",
+      "files": {
+        ".ts": {
+          "size": 1005,
+          "hash": "134a7706e4545e06f272433f8f101e9d",
+          "sha": "c42e3bc137e6cc5e84a5225b85c97d1e3b53dddf"
+        },
+        ".js.map": {
+          "size": 1795,
+          "hash": "5eabd0a9908395b86e94e6489a9c144d"
+        },
+        ".js": {
+          "size": 1193,
+          "hash": "7ecd9172ecdd19133f35f7929a552eb3"
+        },
+        ".d.ts": {
+          "size": 757,
+          "hash": "40330c06d6501e91248d318b8a0ccb24"
+        }
+      }
+    },
+    "ws/eventsource": {
+      "name": "ws/eventsource",
+      "version": "d981296b22d1c54366cd9be22b13f36d",
+      "size": 6404,
+      "hash": "7ac8746f7bec38d51bf4224a98dbb9cd",
+      "files": {
+        ".ts": {
+          "size": 4707,
+          "hash": "d981296b22d1c54366cd9be22b13f36d",
+          "sha": "cd5c0e019333a60ca8f4017a7432ce1827a5f618"
+        },
+        ".js.map": {
+          "size": 10104,
+          "hash": "e51f45a7915d22328f846ef278e0ef9f"
+        },
+        ".js": {
+          "size": 6404,
+          "hash": "7ac8746f7bec38d51bf4224a98dbb9cd"
+        },
+        ".d.ts": {
+          "size": 1045,
+          "hash": "426db97b0ba84db962efd9186d1b8088"
+        }
+      }
+    },
+    "ws/extensions/deflate-pm": {
+      "name": "ws/extensions/deflate-pm",
+      "version": "199ed2e00f3c16c24a4c30f06af36403",
+      "size": 2329,
+      "hash": "5df871294bfbc07d395875e6d4e2d969",
+      "files": {
+        ".ts": {
+          "size": 1212,
+          "hash": "199ed2e00f3c16c24a4c30f06af36403",
+          "sha": "5df3ccf38c1f00552240a696a3a7706ae6edaa8c"
+        },
+        ".js.map": {
+          "size": 2544,
+          "hash": "e4407dfc1876162e338d4ce5a9f32683"
+        },
+        ".js": {
+          "size": 2329,
+          "hash": "5df871294bfbc07d395875e6d4e2d969"
+        },
+        ".d.ts": {
+          "size": 442,
+          "hash": "26c2f0cac4ab43d3730eadd6dffb1547"
+        }
+      }
+    },
+    "ws/extensions/deflate-pm/client_session": {
+      "name": "ws/extensions/deflate-pm/client_session",
+      "version": "0ff8d031bfdcab23879c4f53cf696201",
+      "size": 3611,
+      "hash": "9254380d25d93c211b709663cf8d1b24",
+      "files": {
+        ".ts": {
+          "size": 2264,
+          "hash": "0ff8d031bfdcab23879c4f53cf696201",
+          "sha": "2e4bdb4164b521158f43d24295fbc01b80606c14"
+        },
+        ".js.map": {
+          "size": 4846,
+          "hash": "f688a3fa31d8b8fb1ec988d564bca089"
+        },
+        ".js": {
+          "size": 3611,
+          "hash": "9254380d25d93c211b709663cf8d1b24"
+        },
+        ".d.ts": {
+          "size": 231,
+          "hash": "5afdf1c1cc576d0c54653a3d730df8b9"
+        }
+      }
+    },
+    "ws/extensions/deflate-pm/common": {
+      "name": "ws/extensions/deflate-pm/common",
+      "version": "bbdd57737a9f7196ecc252018fb635b3",
+      "size": 2581,
+      "hash": "b422e426b20769bb8e822b0e17d187c5",
+      "files": {
+        ".ts": {
+          "size": 1547,
+          "hash": "bbdd57737a9f7196ecc252018fb635b3",
+          "sha": "abec1a320a4511886e06f1422e7f6d658d7d57af"
+        },
+        ".js.map": {
+          "size": 3804,
+          "hash": "1185694b02db9e461ef621c62abc58d0"
+        },
+        ".js": {
+          "size": 2581,
+          "hash": "b422e426b20769bb8e822b0e17d187c5"
+        },
+        ".d.ts": {
+          "size": 369,
+          "hash": "6e4a751f6453780b6252f9e63bb82aa7"
+        }
+      }
+    },
+    "ws/extensions/deflate-pm/server_session": {
+      "name": "ws/extensions/deflate-pm/server_session",
+      "version": "b41b220fa8aa9f9701328b5d85e63536",
+      "size": 3602,
+      "hash": "8b491b67e110c40e77fa74b80a45e797",
+      "files": {
+        ".ts": {
+          "size": 2351,
+          "hash": "b41b220fa8aa9f9701328b5d85e63536",
+          "sha": "133dc619c484a814f4e811b59897fb7897fd551e"
+        },
+        ".js.map": {
+          "size": 4521,
+          "hash": "38d1ee3bb334744ac9e906bca99a0341"
+        },
+        ".js": {
+          "size": 3602,
+          "hash": "8b491b67e110c40e77fa74b80a45e797"
+        },
+        ".d.ts": {
+          "size": 239,
+          "hash": "90ed6ff9337e8c9853672231e685dd19"
+        }
+      }
+    },
+    "ws/extensions/deflate-pm/session": {
+      "name": "ws/extensions/deflate-pm/session",
+      "version": "4b5ea77ef5c01d65f6ea44dde6c461a8",
+      "size": 6849,
+      "hash": "342f6209be8c186117b45163c555c133",
+      "files": {
+        ".ts": {
+          "size": 5907,
+          "hash": "4b5ea77ef5c01d65f6ea44dde6c461a8",
+          "sha": "48b0efd1a4c8f47725a5c96962d7ec53c05aaa75"
+        },
+        ".js.map": {
+          "size": 12210,
+          "hash": "99735c320f9c697b359703e797ad43bf"
+        },
+        ".js": {
+          "size": 6849,
+          "hash": "342f6209be8c186117b45163c555c133"
+        },
+        ".d.ts": {
+          "size": 902,
+          "hash": "abf6124ea96b9adec2d82d2a57c908de"
+        }
+      }
+    },
+    "ws/server.ts": {
+      "name": "ws/server.ts",
+      "files": {
+        ".old": {
+          "size": 3167,
+          "hash": "5c0129f73315428d0941a2306c8c1bf1",
+          "sha": "89a491556390d8c1d14e089f0bc61084adc605e1"
+        }
+      }
+    },
+    "ws/socket": {
+      "name": "ws/socket",
+      "version": "831f17a268ad041f2da6fcb2fa74f86a",
+      "size": 6039,
+      "hash": "483f3547f9fa00e0a97defa2763100f7",
+      "files": {
+        ".ts": {
+          "size": 3895,
+          "hash": "831f17a268ad041f2da6fcb2fa74f86a",
+          "sha": "9841f19ca5cd0bf420b21bffb30d2db976a385d6"
+        },
+        ".js.map": {
+          "size": 8303,
+          "hash": "4738a7445e367ac43f2e7b6a73bb3eb0"
+        },
+        ".js": {
+          "size": 6039,
+          "hash": "483f3547f9fa00e0a97defa2763100f7"
+        },
+        ".d.ts": {
+          "size": 1063,
+          "hash": "058236f582ca6eef8eaf39f7daba146f"
+        }
+      }
+    }
+  }
+}

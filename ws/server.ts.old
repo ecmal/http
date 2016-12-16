@@ -1,0 +1,89 @@
+import {Server} from "node/http";
+import {EventEmitter} from "node/events";
+import {IncomingMessage} from "node/http";
+import {WsConnection} from "./connection";
+
+import * as HTTP from "node/http";
+
+
+export class WsServer extends EventEmitter{
+
+    static create(server:Server,protocol:string):WsServer{
+        return this.inject(HTTP.createServer(),protocol);
+    }
+    static inject(server:Server,protocol:string):WsServer{
+        return new WsServer(server,protocol);
+    }
+
+    public protocol : string;
+    public connections : {[id:string]:WsConnection};
+
+    constructor(server?:Server,protocol?:string){
+        super();
+        if(server){
+            this.attach(server,protocol);
+        }
+    }
+    protected attach(server:Server,protocol?:string){
+        this.protocol = protocol||this.constructor.name;
+        this.connections = {};
+        server.on('upgrade',(req:IncomingMessage)=>{
+            this.doUpgrade(req);
+        })
+    }
+    protected newConnection():WsConnection{
+       return new WsConnection(true);
+    }
+    protected doUpgrade(req:IncomingMessage){
+        var upgrade:string = String(req.headers['upgrade']).trim().toLowerCase();
+        if(upgrade && upgrade == 'websocket') {
+            var connection = this.newConnection();
+            try{
+                if(connection.accept(req,this.protocol)){
+                    var extensions = req.headers['sec-websocket-extensions'];
+                    var deflated = extensions && extensions.indexOf('permessage-deflate')>=0;
+                    this.response(req.socket,101,'Switching Protocols',{
+                        'Connection'                : 'Upgrade',
+                        'Upgrade'                   : 'websocket',
+                        'Sec-WebSocket-Accept'      : connection.hash,
+                        'Sec-WebSocket-Protocol'    : this.protocol,
+                        'Sec-WebSocket-Extensions'  : deflated?'permessage-deflate':''
+                    });
+                    connection.on('close',(code,message)=>{
+                        delete this.connections[connection.id];
+                        this.emit('disconnect', connection,code,message);
+                    });
+                    this.connections[connection.id]=connection;
+                    this.emit('connect', connection);
+                }
+            }catch(e){
+                console.info(e.stack);
+                this.response(req.socket,e.code,e.message);
+            }
+        }
+    }
+
+    private response(socket,status:number,message:string,headers?:any,body?){
+        try {
+            status = status || 500;
+            message = message||'Unknown Server Error';
+            var data = [`HTTP/1.1 ${status} ${message}`];
+            if(headers){
+                for(var key in headers){
+                    if(headers[key]){
+                        data.push(key+': '+headers[key]);
+                    }
+                }
+            }
+            data.push('\r\n');
+            socket.write(data.join('\r\n'),'ascii');
+            if(status!=101){
+                socket.end()
+            }
+        } catch (ex){
+            console.info(ex);
+        }
+    }
+
+
+}
