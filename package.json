@@ -1,17 +1,20 @@
 {
-  "name"            : "http",
-  "vendor"          : "ecmal",
-  "version"         : "0.0.13",
-  "registry"        : "github",
-  "main"            : "http/server-test",
-  "directories"     : {
-    "source"        : "src",
-    "tests"         : "test",
-    "vendor"        : "out"
-  },
-  "libraries"       : {
-    "core"          : "0.0.8",
-    "node"          : "0.0.8",
-    "runtime"       : "0.0.12"
-  }
+  "name"           : "@ecmal/http",
+  "version"        : "0.0.1",
+  "description"    : "Ecmal Http Libraries",
+  "license"        : "UNLICENSED",
+  "author"         : "Mamble Inc. <ecmal@mamble.co>",
+  "repository"     : "https://github.com/ecmal/http.git",
+  "contributors"   : ["Sergey Mamyan <sergey@mamble.co>"],
+  "homepage"       : "https://github.com/ecmal/http",
+  "bugs"           : "https://github.com/ecmal/http/issues",
+  "keywords"       : ["typescript","ecmal","http","node"],
+  "types"          : "index.d.ts",
+  "bundle"         : true,
+  "engines"        : {},
+  "dependencies"   : {
+    "@ecmal/core"     : "latest",
+    "@ecmal/node"     : "latest",
+    "@ecmal/runtime"  : "latest"
+  }  
 }

@@ -1,126 +1,148 @@
-import Node from './node';
-import Utils from './utils';
 
+import {Buffer} from "@ecmal/node/buffer";
+import * as Path from "@ecmal/node/path";
+import {Agent as HttpsAgent} from "@ecmal/node/https";
+import {Agent as HttpAgent} from "@ecmal/node/http";
+import {ClientRequestEvents} from "@ecmal/node/http";
+import {ClientRequest} from "@ecmal/node/http";
 
+import {IncomingMessage} from "@ecmal/node/http";
+import {RequestOptions} from "@ecmal/node/http";
+import {Socket} from "@ecmal/node/net";
+import {EventEmitter,EmitterEvents} from "@ecmal/node/events";
+import {Cached} from "@ecmal/runtime/decorators";
 
-export class Client {
+export interface HttpHeaders {
+    [key: string]: any;
+}
+export interface HttpQuery {
+    [key: string]: any;
+}
+export type HttpMethod = "GET" | "POST" | "DELETE" | "PUT";
 
-    private protocol:string;
-    private host:string;
-    private port:string;
-    private path:string;
-    private headers:any;
-    private streamed:boolean;
-    private service:any;
+export interface HttpRequestOptions extends RequestOptions {}
 
-    constructor(url,headers?){
-        if(url){
-            this.configure(url,headers)
+export class HttpResponse extends IncomingMessage {
+    init(){}
+    inspect(){
+        return {
+            status : this.statusCode,
+            messge : this.statusMessage
         }
     }
-    configure(url,headers){
-        if(typeof url == 'string'){
-            url = Node.Url.parse(url,true);
-        }
-        this.protocol   = url.protocol;
-        this.host       = url.hostname;
-        this.port       = url.port;
-        this.path       = url.pathname;
-        this.headers    = headers||{};
-        this.streamed   = false;
-        switch(url.protocol){
-            case 'http:' : this.service = Node.Http;  break;
-            case 'https:': this.service = Node.Https; break;
-            default      : throw new Error('invalid http protocol '+url.protocol)
-        }
+    raw():Promise<Buffer>{
+        return new Promise((accept,reject)=>{
+            let body = new Buffer(0);
+            this.on('error',e=>reject(e));
+            this.on("data", (chunk: Buffer) => {
+                body = Buffer.concat([body, chunk], body.length + chunk.length);
+            })
+            this.on("end", () => {
+                accept(body)
+            })
+        })
     }
-    initRequest(req){
-        var url = Node.Url.parse(req.url||req.path);
-        return (Utils.cleanup({
-            method   : req.method   || 'GET',
-            hostname : url.hostname || req.host     || this.host,
-            port     : url.port     || req.port     || this.port || undefined,
-            headers  : Utils.merge(this.headers,req.headers),
-            path     : Node.Path.resolve(this.path,url.path||'') + ((url.query||req.query)?'?'+Node.Qs.stringify(url.query||req.query):''),
-            content  : req.content
-        }));
+    async text():Promise<string>{
+        return (await this.raw()).toString("utf8")
     }
-    initResponse(req, res){
-        res.streamed = req.streamed || this.streamed;
-        var contentType     = res.headers['content-type'];
-        var contentEncoding = res.headers['content-encoding'];
-        if ((
-            contentType && contentType.indexOf('application/x-gzip') >= 0) ||
-            contentEncoding && contentEncoding.indexOf('gzip') >= 0
-        ){
-            return res.pipe(Node.Zlib.createGunzip());
-        } else {
-            return res;
-        }
-    }
-
-    encode(req){
-        return req.content;
-    }
-    decode(res){
-        return res;
-    }
-
-    onRequest(req){}
-    onSuccess(req,res){}
-    onFailure(req,err){}
-
-    request(req){
-        return new Promise((resolve,reject)=> {
-            req = this.initRequest(req);
-            this.onRequest(req);
-            var request = this.service.request(req);
-            request.on('error', err=> {
-                err.request   = req;
-                this.onFailure(req,err);
-                reject(err);
-            });
-            request.on('response', res=> {
-                var response = {
-                    status  : res.statusCode,
-                    message : res.statusMessage,
-                    headers : res.headers,
-                    content : null
-                };
-                res  = this.initResponse(req,res);
-                if (request.streamed) {
-                    resolve({
-                        stream  : req,
-                        status  : res.statusCode,
-                        headers : res.headers
-                    })
-                } else {
-
-                    var content = new Buffer(0);
-                    res.on('data', chunk=>content=Buffer.concat([content, chunk], content.length + chunk.length));
-                    res.on('end', ()=>{
-                        try{
-                            response.content = content;
-                            response = this.decode(response);
-                            this.onSuccess(req,response);
-                            resolve(response);
-                        }catch(error){
-                            this.onFailure(req,error);
-                            reject(error);
-                        }
-                    });
-                    res.on('error',error=>{
-                        this.onFailure(req,error);
-                        reject(error);
-                    });
-                }
-            });
-            req.content = this.encode(req) || req.content;
-            if (req.content) {
-                request.end(req.content);
-            } else {
-                request.end();
-            }
-        });
+    async json():Promise<any>{
+        return JSON.parse(await this.text());
     }
 }
+
+export class HttpRequest<T extends HttpResponse> extends ClientRequest {
+    public method:string;
+    public path:string;
+    public responseType:Constructor<T>;
+    public setMethod(method:string){
+        this.method = method;
+    }
+    public setPath(path:string){
+        this.path = path;
+    }
+    public getResponse(){
+        return this['res'];
+    }
+    public getStatus(){
+        if(this.getResponse()){
+            return this.getResponse().statusCode;
+        }
+    }
+    public getMessage(){
+        if(this.getResponse()){
+            return this.getResponse().statusMessage;
+        }
+    }
+    public getRequestHeaders(){
+        if(this['_headers']){
+            let headers:any = {}
+            Object.keys(this['_headers']).forEach(h=>{
+                headers[h] = this.getHeader(h);
+            })
+            return headers;
+        }
+    }
+    public getResponseHeaders(){
+        if(this.getResponse()){
+            return this.getResponse().headers;
+        }
+    }
+    constructor(options:HttpRequestOptions,responseType?:Constructor<T>,api?:HttpClient){
+        options.agent = api;
+        super(options);
+        this.responseType = responseType;
+        this.once("response",(response)=>{
+            Object.setPrototypeOf(response,responseType?responseType.prototype:HttpResponse.prototype);
+            response.init();            
+        });
+    }
+    send(body?:Buffer):Promise<T>{
+        return new Promise((accept, reject) => {
+            this.once("error", reject);
+            this.once("response", (response:T) => {
+                accept(response);
+            })
+            if(body){
+                this.setHeader('content-length',String(body.length));
+                this.write(body);
+            }
+            this.end();
+        });
+    }
+    inspect() {
+        return { 
+            method      : this.method,
+            path        : this.path,
+            status      : this.getStatus(),
+            message     : this.getMessage(),
+            request     : {
+                headers : this.getRequestHeaders()
+            },
+            response    : this.getResponse()
+        };
+    }
+}
+
+export class HttpClient extends HttpAgent {
+    @Cached
+    static get default(){
+        return new this();
+    }
+    static request<T extends HttpResponse = HttpResponse>(options:RequestOptions,responseType?:Constructor<T>,client?:HttpsClient):HttpRequest<T>{
+        return new HttpRequest<T>(options,responseType,client?client:HttpClient.default);
+    }
+}
+
+export class HttpsClient extends HttpsAgent {
+    @Cached
+    static get default(){
+        return new HttpsClient();
+    }
+    static request<T extends HttpResponse = HttpResponse>(options:RequestOptions,responseType?:Constructor<T>,client?:HttpsClient):HttpRequest<T>{
+        return new HttpRequest<T>(options,responseType,client?client:HttpsClient.default);
+    }
+}
+
+
+
+
