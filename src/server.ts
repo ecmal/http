@@ -1,5 +1,5 @@
 import {Buffer} from "@ecmal/node/buffer"
-import {URL} from "@ecmal/node/url"
+import * as Url from "@ecmal/node/url"
 import {Server,IncomingMessage,ServerResponse} from "@ecmal/node/http"
 import {Bound} from "@ecmal/runtime/decorators";
 import {Router,Route} from "./router";
@@ -23,7 +23,8 @@ export class HttpServer extends Server {
     }
     @Bound
     protected onRequest(request:HttpServerRequest,response:HttpServerResponse){
-        let url = new URL(request.url,this.base);
+        let uri = Url.resolve(this.base,request.url);
+        let url = Url.parse(uri);
         let path= '/'+(request.method).toUpperCase()+''+url.pathname;
         let match = this.router.match(path);
         let promise = Promise.resolve({});
@@ -40,16 +41,18 @@ export class HttpServer extends Server {
             );
         }
         promise.then(r=>{
-            let message = "Not Found";
-            let data = new Buffer(message)
-            if(!response.headersSent){
-                response.writeHead(404,message,{
-                    'content-type' : "text/plain",
-                    'content-length' : data.length,
-                })
-            }
-            if(!response.finished){
-                response.end(data);
+            if( !match ){
+                let message = "Not Found";
+                let data = new Buffer(message)
+                if(!response.headersSent){
+                    response.writeHead(404,message,{
+                        'content-type' : "text/plain",
+                        'content-length' : data.length,
+                    })
+                }
+                if(!response.finished){
+                    response.end(data);
+                }
             }
         })        
     }

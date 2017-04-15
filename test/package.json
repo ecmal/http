@@ -1,5 +1,5 @@
 {
-  "name"           : "@ecmal/http",
+  "name"           : "@test/http",
   "version"        : "0.0.1",
   "description"    : "Ecmal Http Libraries",
   "license"        : "UNLICENSED",
@@ -10,15 +10,17 @@
   "bugs"           : "https://github.com/ecmal/http/issues",
   "keywords"       : ["typescript","ecmal","http","node"],
   "types"          : "index.d.ts",
+  "main"           : "index.js",
   "bundle"         : true,
   "engines"        : {},
   "directories": {
-    "src" : "./src",
-    "out" : "./node_modules"
+    "src" : ".",
+    "out" : "../node_modules"
   },
   "dependencies"   : {
     "@ecmal/core"     : "latest",
     "@ecmal/node"     : "latest",
+    "@ecmal/http"     : "latest",
     "@ecmal/runtime"  : "latest"
   }  
 }
