@@ -27,19 +27,27 @@ export function Path(path:string){
         let routes = Metadata.get(target).get('routes');
         Object.keys(routes).forEach(key=>{
             let route = routes[key];
-            route.path = `/${route.method}${path}${route.path?'/'+route.path:''}`;
-            route.action = (url,params,request,response)=>{
-                let controller = Object.create(target.prototype,{
-                    url      : {value:url},
-                    params   : {value:params},
-                    request  : {value:request},
-                    response : {value:response}
-                })
-                target.call(controller);
-                return controller[key].call(controller);
+            if( route.action ){
+                return defineRoute(target,key,{
+                    method : route.method
+                });
             }
-            Router.default.define(route.path).data = route.action;
+            defineRoute(target,key,route);
         })
+    }
+    function defineRoute(target,key,route){
+        route.path = `/${route.method}${path}${route.path?'/'+route.path:''}`;
+        route.action = (url,params,request,response)=>{
+            let controller = Object.create(target.prototype,{
+                url      : {value:url},
+                params   : {value:params},
+                request  : {value:request},
+                response : {value:response}
+            });
+            target.call(controller);
+            return controller[key].call(controller);
+        };
+        Router.default.define(route.path).data = route.action;
     }
     function defineMethodRoute(target,key){
         let routes = Metadata.get(target).get('routes',{});

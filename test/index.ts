@@ -5,24 +5,32 @@ import {Static} from "@ecmal/http/traits/static";
 import {Resource} from "@ecmal/http/resource";
 import * as path from '@ecmal/node/path';
 
-@Path('/public/:file(*)')
-class StaticResource extends Static(Resource){
-    @Get
-    get(){
-        this.setBody({dirname:'./static'})
-    }
-}
 
 @Path('/hello')
 class HelloResource extends Json(Resource){
 
     @Get get(){
-        this.setBody({
+        return this.setBody({
             hello:"World"
         })
     }
 }
 
+
+@Path('/')
+@Path('/:file(*)')
+class PublicResource extends Static(Resource){
+    constructor(){
+        super();
+        this.configure({
+            dirname:'./static'
+        });
+    }
+    @Get get(){
+        return this.serve();
+    }
+}
+
 let s:HttpServer = new HttpServer();
-console.info("server started localhost:8000");
+console.info("server started at localhost:8000");
 s.listen(8000);

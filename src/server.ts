@@ -41,20 +41,18 @@ export class HttpServer extends Server {
             );
         }
         promise.then(r=>{
-            if( !match ){
-                let message = "Not Found";
-                let data = new Buffer(message)
-                if(!response.headersSent){
-                    response.writeHead(404,message,{
-                        'content-type' : "text/plain",
-                        'content-length' : data.length,
-                    })
-                }
-                if(!response.finished){
-                    response.end(data);
-                }
+            let message = "Not Found";
+            let data = new Buffer(message)
+            if(!response.headersSent){
+                response.writeHead(404,message,{
+                    'content-type' : "text/plain",
+                    'content-length' : data.length,
+                })
             }
-        })        
+            if(!response.finished){
+                response.end(data);
+            }
+        })
     }
 }
 
