@@ -1,4 +1,4 @@
-import {Cached} from "@ecmal/runtime/decorators/cached";
+import {cached} from "@ecmal/runtime/decorators";
 
 export class Mime {
     private extensions:any;
@@ -30,13 +30,13 @@ export class Mime {
     public charset(mimeType, fallback){
         return (/^text\//).test(mimeType) ? 'UTF-8' : fallback;
     }
-    @Cached
+    @cached
     public static get default(){
         let mime = new Mime();
         mime.define(this.types);
         return mime;
     }
-    @Cached
+    @cached
     public static get types(){
         return {
             "application/andrew-inset": [
