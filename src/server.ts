@@ -1,5 +1,5 @@
 import {Buffer} from "@ecmal/node/buffer"
-import {URL} from "@ecmal/node/url"
+import * as Url from "@ecmal/node/url"
 import {Server,IncomingMessage,ServerResponse} from "@ecmal/node/http"
 import {bound} from "@ecmal/runtime/decorators";
 import {Router,Route} from "./router";
@@ -23,7 +23,8 @@ export class HttpServer extends Server {
     }
     @bound
     protected onRequest(request:HttpServerRequest,response:HttpServerResponse){
-        let url = new URL(request.url,this.base);
+        let uri = Url.resolve(this.base,request.url);
+        let url = Url.parse(uri);
         let path= '/'+(request.method).toUpperCase()+''+url.pathname;
         let match = this.router.match(path);
         let promise = Promise.resolve({});
@@ -51,7 +52,7 @@ export class HttpServer extends Server {
             if(!response.finished){
                 response.end(data);
             }
-        })        
+        })
     }
 }
 
