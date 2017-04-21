@@ -1,6 +1,7 @@
 
 import {Buffer} from "@ecmal/node/buffer";
 import * as Path from "@ecmal/node/path";
+import * as Qs from "@ecmal/node/querystring";
 import {Agent as HttpsAgent} from "@ecmal/node/https";
 import {Agent as HttpAgent} from "@ecmal/node/http";
 import {ClientRequestEvents} from "@ecmal/node/http";
@@ -57,7 +58,10 @@ export class HttpRequest<T extends HttpResponse> extends ClientRequest {
     public setMethod(method:string){
         this.method = method;
     }
-    public setPath(path:string,query:HttpQuery){
+    public setPath(path:string,query?:HttpQuery){
+        if(query && Object.keys(query).length){
+            path = path+Qs.stringify(query);
+        }
         this.path = path;
     }
     public getResponse():T{

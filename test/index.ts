@@ -4,15 +4,19 @@ import {Json,JsonTrait} from "@ecmal/http/traits/json";
 import {Static} from "@ecmal/http/traits/static";
 import {View} from "@ecmal/http/traits/view";
 import {Resource} from "@ecmal/http/resource";
-import * as path from '@ecmal/node/path';
 
 
 @Path('/hello')
+@Path('/world/:param')
 class HelloResource extends Json(Resource){
-
-    @Get get(){
+    @Get
+    get(){
         return this.setBody({
-            hello:"World"
+            hello   : "World",
+            url     : this.url,
+            params  : this.params,
+            headers : this.request.headers
+
         })
     }
 }
@@ -22,16 +26,16 @@ class EJSResource extends View(Resource){
     constructor(){
         super();
         this.configure({
-            dirname:'./test/views',
+            dirname : './http/test/views',
         });
     }
-    @Get get(){
+    @Get 
+    get(){
         return this.render('index',{
-            name:'EJS'
+            name : 'EJS'
         });
     }
 }
-
 
 @Path('/')
 @Path('/:file(*)')
@@ -39,7 +43,7 @@ class PublicResource extends Static(Resource){
     constructor(){
         super();
         this.configure({
-            dirname:'./test/static',
+            dirname:'./http/test/static',
         });
     }
     @Get get(){
