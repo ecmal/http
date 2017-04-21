@@ -1,7 +1,7 @@
 import {Buffer} from "@ecmal/node/buffer"
 import {URL} from "@ecmal/node/url"
 import {Server,IncomingMessage,ServerResponse} from "@ecmal/node/http"
-import {Bound} from "@ecmal/runtime/decorators";
+import {bound} from "@ecmal/runtime/decorators";
 import {Router,Route} from "./router";
 
 
@@ -21,7 +21,7 @@ export class HttpServer extends Server {
         this.base = "http://localhost";
         this.on("request",this.onRequest);
     }
-    @Bound
+    @bound
     protected onRequest(request:HttpServerRequest,response:HttpServerResponse){
         let url = new URL(request.url,this.base);
         let path= '/'+(request.method).toUpperCase()+''+url.pathname;

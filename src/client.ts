@@ -10,7 +10,7 @@ import {IncomingMessage} from "@ecmal/node/http";
 import {RequestOptions} from "@ecmal/node/http";
 import {Socket} from "@ecmal/node/net";
 import {EventEmitter,EmitterEvents} from "@ecmal/node/events";
-import {Cached} from "@ecmal/runtime/decorators";
+import {cached} from "@ecmal/runtime/decorators";
 
 export interface HttpHeaders {
     [key: string]: any;
@@ -57,10 +57,10 @@ export class HttpRequest<T extends HttpResponse> extends ClientRequest {
     public setMethod(method:string){
         this.method = method;
     }
-    public setPath(path:string){
+    public setPath(path:string,query:HttpQuery){
         this.path = path;
     }
-    public getResponse(){
+    public getResponse():T{
         return this['res'];
     }
     public getStatus(){
@@ -96,7 +96,7 @@ export class HttpRequest<T extends HttpResponse> extends ClientRequest {
             response.init();            
         });
     }
-    send(body?:Buffer):Promise<T>{
+    public send(body?:Buffer):Promise<T>{
         return new Promise((accept, reject) => {
             this.once("error", reject);
             this.once("response", (response:T) => {
@@ -109,7 +109,7 @@ export class HttpRequest<T extends HttpResponse> extends ClientRequest {
             this.end();
         });
     }
-    inspect() {
+    protected inspect() {
         return { 
             method      : this.method,
             path        : this.path,
@@ -124,7 +124,7 @@ export class HttpRequest<T extends HttpResponse> extends ClientRequest {
 }
 
 export class HttpClient extends HttpAgent {
-    @Cached
+    @cached
     static get default(){
         return new this();
     }
@@ -132,9 +132,8 @@ export class HttpClient extends HttpAgent {
         return new HttpRequest<T>(options,responseType,client?client:HttpClient.default);
     }
 }
-
 export class HttpsClient extends HttpsAgent {
-    @Cached
+    @cached
     static get default(){
         return new HttpsClient();
     }
