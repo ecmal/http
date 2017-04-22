@@ -1,100 +1,169 @@
 import {Router} from "./router";
+import {Mirror} from '@ecmal/runtime/reflect';
 
-const metadata = Symbol('metadata');
-class Metadata{
-    static get(target:Function):Metadata{
-        if(!target[metadata]){
-            Object.defineProperty(target,metadata,{
-                value:new Metadata()
-            })
-        }
-        return target[metadata];
-    }
-    [key:string]:any;
-    get(key:string,value?:any):any{
-        if(typeof this[key]=='undefined' && arguments.length>1){
-            this[key] = value;
-        }
-        return this[key];
-    }
-    set(key:string,value:any):this{
-        this[key] = value;
-        return this;
+const ROUTE = Symbol();
+const PARAM = Symbol();
+const QUERY = Symbol();
+
+export function Path(path:string){
+    return (target,key?,desc?)=>{
+        Rest.register(path,target,key);
     }
 }
-export function Path(path:string){
-    function defineClassRoute(target){
-        let routes = Metadata.get(target).get('routes');
-        Object.keys(routes).forEach(key=>{
-            let route = routes[key];
-            if( route.action ){
-                return defineRoute(target,key,{
-                    method : route.method
-                });
+export function Method(method,target,key,desc){
+    let mirror = Mirror.get(target,key);
+    if(mirror.isMethod()){
+        let route = mirror.getMetadata(ROUTE) || {};
+        route.method = method;
+        mirror.setMetadata(ROUTE,route);
+    }else{
+        throw new Error(`cannot apply path to property ${key} of ${target.name}`);
+    }
+}
+export function GET(target,key,desc){
+    Method('GET',target,key,desc);
+}
+export function POST(target,key,desc){
+    Method('POST',target,key,desc);
+}
+export function PUT(target,key,desc){
+    Method('PUT',target,key,desc);
+}
+export function DELETE(target,key,desc){
+    Method('DELETE',target,key,desc);
+}
+export function OPTIONS(target,key,desc){
+    Method('OPTIONS',target,key,desc);
+}
+
+export function Param(symbol:symbol,property:string){
+    return (target,key?,index?)=>{
+        let mirror = Mirror.get(target,key),
+            metadata = mirror.getMetadata(symbol)  || {};
+        if( (mirror.isMethod()) && typeof index == 'number'){
+            metadata[property] = index;
+            mirror.setMetadata(symbol,metadata);
+        }else if( !mirror.isStatic() && !mirror.isClass() ){
+            metadata[property] = key;
+            mirror.setMetadata(symbol,metadata);
+        }else{
+            throw new Error(`cannot apply param to property ${key} of ${target.name}`);
+        }
+    }
+}
+export function PathParam(property:string){
+    return  Param(PARAM,property)
+}
+export function QueryParam(property:string){
+    return  Param(QUERY,property)
+}
+
+
+class Rest<T> {
+    static register(path,target,key){
+        return new Rest(path,target,key);
+    }
+    constructor(
+        private path    :string,
+        private target  :Constructor<T>,
+        key
+    ){
+        let mirror = Mirror.get(target,key);
+        if( mirror.isClass() ){
+            this.defineClassRoute();
+        }else
+        if( mirror.isMethod() ){
+            if( mirror.isStatic() ){
+                throw new Error(`cannot apply path to static member ${key} of ${mirror.getClass().getName()}`);
+            }else{
+               this.defineMethodRoute(key);
             }
-            defineRoute(target,key,route);
+        }else{
+            throw new Error(`cannot apply path to property ${key} of ${target.name}`);
+        }
+    }
+    private defineMethodRoute(key){
+        let mirror = Mirror.get(this.target,key);
+        let route = mirror.getMetadata(ROUTE) || {};
+        route.path = this.path;
+        mirror.setMetadata(ROUTE,route);
+    }
+    private defineClassRoute(){
+        let members = Mirror.get(this.target).getPrototype().getMembers();
+        members.forEach(member=>{
+            if(  member.isMethod() ){
+                let route = member.getMetadata(ROUTE),
+                    name  = member.getName();
+                if( route.action ){
+                    return this.defineRoute(name,{
+                        method : route.method
+                    });
+                }
+                this.defineRoute(name,route);
+            }
         })
     }
-    function defineRoute(target,key,route){
-        route.path = `/${route.method}${path}${route.path?'/'+route.path:''}`;
+    private defineRoute(key,route){
+        let target = this.target;
+        route.path = `/${route.method}${this.path}${route.path?'/'+route.path:''}`;
         route.action = (url,params,request,response)=>{
+            let reflect             = Mirror.get(target),
+                member              = reflect.getMember(key,false),
+                query               = url.query,
+                args                = () => {
+                    let arg = [],
+                        paramMeta           = member.getMetadata(PARAM) || {},
+                        queryMeta           = member.getMetadata(QUERY) || {};
+                        Object.keys(params).forEach(key=>{
+                            let index = paramMeta[key];
+                            if( typeof index=='number' ){
+                                arg[index]  = params[key];
+                            }
+                        });
+                        Object.keys(query).forEach(key=>{
+                            let index = queryMeta[key];
+                            if( typeof index=='number' ){
+                                arg[index]  = query[key];
+                            }
+                        });
+                        return arg;
+                },
+                props = () =>{
+                    let meta = {};
+                    reflect.getMembers(false).forEach(member=>{
+                        if( !member.isMethod() ){
+                            let paramMeta           = member.getMetadata(PARAM) || {},
+                                queryMeta           = member.getMetadata(QUERY) || {};
+                            Object.keys(params).forEach(key=>{
+                                let index = paramMeta[key];
+                                if( typeof index!='undefined' ){
+                                    meta[index]  = params[key];
+                                }
+                            });
+                            Object.keys(query).forEach(key=>{
+                                let index = queryMeta[key];
+                                if( typeof index!='undefined' ){
+                                    meta[index]  = query[key];
+                                }
+                            });
+                        }
+                    });
+                    return meta;
+                };
+
             let controller = Object.create(target.prototype,{
                 url      : {value:url},
                 params   : {value:params},
                 request  : {value:request},
                 response : {value:response}
             });
+            let fields = props();
+            Object.keys(fields).forEach(key=>{
+                controller[key] = fields[key];
+            });
             target.call(controller);
-            return controller[key].call(controller);
+            return controller[key].apply(controller,args());
         };
         Router.default.define(route.path).data = route.action;
     }
-    function defineMethodRoute(target,key){
-        let routes = Metadata.get(target).get('routes',{});
-        if(!routes[key]){
-            routes[key] = {}
-        }
-        routes[key].path = path;
-    }
-    return (target,key?,desc?)=>{
-        if(typeof target=='function'){
-            if(key){
-                throw new Error(`cannot apply path to static member ${key} of ${target.name}`);
-            }else{
-                defineClassRoute(target);
-            }
-        }else{
-            if(typeof desc.value == 'function'){
-                defineMethodRoute(target.constructor,key);
-            }else{
-                throw new Error(`cannot apply path to property ${key} of ${target.name}`);
-            }
-        }
-    }
-}
-export function Method(method,target,key,desc){
-    if(typeof desc.value == 'function'){
-        let routes = Metadata.get(target.constructor).get('routes',{});
-        if(!routes[key]){
-            routes[key] = {}
-        }
-        routes[key].method = method;
-    }else{
-        throw new Error(`cannot apply path to property ${key} of ${target.name}`);
-    }
-}
-export function Get(target,key,desc){
-    Method('GET',target,key,desc);
-}
-export function Post(target,key,desc){
-    Method('POST',target,key,desc);
-}
-export function Put(target,key,desc){
-    Method('PUT',target,key,desc);
-}
-export function Delete(target,key,desc){
-    Method('DELETE',target,key,desc);
-}
-export function Options(target,key,desc){
-    Method('OPTIONS',target,key,desc);
 }
