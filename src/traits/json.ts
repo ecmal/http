@@ -1,46 +1,26 @@
 import {Buffer} from "@ecmal/node/buffer";
 import {Resource} from "../resource";
+import {HttpHeaders} from "../common";
 
 
 export interface JsonTrait extends Resource {
-    getBody():Promise<any>;
-    setBody(body:any):Promise<boolean>;
+    readJson():Promise<any>;
+    writeJson(body:any,code?:number,headers?:HttpHeaders):Promise<boolean>;
 }
 export function Json<T extends Constructor<Resource>>(Base: T):Constructor<JsonTrait>{
     return class JsonResource extends Base implements JsonTrait {
-        async getBody(){
-            return new Promise((accept,reject)=>{
-                try{
-                    let data = new Buffer(0);
-                    this.request.on('data',chunk=>{
-                        try{
-                            data = Buffer.concat([data,chunk],data.length+chunk.length);
-                        }catch(ex){
-                            reject(ex);
-                        }
-                    })
-                    this.request.on('end',()=>{
-                        try{
-                            accept(JSON.parse(data.toString('utf8')))
-                        }catch(ex){
-                            reject(ex);
-                        }
-                    })
-                    this.request.on('error',e=>reject(e));
-                }catch(ex){
-                    reject(ex);
-                }
-            })            
+        async readJson(){
+            let data = await this.read();
+            if(data && data.length){
+                return JSON.parse(data.toString());
+            }else{
+                return null;
+            }
         }
-        async setBody(body){
-            let data = new Buffer(JSON.stringify(body),'utf8');
-            this.response.writeHead(200,'OK',{
-                'Access-Control-Allow-Origin':'*',
-                'content-type':"application/json",
-                "content-length":data.length
-            });
-            this.response.end(data);
-            return true;
+        async writeJson(body:any,code:number=200,headers:HttpHeaders={}){
+            return this.write(JSON.stringify(body),code,Object.assign(headers,{
+                'content-type':"application/json"
+            }))
         }
     }
 }

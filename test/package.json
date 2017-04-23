@@ -11,13 +11,13 @@
   "keywords"       : ["typescript","ecmal","http","node"],
   "types"          : "index.d.ts",
   "main"           : "index.js",
-  "bundle"         : true,
   "engines"        : {},
   "directories": {
     "src" : ".",
     "out" : "../node_modules"
   },
   "dependencies"   : {
+    "@ecmal/chai"     : "latest",
     "@ecmal/core"     : "latest",
     "@ecmal/node"     : "latest",
     "@ecmal/http"     : "latest",

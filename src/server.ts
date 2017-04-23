@@ -1,5 +1,6 @@
 import {Buffer} from "@ecmal/node/buffer"
 import * as Url from "@ecmal/node/url"
+import * as Os from "@ecmal/node/os"
 import {Server,IncomingMessage,ServerResponse} from "@ecmal/node/http"
 import {bound} from "@ecmal/runtime/decorators";
 import {Router,Route} from "./router";
@@ -18,23 +19,21 @@ export class HttpServer extends Server {
     constructor(){
         super();
         this.router = Router.default;
-        this.base = "http://localhost";
         this.on("request",this.onRequest);
     }
     @bound
     protected onRequest(request:HttpServerRequest,response:HttpServerResponse){
-        let uri = Url.resolve(this.base,request.url);
-        let url = Url.parse(uri,true);
+        let url = Url.parse(request.url,true);
         let path= '/'+(request.method).toUpperCase()+''+url.pathname;
         let match = this.router.match(path);
         let promise = Promise.resolve({});
+        if(request.headers.host){
+            url.host = request.headers.host;
+        }
         if(match){
-            let params = match.params;
+            url.params = match.params;
             promise = promise.then(r=>match.node.data(
-                url,
-                params,
-                request,
-                response
+                url,request,response
             )).then(
                 r=>({status:200,message:'Success',result:r}),
                 e=>({status:500,message:'Failure',result:e})

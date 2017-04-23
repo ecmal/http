@@ -12,14 +12,7 @@ import {RequestOptions} from "@ecmal/node/http";
 import {Socket} from "@ecmal/node/net";
 import {EventEmitter,EmitterEvents} from "@ecmal/node/events";
 import {cached} from "@ecmal/runtime/decorators";
-
-export interface HttpHeaders {
-    [key: string]: any;
-}
-export interface HttpQuery {
-    [key: string]: any;
-}
-export type HttpMethod = "GET" | "POST" | "DELETE" | "PUT";
+import {HttpHeaders,HttpQuery,HttpMethods} from "./common"
 
 export interface HttpRequestOptions extends RequestOptions {}
 

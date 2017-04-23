@@ -1,36 +1,46 @@
+
 import {HttpServer} from "@ecmal/http/index";
-import {Path,GET} from "@ecmal/http/decors";
+import {Route,route,GET} from "@ecmal/http/decors";
 import {Json,JsonTrait} from "@ecmal/http/traits/json";
 import {Static} from "@ecmal/http/traits/static";
 import {View} from "@ecmal/http/traits/view";
 import {Resource} from "@ecmal/http/resource";
-import {PathParam} from "@ecmal/http/decors";
-import {QueryParam} from "@ecmal/http/decors";
+import {param} from "@ecmal/http/decors";
+import {query} from "@ecmal/http/decors";
 
 
-@Path('/hello')
-@Path('/world/:param')
+@Route('/hello')
+@Route('/world/:param')
 class HelloResource extends Json(Resource){
 
-    @PathParam('param')
+    @param('param')
     private name:string;
 
-    @QueryParam('q')
+    @query('q')
     private q:string;
 
     @GET
-    get(@PathParam('param') name,@QueryParam('q') q){
-        console.info(name,q,this.name,this.q)
-        return this.setBody({
+    get(@param('param') name, @query('q') q:number){
+        console.info(name,q,this.name,this.q);
+        return this.writeJson({
             hello   : "World",
             url     : this.url,
-            params  : this.params,
+            headers : this.request.headers,
+        })
+    }
+    
+    @route('hello')
+    getHello(@param('param') name, @query('q') q:number){
+        console.info(name,q,this.name,this.q);
+        return this.writeJson({
+            hello   : "World",
+            url     : this.url,
             headers : this.request.headers,
         })
     }
 }
 
-@Path('/hello/ejs')
+@Route('/hello/ejs')
 class EJSResource extends View(Resource){
     constructor(){
         super();
@@ -46,20 +56,21 @@ class EJSResource extends View(Resource){
     }
 }
 
-@Path('/')
-@Path('/:file(*)')
+
+@Route('/')
+@Route('/:path(*)')
 class PublicResource extends Static(Resource){
     constructor(){
         super();
         this.configure({
-            dirname:'./http/test/static',
+            dirname : './http/test/static',
         });
     }
-    @GET get(){
-        return this.serve();
+    @GET 
+    get(){
+        console.info(this.url.params.path);
+        return this.writeFile();
     }
 }
 
-let s:HttpServer = new HttpServer();
-console.info("server started at localhost:8000");
-s.listen(8000);
+export const server:HttpServer = new HttpServer();

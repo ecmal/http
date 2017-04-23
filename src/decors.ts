@@ -5,7 +5,11 @@ const ROUTE = Symbol();
 const PARAM = Symbol();
 const QUERY = Symbol();
 
-export function Path(path:string){
+
+export function Route(path:string):ClassDecorator{
+    return route(path)
+}
+export function route(path:string){
     return (target,key?,desc?)=>{
         Rest.register(path,target,key);
     }
@@ -35,8 +39,14 @@ export function DELETE(target,key,desc){
 export function OPTIONS(target,key,desc){
     Method('OPTIONS',target,key,desc);
 }
+export function param(property:string){
+    return Param(PARAM,property);
+}
+export function query(property:string){
+    return Param(QUERY,property);
+}
 
-export function Param(symbol:symbol,property:string){
+function Param(symbol:symbol,property:string){
     return (target,key?,index?)=>{
         let mirror = Mirror.get(target,key),
             metadata = mirror.getMetadata(symbol)  || {};
@@ -51,13 +61,6 @@ export function Param(symbol:symbol,property:string){
         }
     }
 }
-export function PathParam(property:string){
-    return  Param(PARAM,property)
-}
-export function QueryParam(property:string){
-    return  Param(QUERY,property)
-}
-
 
 class Rest<T> {
     static register(path,target,key){
@@ -106,27 +109,29 @@ class Rest<T> {
     private defineRoute(key,route){
         let target = this.target;
         route.path = `/${route.method}${this.path}${route.path?'/'+route.path:''}`;
-        route.action = (url,params,request,response)=>{
-            let reflect             = Mirror.get(target),
+        route.action = (url,request,response)=>{
+            let 
+                params              = url.params,
+                reflect             = Mirror.get(target),
                 member              = reflect.getMember(key,false),
                 query               = url.query,
                 args                = () => {
                     let arg = [],
-                        paramMeta           = member.getMetadata(PARAM) || {},
-                        queryMeta           = member.getMetadata(QUERY) || {};
-                        Object.keys(params).forEach(key=>{
-                            let index = paramMeta[key];
-                            if( typeof index=='number' ){
-                                arg[index]  = params[key];
-                            }
-                        });
-                        Object.keys(query).forEach(key=>{
-                            let index = queryMeta[key];
-                            if( typeof index=='number' ){
-                                arg[index]  = query[key];
-                            }
-                        });
-                        return arg;
+                    paramMeta           = member.getMetadata(PARAM) || {},
+                    queryMeta           = member.getMetadata(QUERY) || {};
+                    Object.keys(params).forEach(key=>{
+                        let index = paramMeta[key];
+                        if( typeof index=='number' ){
+                            arg[index]  = params[key];
+                        }
+                    });
+                    Object.keys(query).forEach(key=>{
+                        let index = queryMeta[key];
+                        if( typeof index=='number' ){
+                            arg[index]  = query[key];
+                        }
+                    });
+                    return arg;
                 },
                 props = () =>{
                     let meta = {};
@@ -153,7 +158,6 @@ class Rest<T> {
 
             let controller = Object.create(target.prototype,{
                 url      : {value:url},
-                params   : {value:params},
                 request  : {value:request},
                 response : {value:response}
             });
