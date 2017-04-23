@@ -4,7 +4,10 @@ import {Resource} from "../resource";
 import {Views,Renderer} from "../engines/views";
 import * as path from '@ecmal/node/path';
 import * as FS from "@ecmal/node/fs";
+import {Mirror} from "@ecmal/runtime/reflect";
+import {Meta} from "@ecmal/runtime/decorators/metadata";
 
+const OPTIONS = Symbol();
 export interface ViewOptions {
     dirname     ?:string;
     root        ?:string;
@@ -12,26 +15,23 @@ export interface ViewOptions {
 }
 
 export interface ViewTrait extends Resource {
-    render(filename:string,body?:any):Promise<any>;
-    configure(options:ViewOptions):void;
+    render(filename:string,body?:any,code?:number):Promise<any>;
 }
 export function View<T extends Constructor<Resource>>(Base: T):Constructor<ViewTrait>{
     return class ViewResource extends Base implements ViewTrait {
-        protected options:ViewOptions = {
-            dirname     : 'views',
-            root        : process.cwd(),
-            engine      : Views.engine()
-        };
-        public configure(options:ViewOptions){
-            let opt = options || {};
-            Object.keys(opt).forEach(key=>{
-                if( this.options.hasOwnProperty(key) ){
-                    this.options[key] = opt[key];
+        async render(filename:string,body = {},code:number = 200){
+            let options:ViewOptions = {
+                dirname     : 'views',
+                root        : process.cwd(),
+                engine      : Views.engine()
+            };
+            let metadata:ViewOptions = Mirror.get(this.constructor).getMetadata(OPTIONS) || {};
+            Object.keys(metadata).forEach(key=>{
+                if(options.hasOwnProperty(key)){
+                    options[key] = metadata[key];
                 }
-            })
-        }
-        async render(filename:string,body = {}){
-            let dir = path.join(this.options.root,this.options.dirname);
+            });
+            let dir = path.join(options.root,options.dirname);
             let location = path.join(dir,filename);
             let ext = path.extname(location);
             if( !ext || ext == '' ){
@@ -40,27 +40,23 @@ export function View<T extends Constructor<Resource>>(Base: T):Constructor<ViewT
             return new Promise((accept,reject)=>{
                 FS.readFile(location, (err, buffer:Buffer)=> {
                     if( err ) return reject(err);
-                    let {engine} = this.options;
+                    let {engine} = options;
                     Object.defineProperties(body,{
                         filename:{value:location},
                         scope   :{value:this},
                     });
-                    let contentType = 'text/html; charset=utf-8',
-                        template;
                     try {
-                        template = engine.render(body,String(buffer));
+                        accept(this.write(engine.render(body,String(buffer)),code,{
+                            'content-type':'text/html; charset=utf-8'
+                        }));
                     }catch (e){
-                        contentType = 'text/plain; charset=utf-8';
-                        template = String(e);
+                        accept(this.write(e,500));
                     }
-                    let data = new Buffer(template,'utf8');
-                    this.response.setHeader('content-length', String(data.length));
-                    this.response.setHeader('content-type', contentType);
-                    this.response.write(data);
-                    this.response.end();
-                    accept(template);
                 });
             });
         }
     }
+}
+export function Options(options:ViewOptions){
+    return Meta(OPTIONS,options);
 }

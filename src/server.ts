@@ -23,7 +23,7 @@ export class HttpServer extends Server {
     }
     @bound
     protected onRequest(request:HttpServerRequest,response:HttpServerResponse){
-        let url = Url.parse(request.url,true);
+        let url:any = Url.parse(request.url,true);
         let path= '/'+(request.method).toUpperCase()+''+url.pathname;
         let match = this.router.match(path);
         let promise = Promise.resolve({});

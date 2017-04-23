@@ -64,6 +64,12 @@ function Param(symbol:symbol,property:string){
 
 class Rest<T> {
     static register(path,target,key){
+        if( path == '*' ){
+            return (
+                this.register('/',target,key),
+                this.register('/:path(*)',target,key)
+            );
+        }
         return new Rest(path,target,key);
     }
     constructor(
