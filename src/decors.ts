@@ -103,9 +103,10 @@ class Rest<T> {
             if(  member.isMethod() ){
                 let route = member.getMetadata(ROUTE),
                     name  = member.getName();
-                if( route.action ){
+                if( route.action || (route.path && route.path.indexOf(route.method) < 0) ){
                     return this.defineRoute(name,{
-                        method : route.method
+                        method : route.method,
+                        path:    route.path && route.path.indexOf(route.method) == 1 ? void 0 : route.path
                     });
                 }
                 this.defineRoute(name,route);

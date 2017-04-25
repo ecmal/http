@@ -28,7 +28,8 @@ class HelloResource extends Json(Resource){
             headers : this.request.headers,
         })
     }
-    
+
+    @GET
     @route('hello')
     getHello(@param('param') name, @query('q') q:number){
         console.info(name,q,this.name,this.q);
@@ -56,7 +57,8 @@ class EJSResource extends View(Resource){
 
 @Route('*')
 @Options({
-    dirname:'./test/static'
+    dirname : './test/static',
+    cache   : true
 })
 class PublicResource extends Static(Resource){
     @GET get(){

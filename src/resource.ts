@@ -1,6 +1,7 @@
 import {Url,HttpHeaders} from "./common";
 import {HttpServerRequest,HttpServerResponse} from "./server";
 import {Buffer} from "@ecmal/node/buffer";
+import {Readable} from "@ecmal/node/stream";
 
 export class Resource {
     readonly url       : Url;
@@ -26,8 +27,8 @@ export class Resource {
                     }catch(ex){
                         reject(ex);
                     }
-                })
-                this.request.on('end',()=>accept(data))
+                });
+                this.request.on('end',()=>accept(data));
                 this.request.on('error',e=>reject(e));
             }catch(ex){
                 reject(ex);
@@ -45,12 +46,25 @@ export class Resource {
         
         headers = Object.keys(headers).reduce((h,k)=>(
             h[String(k).toLowerCase()] = headers[k], h
-        ),{ "content-type" : type })
+        ),{ "content-type" : type });
         
         headers["content-length"] = data.length;
 
         this.response.writeHead(code, headers);
         this.response.end(data);
         return true;
+    }
+
+    async writeStream(stream:Readable,code:number=200,headers:HttpHeaders={}){
+        let type = 'application/octet-stream';
+        headers = Object.keys(headers).reduce((h,k)=>(
+            h[String(k).toLowerCase()] = headers[k], h
+        ),{ "content-type" : type });
+        this.response.writeHead(code, headers);
+        return new Promise((accept,reject)=>{
+            let writeStream = stream.pipe(this.response);
+            writeStream.once('finish',()=>accept(true));
+            writeStream.once('error',(e)=>accept(false));
+        });
     }
 }

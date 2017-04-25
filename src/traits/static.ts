@@ -13,16 +13,36 @@ export interface StaticTrait extends Resource {
 export interface StaticOptions extends Object{
     dirname      :string;
     defaultType ?:string;
+    cache       ?:boolean
     indexFile   ?:string;
 }
 export function Static<T extends Constructor<Resource>>(Base: T):Constructor<StaticTrait>{
     return class StaticResource extends Base implements StaticTrait {
 
+        private setCacheControl(stats,headers){
+            let reqCacheControl = this.request.headers['cache-control'],
+                reqIfModifiedSince = this.request.headers['if-modified-since'],
+
+                lasModifiedTime = stats.mtime,
+                isCacheEnabled = (reqCacheControl !='no-cache') ;
+            if(isCacheEnabled){
+                headers['Cache-Control']    = 'public, max-age=86400';
+                headers['Expires']          = new Date(new Date().getTime()+86400000).toUTCString();
+                headers['Last-Modified']   = lasModifiedTime.toUTCString();
+                if(reqIfModifiedSince && lasModifiedTime.getTime() <= new Date(reqIfModifiedSince).getTime()) {
+                    return true;
+                }
+            }else{
+                headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
+                return false;
+            }
+        }
         public async writeFile(loc?:string,code:number = 200){
             let options:StaticOptions = {
                 dirname     : './',
                 defaultType : 'application/octet-stream',
-                indexFile   : 'index.html'
+                indexFile   : 'index.html',
+                cache       : false
             };
             let metadata:StaticOptions = Mirror.get(this.constructor).getMetadata(OPTIONS) || {};
             Object.keys(metadata).forEach(key=>{
@@ -39,21 +59,20 @@ export function Static<T extends Constructor<Resource>>(Base: T):Constructor<Sta
                     return this.writeFile(path.join(location,options.indexFile));
                 }else
                 if(stats.isFile()){
-                    return new Promise((accept,reject)=>{
-                        fs.readFile(location, (err, data:Buffer)=> {
-                            if(err){ reject(err) }
-                            let defaultType = options.defaultType;
-                            let contentType = Mime.default.lookup(location, defaultType);
-                            let charSet = Mime.default.charset(contentType, 'utf-8');
-                            if (charSet){
-                                contentType += '; charset=' + charSet;
-                            }
-                            this.write(data,code,{
-                                'content-type':contentType
-                            });
-                            return accept(true);
-                        });
-                    })
+                    let contentType = Mime.default.lookup(location, options.defaultType);
+                    let charSet = Mime.default.charset(contentType, 'utf-8');
+                    if (charSet){
+                        contentType += '; charset=' + charSet;
+                    }
+                    let headers = {
+                        'content-type': contentType
+                    };
+                    let isCached = options.cache ?  this.setCacheControl(stats,headers) : false;
+                    if( isCached ){
+                        this.response.writeHead(304,headers);
+                        return this.response.end();
+                    }
+                    return this.writeStream(fs.createReadStream(location),code,headers);
                 }else{
                     return false;
                 }
