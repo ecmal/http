@@ -35,36 +35,35 @@ export class Resource {
             }
         })            
     }
-    async write(body:Buffer|string,code:number=200,headers:HttpHeaders={}){
-        let data = body;
+    async write(body:Buffer,code?:number,headers?:HttpHeaders);
+    async write(body:Readable,code?:number,headers?:HttpHeaders);
+    async write(body:string,code?:number,headers?:HttpHeaders);
+    async write(body:any,code?:number,headers?:HttpHeaders);
+    async write(body:Buffer|Readable|string|any,code:number=200,headers:HttpHeaders={}){
+        let data:Buffer = <Buffer>body;
         let type = 'application/octet-stream';
-        
-        if(!Buffer.isBuffer(body)){
+
+        if( !(body instanceof Readable) && !Buffer.isBuffer(data)){
             type = 'text/plain';
             data = new Buffer(String(body),'utf8');
         }
-        
         headers = Object.keys(headers).reduce((h,k)=>(
             h[String(k).toLowerCase()] = headers[k], h
         ),{ "content-type" : type });
-        
-        headers["content-length"] = data.length;
+
+        if(!(data instanceof Readable)){
+            headers["content-length"] = data.length;
+        }
 
         this.response.writeHead(code, headers);
+        if( body instanceof Readable){
+            return  new Promise((accept,reject)=>{
+                let writeStream = body.pipe(this.response);
+                writeStream.once('finish',()=>accept(true));
+                writeStream.once('error',(e)=>accept(false));
+            });
+        }
         this.response.end(data);
         return true;
-    }
-
-    async writeStream(stream:Readable,code:number=200,headers:HttpHeaders={}){
-        let type = 'application/octet-stream';
-        headers = Object.keys(headers).reduce((h,k)=>(
-            h[String(k).toLowerCase()] = headers[k], h
-        ),{ "content-type" : type });
-        this.response.writeHead(code, headers);
-        return new Promise((accept,reject)=>{
-            let writeStream = stream.pipe(this.response);
-            writeStream.once('finish',()=>accept(true));
-            writeStream.once('error',(e)=>accept(false));
-        });
     }
 }

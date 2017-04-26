@@ -72,7 +72,7 @@ export function Static<T extends Constructor<Resource>>(Base: T):Constructor<Sta
                         this.response.writeHead(304,headers);
                         return this.response.end();
                     }
-                    return this.writeStream(fs.createReadStream(location),code,headers);
+                    return this.write(fs.createReadStream(location),code,headers);
                 }else{
                     return false;
                 }
