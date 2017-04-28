@@ -2,9 +2,6 @@ import {Router} from "./router";
 import {Mirror} from '@ecmal/runtime/reflect';
 
 const ROUTE = Symbol();
-const PARAM = Symbol();
-const QUERY = Symbol();
-
 
 export function Route(path:string):ClassDecorator{
     return route(path)
@@ -40,23 +37,34 @@ export function OPTIONS(target,key,desc){
     Method('OPTIONS',target,key,desc);
 }
 export function param(property:string){
-    return Param(PARAM,property);
+    return <any>Param('params',property);
 }
 export function query(property:string){
-    return Param(QUERY,property);
+    return <any>Param('query',property);
 }
 
-function Param(symbol:symbol,property:string){
+function Param(pointer:string,property:string){
     return (target,key?,index?)=>{
-        let mirror = Mirror.get(target,key),
-            metadata = mirror.getMetadata(symbol)  || {};
-        if( (mirror.isMethod()) && typeof index == 'number'){
-            metadata[property] = index;
-            mirror.setMetadata(symbol,metadata);
-        }else if( !mirror.isStatic() && !mirror.isClass() ){
-            metadata[property] = key;
-            mirror.setMetadata(symbol,metadata);
-        }else{
+        let mirror = Mirror.get(target,key,index);
+        if(mirror.isField()){
+            return {
+                enumerable:true,
+                configurable:true,
+                get:function(){
+                    console.info(mirror.getType())
+                    return this.url[pointer][property];
+                },
+                set:function(v){
+                    this.url[pointer][property] = v;
+                }
+            }
+        }
+        if(mirror.isParameter()){
+            mirror.setMetadata('argument',{
+                pointer,
+                property
+            });
+        } else{
             throw new Error(`cannot apply param to property ${key} of ${target.name}`);
         }
     }
@@ -117,63 +125,27 @@ class Rest<T> {
         let target = this.target;
         route.path = `/${route.method}${this.path}${route.path?'/'+route.path:''}`;
         route.action = (url,request,response)=>{
-            let 
-                params              = url.params,
-                reflect             = Mirror.get(target),
-                member              = reflect.getMember(key,false),
-                query               = url.query,
-                args                = () => {
-                    let arg = [],
-                    paramMeta           = member.getMetadata(PARAM) || {},
-                    queryMeta           = member.getMetadata(QUERY) || {};
-                    Object.keys(params).forEach(key=>{
-                        let index = paramMeta[key];
-                        if( typeof index=='number' ){
-                            arg[index]  = params[key];
-                        }
-                    });
-                    Object.keys(query).forEach(key=>{
-                        let index = queryMeta[key];
-                        if( typeof index=='number' ){
-                            arg[index]  = query[key];
-                        }
-                    });
-                    return arg;
-                },
-                props = () =>{
-                    let meta = {};
-                    reflect.getMembers(false).forEach(member=>{
-                        if( !member.isMethod() ){
-                            let paramMeta           = member.getMetadata(PARAM) || {},
-                                queryMeta           = member.getMetadata(QUERY) || {};
-                            Object.keys(params).forEach(key=>{
-                                let index = paramMeta[key];
-                                if( typeof index!='undefined' ){
-                                    meta[index]  = params[key];
-                                }
-                            });
-                            Object.keys(query).forEach(key=>{
-                                let index = queryMeta[key];
-                                if( typeof index!='undefined' ){
-                                    meta[index]  = query[key];
-                                }
-                            });
-                        }
-                    });
-                    return meta;
-                };
+
+            let mirror  = Mirror.get(target,key);
+            let args    = [];
+            if( mirror && mirror.isMethod() ){
+                mirror.getParameters().forEach(parameter=>{
+                    let argument = parameter.getMetadata('argument');
+                    if(argument){
+                        args[parameter.getIndex()] = url[argument.pointer][argument.property];
+                    }
+                })
+            }
 
             let controller = Object.create(target.prototype,{
                 url      : {value:url},
                 request  : {value:request},
                 response : {value:response}
             });
-            let fields = props();
-            Object.keys(fields).forEach(key=>{
-                controller[key] = fields[key];
-            });
+
             target.call(controller);
-            return controller[key].apply(controller,args());
+
+            return controller[key].apply(controller,args);
         };
         Router.default.define(route.path).data = route.action;
     }
