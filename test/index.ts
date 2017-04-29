@@ -7,11 +7,12 @@ import {View,Options as Template} from "@ecmal/http/traits/view";
 import {Resource} from "@ecmal/http/resource";
 import {param} from "@ecmal/http/decors";
 import {query} from "@ecmal/http/decors";
+import {Gzip} from "@ecmal/http/traits/gzip";
 
 
 @Route('/hello')
 @Route('/world/:param')
-class HelloResource extends Json(Resource){
+class HelloResource extends Json(Gzip(Resource)){
 
     @param('param')
     private name:string;
@@ -21,7 +22,6 @@ class HelloResource extends Json(Resource){
 
     @GET
     get(@param('param') name, @query('q') q:number){
-        console.info(name,q,this.name,this.q);
         return this.writeJson({
             hello   : "World",
             url     : this.url,
@@ -45,7 +45,7 @@ class HelloResource extends Json(Resource){
 @Template({
     dirname:'./test/views'
 })
-class EJSResource extends View(Resource){
+class EJSResource extends View(Gzip(Resource)){
     @GET
     get(){
         return this.render('index',{
@@ -60,7 +60,7 @@ class EJSResource extends View(Resource){
     dirname : './test/static',
     cache   : true
 })
-class PublicResource extends Static(Resource){
+class PublicResource extends Static(Gzip(Resource)){
     @GET get(){
         return this.writeFile();
     }

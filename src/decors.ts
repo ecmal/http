@@ -51,7 +51,6 @@ function Param(pointer:string,property:string){
                 enumerable:true,
                 configurable:true,
                 get:function(){
-                    console.info(mirror.getType())
                     return this.url[pointer][property];
                 },
                 set:function(v){
