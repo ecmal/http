@@ -60,7 +60,7 @@ class EJSResource extends View(Gzip(Resource)){
     dirname : './test/static',
     cache   : true
 })
-class PublicResource extends Static(Gzip(Resource)){
+class PublicResource extends Json(Static(Gzip(Resource))){
     @GET get(){
         return this.writeFile();
     }

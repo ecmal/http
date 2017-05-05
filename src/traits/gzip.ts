@@ -10,7 +10,7 @@ import {Mime} from "../mime";
 export interface GzipTrait extends Resource {
    write(body:Buffer|string|any,code?:number,headers?:HttpHeaders):Promise<boolean>;
 }
-export function Gzip<T extends Constructor<Resource>>(Base: T):Constructor<GzipTrait>{
+export function Gzip<T extends Constructor<Resource>>(Base: T):T&Constructor<GzipTrait>{
     return class GzipResource extends Base implements GzipTrait {
         async write(body:Buffer|Readable|string|any,code:number=200,headers:HttpHeaders={}){
             let options:GzipOptions = {

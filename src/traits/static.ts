@@ -16,7 +16,7 @@ export interface StaticOptions extends Object{
     cache       ?:boolean
     indexFile   ?:string;
 }
-export function Static<T extends Constructor<Resource>>(Base: T):Constructor<StaticTrait>{
+export function Static<T extends Constructor<Resource>>(Base: T):T&Constructor<StaticTrait>{
     return class StaticResource extends Base implements StaticTrait {
 
         private setCacheControl(stats,headers){

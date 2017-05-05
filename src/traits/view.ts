@@ -17,7 +17,7 @@ export interface ViewOptions {
 export interface ViewTrait extends Resource {
     render(filename:string,body?:any,code?:number):Promise<any>;
 }
-export function View<T extends Constructor<Resource>>(Base: T):Constructor<ViewTrait>{
+export function View<T extends Constructor<Resource>>(Base: T):T&Constructor<ViewTrait>{
     return class ViewResource extends Base implements ViewTrait {
         async render(filename:string,body = {},code:number = 200){
             let options:ViewOptions = {

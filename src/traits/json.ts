@@ -7,7 +7,7 @@ export interface JsonTrait extends Resource {
     readJson():Promise<any>;
     writeJson(body:any,code?:number,headers?:HttpHeaders):Promise<boolean>;
 }
-export function Json<T extends Constructor<Resource>>(Base: T):Constructor<JsonTrait>{
+export function Json<T extends Constructor<Resource>>(Base: T):T&Constructor<JsonTrait>{
     return class JsonResource extends Base implements JsonTrait {
         async readJson(){
             let data = await this.read();
