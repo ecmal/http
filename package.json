@@ -17,6 +17,7 @@
     "out" : "./node_modules"
   },
   "dependencies"   : {
+    "@ecmal/chai"     : "latest",
     "@ecmal/core"     : "latest",
     "@ecmal/node"     : "latest",
     "@ecmal/runtime"  : "latest"
