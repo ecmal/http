@@ -1,6 +1,6 @@
 {
   "name"           : "@ecmal/http",
-  "version"        : "0.0.1",
+  "version"        : "0.0.2",
   "description"    : "Ecmal Http Libraries",
   "license"        : "UNLICENSED",
   "author"         : "Mamble Inc. <ecmal@mamble.co>",
@@ -12,14 +12,16 @@
   "types"          : "index.d.ts",
   "bundle"         : true,
   "engines"        : {},
-  "directories": {
-    "src" : "./src",
-    "out" : "./node_modules"
+  "directories"    : {
+    "src"          : "./src",
+    "out"          : "./out"
+  },
+  "scripts"        : {
+      "build"      : "elc package.json",
+      "release"    : "npm publish -f ./out/@ecmal/http"
   },
   "dependencies"   : {
-    "@ecmal/chai"     : "latest",
-    "@ecmal/core"     : "latest",
-    "@ecmal/node"     : "latest",
-    "@ecmal/runtime"  : "latest"
+    "@ecmal/runtime"  : "0.0.2",
+    "@ecmal/node"     : "0.0.2"
   }  
 }

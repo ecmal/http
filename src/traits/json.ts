@@ -19,7 +19,7 @@ export function Json<T extends Constructor<Resource>>(Base: T):T&Constructor<Jso
         }
         async writeJson(body:any,code:number=200,headers:HttpHeaders={}){
             return this.write(JSON.stringify(body),code,Object.assign(headers,{
-                'content-type':"application/json"
+                'content-type':"application/json; charset=utf-8"
             }))
         }
     }
